@@ -122,6 +122,7 @@ def descargar_datos(lat, lon):
     params_forecast = {
         "latitude": lat,
         "longitude": lon,
+        "current": "wind_speed_10m,surface_pressure",
         "minutely_15": "temperature_2m,dew_point_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
         "forecast_days": 3, # Reducido a 3 días para evitar bloqueos por sobrecarga de datos
@@ -391,14 +392,53 @@ def procesar_hora(forecast, sst_marina, idx):
         "wind_speed_10m": round(h["wind_speed_10m"][idx], 1) if "wind_speed_10m" in h else None,
     }
 
+def cargar_estado_previo():
+    if os.path.exists("public/estado_previo.json"):
+        try:
+            with open("public/estado_previo.json", "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            return {}
+    return {}
+
+def guardar_estado_actual(estado):
+    os.makedirs("public", exist_ok=True)
+    with open("public/estado_previo.json", "w", encoding="utf-8") as f:
+        json.dump(estado, f, ensure_ascii=False, indent=2)
+
 def generar_pronostico():
     """Genera el reporte actual y busca ventanas de riesgo en los próximos 3 días."""
     resultados_completo = {}
     alertas_globales = {}
     climas_actuales = {}
+    
+    estado_previo = cargar_estado_previo()
+    nuevo_estado = {}
+    alertas_nowcasting = []
 
     for ciudad, coords in CIUDADES.items():
         forecast, sst_marina = descargar_datos(coords["lat"], coords["lon"])
+        
+        # --- Lógica NOWCASTING ---
+        current = forecast.get("current", {})
+        wind_now = current.get("wind_speed_10m", 0)
+        pres_now = current.get("surface_pressure", 1013)
+        nuevo_estado[ciudad] = {"presion": pres_now, "viento": wind_now, "time": current.get("time")}
+        
+        estado_ciudad_previo = estado_previo.get(ciudad)
+        if estado_ciudad_previo:
+            pres_prev = estado_ciudad_previo.get("presion", pres_now)
+            caida_presion = pres_now - pres_prev
+            
+            # Condición de pico violento
+            if wind_now >= 35 or caida_presion <= -3:
+                alertas_nowcasting.append({
+                    "ciudad": ciudad,
+                    "viento": wind_now,
+                    "caida_presion": round(caida_presion, 2),
+                    "presion_actual": pres_now
+                })
+
         h = forecast["minutely_15"]
         idx_actual = indice_hora_actual(h["time"])
         
@@ -415,6 +455,15 @@ def generar_pronostico():
                 
         resultados_completo[ciudad] = pronostico_ciudad
         alertas_globales[ciudad] = alertas_futuras
+        
+    guardar_estado_actual(nuevo_estado)
+    
+    # Enviar alertas inmediatas de Nowcasting si existen
+    if alertas_nowcasting:
+        msg_nowcasting = "🚨 *[NOWCASTING - TIEMPO REAL]* 🚨\n\n¡Condiciones violentas detectadas por sensores físicos!\n\n"
+        for al in alertas_nowcasting:
+            msg_nowcasting += f"⚠️ *{al['ciudad']}*: Ráfaga {al['viento']} km/h | Caída Presión: {al['caida_presion']} hPa\n"
+        enviar_alerta_telegram(msg_nowcasting)
             
     return climas_actuales, alertas_globales, resultados_completo
 

@@ -162,6 +162,10 @@ export default function SwiDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [lastFetchTime, setLastFetchTime] = useState<number | null>(null);
   
+  // Nowcasting Modal State
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   // Extraemos la lista de datos del primer punto (solo para el control del tiempo)
   const firstCityKey = Object.keys(CIUDADES_COORDS)[0];
   const data = fullData[firstCityKey] || [];
@@ -303,11 +307,39 @@ export default function SwiDashboard() {
     )
   }
 
+  const handleReportSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const formData = new FormData(e.target as HTMLFormElement);
+    const sector = formData.get("sector");
+    const dangerLevel = formData.get("dangerLevel");
+    const description = formData.get("description");
+
+    try {
+      const res = await fetch("/api/report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sector, dangerLevel, description })
+      });
+      if (res.ok) {
+        alert("¡Reporte enviado exitosamente! Gracias por tu colaboración.");
+        setShowReportModal(false);
+      } else {
+        alert("Error al enviar el reporte. Intenta nuevamente.");
+      }
+    } catch (err) {
+      alert("Error de conexión.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Identificar el nivel máximo de riesgo actual en el lago
   const maxRisk = mapData.length > 0 ? mapData[0].result : { level: 'low', score: 0 };
   const globalMeta = RISK_META[maxRisk.level as keyof typeof RISK_META] || RISK_META.low;
 
   return (
+    <>
     <main className="flex h-dvh flex-col overflow-hidden lg:flex-row">
       
       {/* 1. PANEL IZQUIERDO: FUENTES OFICIALES */}
@@ -323,6 +355,23 @@ export default function SwiDashboard() {
         </div>
         <div className="flex-1 overflow-y-auto p-4 space-y-5">
           
+          {/* BOTON REPORTE CIUDADANO */}
+          <button 
+            onClick={() => setShowReportModal(true)}
+            className="w-full relative group overflow-hidden rounded-xl bg-red-500/10 border border-red-500/30 p-4 transition-all hover:bg-red-500/20 shadow-sm"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center gap-3 relative z-10">
+              <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-red-500/20 text-red-500 animate-pulse text-lg">
+                ⚠️
+              </div>
+              <div className="text-left flex-1">
+                <h3 className="font-bold text-red-500 text-sm">Reportar Avistamiento</h3>
+                <p className="text-xs text-red-500/80 font-medium mt-0.5">Alerta Comunitaria en Vivo</p>
+              </div>
+            </div>
+          </button>
+
           {/* Protección Civil Jalisco */}
           <div className="group relative flex flex-col rounded-xl border border-border/70 bg-card/40 shadow-sm overflow-hidden ring-1 ring-white/5">
             <div className="flex items-start gap-3 p-4 pb-3">
@@ -494,5 +543,46 @@ export default function SwiDashboard() {
         </div>
       </aside>
     </main>
+
+    {showReportModal && (
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="bg-card w-full max-w-md rounded-2xl border border-red-500/30 shadow-2xl overflow-hidden flex flex-col">
+          <div className="p-4 border-b border-border bg-red-500/10 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-red-500 flex items-center gap-2">
+              ⚠️ Reporte Ciudadano
+            </h2>
+            <button onClick={() => setShowReportModal(false)} className="text-muted-foreground hover:text-foreground w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted">✕</button>
+          </div>
+          <form onSubmit={handleReportSubmit} className="p-5 flex flex-col gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-foreground">Sector del Avistamiento</label>
+              <select name="sector" required className="w-full p-2.5 rounded-lg bg-background border border-border text-sm text-foreground focus:ring-2 focus:ring-red-500/50 outline-none transition-all">
+                <option value="">Selecciona una zona...</option>
+                {Object.keys(CIUDADES_COORDS).map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-foreground">Nivel de Peligro</label>
+              <select name="dangerLevel" required className="w-full p-2.5 rounded-lg bg-background border border-border text-sm text-foreground focus:ring-2 focus:ring-red-500/50 outline-none transition-all">
+                <option value="Tromba Observada (Tocando agua)">Tromba Observada (Tocando agua)</option>
+                <option value="Nube Embudo (En el aire)">Nube Embudo (En el aire)</option>
+                <option value="Nubes Oscuras de Rotación">Nubes Oscuras de Rotación</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-foreground">Observaciones Breves</label>
+              <input name="description" type="text" placeholder="Ej: Se mueve hacia Mezcala, viento muy fuerte" className="w-full p-2.5 rounded-lg bg-background border border-border text-sm text-foreground focus:ring-2 focus:ring-red-500/50 outline-none transition-all" />
+            </div>
+            <div className="mt-4 flex gap-3">
+              <button type="button" onClick={() => setShowReportModal(false)} className="flex-1 p-2.5 rounded-lg border border-border bg-background hover:bg-muted text-sm font-medium transition-colors">Cancelar</button>
+              <button type="submit" disabled={isSubmitting} className="flex-1 p-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold disabled:opacity-50 flex justify-center items-center shadow-lg shadow-red-500/20 transition-all">
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Enviar Alerta Inmediata"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    )}
+    </>
   )
 }
