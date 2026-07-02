@@ -344,6 +344,24 @@ export default function SwiDashboard() {
       
       {/* 1. PANEL IZQUIERDO: FUENTES OFICIALES */}
       <aside className="w-full lg:w-80 flex flex-col bg-card/95 border-r border-border backdrop-blur z-[1001] h-[30vh] lg:h-full overflow-hidden shrink-0">
+        
+        {/* ENCABEZADO RADAR CHAPALA */}
+        <div className="p-5 border-b border-border bg-zinc-900/30 flex items-center gap-4 shrink-0">
+          <div className="relative w-10 h-10 rounded-full border border-emerald-500/30 bg-emerald-950/10 flex items-center justify-center overflow-hidden shrink-0">
+            {/* Anillos concéntricos del radar */}
+            <div className="absolute w-8 h-8 rounded-full border border-emerald-500/20"></div>
+            <div className="absolute w-4 h-4 rounded-full border border-emerald-500/10"></div>
+            {/* Haz de luz giratorio (Barrido del radar) */}
+            <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_60%,rgba(16,185,129,0.4)_100%)] rounded-full animate-[spin_3.5s_linear_infinite]"></div>
+            {/* Punto central del radar parpadeante */}
+            <div className="relative w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,1)] animate-pulse"></div>
+          </div>
+          <div className="flex flex-col">
+            <h1 className="font-mono text-lg font-bold tracking-wider text-emerald-400 leading-none">RADAR CHAPALA</h1>
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mt-1.5">Monitoreo de Trombas</span>
+          </div>
+        </div>
+
         <div className="p-4 border-b border-border bg-muted/30">
           <h2 className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
             <ShieldAlert className="h-4 w-4 text-blue-400" />
