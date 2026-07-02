@@ -1,0 +1,102 @@
+{
+  "Oeste (Jocotepec)": {
+    "presion": 855.6,
+    "viento": 9.2,
+    "time": "2026-07-02T11:30"
+  },
+  "Oeste (S.J. Cosalá)": {
+    "presion": 855.6,
+    "viento": 9.2,
+    "time": "2026-07-02T11:30"
+  },
+  "Oeste-Centro (Ajijic)": {
+    "presion": 856.3,
+    "viento": 8.5,
+    "time": "2026-07-02T11:30"
+  },
+  "Oeste-Centro (Ajijic Profundo)": {
+    "presion": 855.6,
+    "viento": 9.2,
+    "time": "2026-07-02T11:30"
+  },
+  "San Cristóbal": {
+    "presion": 855.6,
+    "viento": 9.2,
+    "time": "2026-07-02T11:30"
+  },
+  "Norte (Chapala)": {
+    "presion": 856.3,
+    "viento": 8.5,
+    "time": "2026-07-02T11:30"
+  },
+  "Centro (Norte Chapala Profundo)": {
+    "presion": 856.1,
+    "viento": 8.4,
+    "time": "2026-07-02T11:30"
+  },
+  "Isla de Mezcala": {
+    "presion": 853.1,
+    "viento": 8.7,
+    "time": "2026-07-02T11:30"
+  },
+  "Mezcala": {
+    "presion": 856.1,
+    "viento": 10.3,
+    "time": "2026-07-02T11:30"
+  },
+  "Mezcala Profundo": {
+    "presion": 856.1,
+    "viento": 10.3,
+    "time": "2026-07-02T11:30"
+  },
+  "San Pedro Iztacán": {
+    "presion": 856.2,
+    "viento": 7.4,
+    "time": "2026-07-02T11:30"
+  },
+  "Jamay": {
+    "presion": 855.6,
+    "viento": 4.3,
+    "time": "2026-07-02T11:30"
+  },
+  "Ocotlán": {
+    "presion": 855.6,
+    "viento": 4.3,
+    "time": "2026-07-02T11:30"
+  },
+  "Jamay Frente": {
+    "presion": 855.6,
+    "viento": 4.3,
+    "time": "2026-07-02T11:30"
+  },
+  "Centro-Este": {
+    "presion": 856.1,
+    "viento": 5.1,
+    "time": "2026-07-02T11:30"
+  },
+  "Tuxcueca": {
+    "presion": 856.1,
+    "viento": 9.5,
+    "time": "2026-07-02T11:30"
+  },
+  "San Luis Soyatlán": {
+    "presion": 855.6,
+    "viento": 9.2,
+    "time": "2026-07-02T11:30"
+  },
+  "Tizapán": {
+    "presion": 856.1,
+    "viento": 10.3,
+    "time": "2026-07-02T11:30"
+  },
+  "Cojumatlán": {
+    "presion": 856.2,
+    "viento": 8.2,
+    "time": "2026-07-02T11:30"
+  },
+  "Lago Profundo": {
+    "presion": 855.7,
+    "viento": 10.8,
+    "time": "2026-07-02T11:30"
+  }
+}
