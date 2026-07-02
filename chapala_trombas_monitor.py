@@ -81,8 +81,8 @@ ZONA_HORARIA = "America/Mexico_City"
 
 # --- Configuración de Telegram ---
 
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.environ.get("CHAT_ID")
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+CHAT_ID = os.environ.get("CHAT_ID")
 
 # Niveles de presión a descargar (hPa). 300 hPa (~9 km) es suficiente
 # para trombas de buen tiempo / asociadas a tormenta moderada. Si te
@@ -309,12 +309,12 @@ def cizalladura_850_aux(forecast, idx):
 
 def enviar_telegram(mensaje):
     """Envía un mensaje a través del bot de Telegram."""
-    if TELEGRAM_BOT_TOKEN == "TU_TOKEN_AQUI":
+    if TELEGRAM_TOKEN == "TU_TOKEN_AQUI" or not TELEGRAM_TOKEN:
         return # No intentar enviar si no se ha configurado
     
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
+        "chat_id": CHAT_ID,
         "text": mensaje,
         "parse_mode": "Markdown"
     }
