@@ -449,6 +449,10 @@ def generar_pronostico():
         idx_actual = indice_hora_actual(h["time"])
         
         climas_actuales[ciudad] = procesar_hora(forecast, sst_marina, idx_actual)
+        # --- Impacto de Tormenta en el Nivel de Riesgo (Nowcasting) ---
+        if tormenta_activa:
+            climas_actuales[ciudad]["riesgo"] = "critical"
+            climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 75.0) # Forzar SWI crítico
         
         alertas_futuras = []
         pronostico_ciudad = []
@@ -510,6 +514,9 @@ if __name__ == "__main__":
             if alertas:
                 print(f"-> {ciudad}: {len(alertas)} alertas")
             
-    # --- ENVÍO DE ALERTA ---
-    enviar_telegram(mensaje_tg)
-    print("\n[INFO] Ejecución terminada. Revisa Telegram si configuraste los Tokens.")
+    # --- ENVÍO DE ALERTA (SOLO SI HAY PELIGRO O ES REPORTE ÚTIL) ---
+    if total_alertas > 0:
+        enviar_telegram(mensaje_tg)
+        print("\n[INFO] Ejecución terminada. Resumen enviado por alertas detectadas.")
+    else:
+        print("\n[INFO] Ejecución terminada. Todo tranquilo, sin alertas que enviar (Silencio Activo).")
