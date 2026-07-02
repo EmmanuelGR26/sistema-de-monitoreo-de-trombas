@@ -29,14 +29,14 @@ function ResizeFix() {
   return null
 }
 
-function buildIcon(level: "BAJO" | "MODERADO" | "ALTO", color: string) {
+function buildIcon(level: RiskLevel, color: string) {
   let duration = "2.5s"
   let size = 22
   
-  if (level === "MODERADO") {
+  if (level === "moderate") {
     duration = "1.2s"
     size = 28
-  } else if (level === "ALTO") {
+  } else if (level === "critical") {
     duration = "0.5s"
     size = 38
   }
@@ -67,7 +67,7 @@ function buildIcon(level: "BAJO" | "MODERADO" | "ALTO", color: string) {
   })
 }
 
-function SimulatedWindLayer({ score, level }: { score: number, level: "BAJO" | "MODERADO" | "ALTO" }) {
+function SimulatedWindLayer({ score, level }: { score: number, level: RiskLevel }) {
   const points = useMemo(() => {
     const pts = []
     for (let i = 0; i < 45; i++) {
