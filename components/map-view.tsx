@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react"
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
-import type { RiskResult } from "@/lib/swi"
+import type { RiskResult, RiskLevel } from "@/lib/swi"
 import { RISK_META } from "@/lib/swi"
 
 const CHAPALA: [number, number] = [20.25, -103.2]
