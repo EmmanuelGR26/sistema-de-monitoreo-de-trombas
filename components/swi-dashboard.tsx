@@ -465,7 +465,7 @@ export default function SwiDashboard() {
       </aside>
 
       {/* 2. CENTRO: MAPA Y SLIDER */}
-      <section className="relative flex flex-col min-w-0 min-h-[600px] lg:min-h-0 lg:h-full lg:flex-1">
+      <section className="relative flex flex-col min-w-0 h-[500px] lg:h-full lg:flex-1">
         <div className="flex-1 relative">
           <div className="pointer-events-none absolute inset-x-0 top-0 z-[1000] flex flex-col gap-2 p-3">
             <div className="flex items-center justify-between">
