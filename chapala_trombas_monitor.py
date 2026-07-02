@@ -387,7 +387,8 @@ if __name__ == "__main__":
     try:
         # Aseguramos que exista la carpeta "public" antes de intentar guardar
         os.makedirs("public", exist_ok=True)
-        with open("public/pronostico.json", "w", encoding="utf-8") as f:
+        filepath = os.path.join("public", "pronostico.json")
+        with open(filepath, "w", encoding="utf-8") as f:
             json.dump(pronostico_completo, f, ensure_ascii=False, indent=2)
         print("[INFO] Archivo public/pronostico.json generado con éxito.")
     except Exception as e:
