@@ -54,8 +54,28 @@ import requests
 # 1. CONFIGURACIÓN
 # ----------------------------------------------------------------------
 
-LATITUD = 20.27          # Centro aproximado del Lago de Chapala
-LONGITUD = -103.00
+CIUDADES = {
+    "Oeste (Jocotepec)": {"lat": 20.270, "lon": -103.350},
+    "Oeste (S.J. Cosalá)": {"lat": 20.260, "lon": -103.300},
+    "Oeste-Centro (Ajijic)": {"lat": 20.270, "lon": -103.250},
+    "Oeste-Centro (Ajijic Profundo)": {"lat": 20.240, "lon": -103.250},
+    "San Cristóbal": {"lat": 20.2368, "lon": -103.3603},
+    "Norte (Chapala)": {"lat": 20.270, "lon": -103.180},
+    "Centro (Norte Chapala Profundo)": {"lat": 20.250, "lon": -103.150},
+    "Isla de Mezcala": {"lat": 20.290, "lon": -103.023},
+    "Mezcala": {"lat": 20.245, "lon": -103.030},
+    "Mezcala Profundo": {"lat": 20.220, "lon": -103.080},
+    "San Pedro Iztacán": {"lat": 20.290, "lon": -102.955},
+    "Jamay": {"lat": 20.280, "lon": -102.750},
+    "Ocotlán": {"lat": 20.290, "lon": -102.730},
+    "Jamay Frente": {"lat": 20.260, "lon": -102.800},
+    "Centro-Este": {"lat": 20.250, "lon": -102.900},
+    "Tuxcueca": {"lat": 20.200, "lon": -103.180},
+    "San Luis Soyatlán": {"lat": 20.2167, "lon": -103.2958},
+    "Tizapán": {"lat": 20.190, "lon": -103.050},
+    "Cojumatlán": {"lat": 20.150, "lon": -102.830},
+    "Lago Profundo": {"lat": 20.180, "lon": -102.950}
+}
 ELEVACION_M = 1524        # Elevación del espejo de agua sobre el nivel del mar (m)
 ZONA_HORARIA = "America/Mexico_City"
 
@@ -94,13 +114,13 @@ EPS = 0.622        # Rd/Rv
 # 2. DESCARGA DE DATOS (Open-Meteo)
 # ----------------------------------------------------------------------
 
-def descargar_datos():
+def descargar_datos(lat, lon):
     """Descarga el pronóstico horario (perfil vertical + superficie) y,
     como referencia cruzada, la SST de la Marine API."""
 
     params_forecast = {
-        "latitude": LATITUD,
-        "longitude": LONGITUD,
+        "latitude": lat,
+        "longitude": lon,
         "minutely_15": "temperature_2m,dew_point_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
         "forecast_days": 7, # Actualizado a 7 días
@@ -112,8 +132,8 @@ def descargar_datos():
     sst_marina = None
     try:
         params_marine = {
-            "latitude": LATITUD,
-            "longitude": LONGITUD,
+            "latitude": lat,
+            "longitude": lon,
             "hourly": "sea_surface_temperature",
             "timezone": ZONA_HORARIA,
             "forecast_days": 7, # Actualizado a 7 días
@@ -355,31 +375,36 @@ def procesar_hora(forecast, sst_marina, idx):
 
 def generar_pronostico():
     """Genera el reporte actual y busca ventanas de riesgo en los próximos 7 días."""
-    forecast, sst_marina = descargar_datos()
-    h = forecast["minutely_15"]
-    idx_actual = indice_hora_actual(h["time"])
-    
-    # 1. Evaluar el clima en este exacto momento
-    clima_actual = procesar_hora(forecast, sst_marina, idx_actual)
-    
-    # 2. Construir TODO el pronóstico (168 horas) para la web y buscar alertas
-    alertas_futuras = []
-    pronostico_completo = []
-    
-    for i in range(len(h["time"])):
-        datos_hora = procesar_hora(forecast, sst_marina, i)
-        pronostico_completo.append(datos_hora)
-        if i > idx_actual and datos_hora["swi"] >= 0:
-            alertas_futuras.append(datos_hora)
+    resultados_completo = {}
+    alertas_globales = {}
+    climas_actuales = {}
+
+    for ciudad, coords in CIUDADES.items():
+        forecast, sst_marina = descargar_datos(coords["lat"], coords["lon"])
+        h = forecast["minutely_15"]
+        idx_actual = indice_hora_actual(h["time"])
+        
+        climas_actuales[ciudad] = procesar_hora(forecast, sst_marina, idx_actual)
+        
+        alertas_futuras = []
+        pronostico_ciudad = []
+        
+        for i in range(len(h["time"])):
+            datos_hora = procesar_hora(forecast, sst_marina, i)
+            pronostico_ciudad.append(datos_hora)
+            if i > idx_actual and datos_hora["swi"] >= 0:
+                alertas_futuras.append(datos_hora)
+                
+        resultados_completo[ciudad] = pronostico_ciudad
+        alertas_globales[ciudad] = alertas_futuras
             
-    return clima_actual, alertas_futuras, pronostico_completo
+    return climas_actuales, alertas_globales, resultados_completo
 
 if __name__ == "__main__":
-    actual, alertas, pronostico_completo = generar_pronostico()
+    climas_actuales, alertas_globales, pronostico_completo = generar_pronostico()
     
     # --- GUARDAR DATOS PARA LA WEB ---
     try:
-        # Aseguramos que exista la carpeta "public" antes de intentar guardar
         os.makedirs("public", exist_ok=True)
         filepath = os.path.join("public", "pronostico.json")
         with open(filepath, "w", encoding="utf-8") as f:
@@ -388,34 +413,29 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"[ERROR] No se pudo guardar el JSON: {e}")
 
- # --- CONSTRUCCIÓN DEL MENSAJE PARA TELEGRAM ---
-    hora_str = datetime.fromisoformat(actual['hora_local']).strftime('%H:%M')
-    mensaje_tg = (
-        f"📊 *Resumen Horario ({hora_str}) - Chapala* 📊\n\n"
-        f"*Condiciones Actuales:*\n"
-        f"🌪️ Riesgo: {actual['riesgo']} (SWI: {actual['swi']})\n"
-        f"🌡️ Choque Térmico: {actual['choque_termico_c']}°C\n"
-        f"💧 Agua: {actual['sst_lago_c']}°C | ☁️ Aire(850): {actual['t850_c']}°C\n"
-        f"💨 Viento: {actual.get('wind_speed_10m', 'N/D')} km/h\n\n"
-    )
+    # --- CONSTRUCCIÓN DEL MENSAJE PARA TELEGRAM (Multiciudad) ---
+    # Tomamos la hora del primer reporte como referencia
+    primer_ciudad = list(climas_actuales.values())[0]
+    hora_str = datetime.fromisoformat(primer_ciudad['hora_local']).strftime('%H:%M')
+    mensaje_tg = f"📊 *Resumen {hora_str} - Red de Monitoreo* 📊\n\n"
+    
+    for ciudad in CIUDADES:
+        actual = climas_actuales[ciudad]
+        mensaje_tg += (
+            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {actual['swi']}) | ΔT: {actual['choque_termico_c']}°C\n"
+        )
     
     print("\n--- PRONÓSTICO 7 DÍAS (VENTANAS DE RIESGO) ---")
-    if not alertas:
-        print("No se detectan condiciones favorables para trombas en los próximos 7 días.")
-        mensaje_tg += "🌤 *Pronóstico 7 días:* Sin ventanas de riesgo detectadas a futuro."
+    total_alertas = sum(len(alertas) for alertas in alertas_globales.values())
+    if total_alertas == 0:
+        print("No se detectan condiciones favorables para trombas en la red.")
+        mensaje_tg += "\n🌤 *Pronóstico:* Sin ventanas de riesgo a futuro en la red."
     else:
-        print(f"⚠️ Se detectaron {len(alertas)} horas con condiciones favorables en la semana:")
-        mensaje_tg += f"⚠️ *¡Alerta de Pronóstico!* Se detectaron {len(alertas)} horas favorables en los próximos 7 días.\n\nPróximas ventanas:\n"
-        
-        # Agrupar y mostrar para no hacer spam (mostramos las primeras 5)
-        for a in alertas[:5]:
-            hora_formateada = datetime.fromisoformat(a['hora_local']).strftime('%A %d - %H:%M')
-            print(f"- {hora_formateada} | SWI: {a['swi']} | ΔT: {a['choque_termico_c']}°C")
-            mensaje_tg += f"- {hora_formateada}: SWI {a['swi']}\n"
-            
-        if len(alertas) > 5:
-            print(f"... y {len(alertas) - 5} horas más de riesgo.")
-            mensaje_tg += f"\n_... y {len(alertas) - 5} horas más._"
+        print(f"⚠️ Se detectaron {total_alertas} alertas en la red.")
+        mensaje_tg += f"\n⚠️ *¡Alerta!* {total_alertas} ventanas de riesgo en la red.\n"
+        for ciudad, alertas in alertas_globales.items():
+            if alertas:
+                print(f"-> {ciudad}: {len(alertas)} alertas")
             
     # --- ENVÍO DE ALERTA ---
     enviar_telegram(mensaje_tg)

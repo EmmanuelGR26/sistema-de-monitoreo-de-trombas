@@ -2,9 +2,8 @@
 
 import { useMemo, useState, useEffect, useRef } from "react"
 import dynamic from "next/dynamic"
-import { Loader2, Layers, Calendar, Clock } from "lucide-react"
-import { ControlPanel } from "@/components/control-panel"
-import { computeRisk, RISK_META, type SwiInputs } from "@/lib/swi"
+import { Loader2, Layers, Calendar, Clock, AlertTriangle, ShieldAlert, CloudLightning, RadioTower, ExternalLink } from "lucide-react"
+import { computeRisk, RISK_META } from "@/lib/swi"
 import { type PronosticoHora } from "@/lib/mock-data"
 
 const MapView = dynamic(() => import("@/components/map-view"), {
@@ -108,11 +107,64 @@ function TimeSlider({ data, initialIndex, onChange, onGoLive }: { data: Pronosti
   );
 }
 
+function PremiumTwitterCard({ handle, title, description, link }: { handle: string, title: string, description: string, link: string }) {
+  return (
+    <div className="flex flex-col h-full items-center justify-center p-6 text-center space-y-3 bg-zinc-900/50 rounded-xl border border-border/80 shadow-inner relative overflow-hidden group">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div className="p-3 bg-black rounded-full shadow-lg border border-zinc-800 relative z-10">
+        <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+        </svg>
+      </div>
+      <div className="relative z-10">
+        <h4 className="font-semibold text-foreground text-sm">{title}</h4>
+        <p className="text-xs text-muted-foreground mt-1 mb-4">{description}</p>
+        <a 
+          href={link}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-bold rounded-full transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105"
+        >
+          Ver X Oficial
+          <ExternalLink className="w-3 h-3" />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+const CIUDADES_COORDS: Record<string, [number, number]> = {
+    "Oeste (Jocotepec)": [20.270, -103.350],
+    "Oeste (S.J. Cosalá)": [20.260, -103.300],
+    "Oeste-Centro (Ajijic)": [20.270, -103.250],
+    "Oeste-Centro (Ajijic Profundo)": [20.240, -103.250],
+    "San Cristóbal": [20.2368, -103.3603],
+    "Norte (Chapala)": [20.270, -103.180],
+    "Centro (Norte Chapala Profundo)": [20.250, -103.150],
+    "Isla de Mezcala": [20.290, -103.023],
+    "Mezcala": [20.245, -103.030],
+    "Mezcala Profundo": [20.220, -103.080],
+    "San Pedro Iztacán": [20.290, -102.955],
+    "Jamay": [20.280, -102.750],
+    "Ocotlán": [20.290, -102.730],
+    "Jamay Frente": [20.260, -102.800],
+    "Centro-Este": [20.250, -102.900],
+    "Tuxcueca": [20.200, -103.180],
+    "San Luis Soyatlán": [20.2167, -103.2958],
+    "Tizapán": [20.190, -103.050],
+    "Cojumatlán": [20.150, -102.830],
+    "Lago Profundo": [20.180, -102.950]
+};
+
 export default function SwiDashboard() {
-  const [data, setData] = useState<PronosticoHora[]>([])
+  const [fullData, setFullData] = useState<Record<string, PronosticoHora[]>>({})
   const [timeIndex, setTimeIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [lastFetchTime, setLastFetchTime] = useState<number | null>(null);
+  
+  // Extraemos la lista de datos del primer punto (solo para el control del tiempo)
+  const firstCityKey = Object.keys(CIUDADES_COORDS)[0];
+  const data = fullData[firstCityKey] || [];
   
   const selectedHourRef = useRef<string | null>(null);
 
@@ -133,14 +185,16 @@ export default function SwiDashboard() {
         
         if (!isMounted) return;
 
-        setData(jsonData);
+        setFullData(jsonData);
         setLastFetchTime(Date.now());
+        
+        const firstCityData = jsonData[Object.keys(jsonData)[0]] || [];
 
-        if (isInitial) {
+        if (isInitial && firstCityData.length > 0) {
           const now = Date.now();
           let currentIdx = 0;
-          for (let i = 0; i < jsonData.length; i++) {
-            const dateObj = new Date(jsonData[i].hora_local.replace('T', ' '));
+          for (let i = 0; i < firstCityData.length; i++) {
+            const dateObj = new Date(firstCityData[i].hora_local.replace('T', ' '));
             if (dateObj.getTime() <= now) {
               currentIdx = i;
             } else {
@@ -148,15 +202,15 @@ export default function SwiDashboard() {
             }
           }
           setTimeIndex(currentIdx);
-        } else if (selectedHourRef.current) {
-          const foundIdx = jsonData.findIndex((d: any) => d.hora_local === selectedHourRef.current);
+        } else if (selectedHourRef.current && firstCityData.length > 0) {
+          const foundIdx = firstCityData.findIndex((d: any) => d.hora_local === selectedHourRef.current);
           if (foundIdx !== -1) {
             setTimeIndex(foundIdx);
           } else {
             const now = Date.now();
             let currentIdx = 0;
-            for (let i = 0; i < jsonData.length; i++) {
-              const dateObj = new Date(jsonData[i].hora_local.replace('T', ' '));
+            for (let i = 0; i < firstCityData.length; i++) {
+              const dateObj = new Date(firstCityData[i].hora_local.replace('T', ' '));
               if (dateObj.getTime() <= now) {
                 currentIdx = i;
               } else {
@@ -203,17 +257,42 @@ export default function SwiDashboard() {
   const safeTimeIndex = typeof timeIndex === 'number' && !isNaN(timeIndex)
     ? Math.max(0, Math.min(timeIndex, data.length - 1))
     : 0;
+  
   const currentData = data.length > 0 ? data[safeTimeIndex] : null;
 
-  const sst = currentData?.sst_lago_c ?? 28;
-  const t850 = currentData?.t850_c ?? 12;
-  const wind = currentData?.wind_speed_10m ?? 35;
+  // Calculamos los riesgos para todas las ciudades
+  const mapData = useMemo(() => {
+    const list = Object.keys(CIUDADES_COORDS).map(city => {
+      const cityDataList = fullData[city] || [];
+      const cData = cityDataList.length > 0 ? cityDataList[safeTimeIndex] : null;
+      
+      const cityInputs = {
+        sst: cData?.sst_lago_c ?? 28,
+        t850: cData?.t850_c ?? 12,
+        wind: cData?.wind_speed_10m ?? 35,
+      };
+      
+      return {
+        city,
+        coords: CIUDADES_COORDS[city],
+        result: computeRisk(cityInputs),
+        inputs: cityInputs,
+        isSelected: false
+      };
+    });
+    
+    // Ordenar: crítico/alto primero
+    list.sort((a, b) => {
+       const riskOrder = { 'critical': 4, 'high': 3, 'moderate': 2, 'low': 1 };
+       const scoreDiff = riskOrder[b.result.level] - riskOrder[a.result.level];
+       if (scoreDiff !== 0) return scoreDiff;
+       return b.result.score - a.result.score; // Romper empate con el score numérico
+    });
+    
+    return list;
+  }, [fullData, safeTimeIndex]);
 
-  const inputs: SwiInputs = useMemo(() => ({ sst, t850, wind }), [sst, t850, wind]);
-  const result = useMemo(() => computeRisk(inputs), [inputs]);
-  const meta = RISK_META[result.level as keyof typeof RISK_META] || RISK_META.low;
-
-  const memoizedMap = useMemo(() => <MapView result={result} />, [result]);
+  const memoizedMap = useMemo(() => <MapView cities={mapData} />, [mapData]);
 
   if (isLoading || !currentData) {
     return (
@@ -224,36 +303,127 @@ export default function SwiDashboard() {
     )
   }
 
+  // Identificar el nivel máximo de riesgo actual en el lago
+  const maxRisk = mapData.length > 0 ? mapData[0].result : { level: 'low', score: 0 };
+  const globalMeta = RISK_META[maxRisk.level as keyof typeof RISK_META] || RISK_META.low;
+
   return (
     <main className="flex h-dvh flex-col overflow-hidden lg:flex-row">
-      <ControlPanel inputs={inputs} onChange={() => { }} />
-      <section className="relative flex-1 flex flex-col">
-        <div className="flex-1 relative">
-          <div className="pointer-events-none absolute inset-x-0 top-0 z-[1000] flex items-center justify-between gap-2 p-3">
-            <div className="pointer-events-auto flex items-center gap-2 rounded-lg border border-border bg-card/80 px-3 py-2 backdrop-blur">
-              <Calendar className="h-4 w-4 text-primary" />
-              <span className="font-mono text-xs tabular-nums text-foreground capitalize">
-                {formatDate(currentData.hora_local)}
-              </span>
+      
+      {/* 1. PANEL IZQUIERDO: FUENTES OFICIALES */}
+      <aside className="w-full lg:w-80 flex flex-col bg-card/95 border-r border-border backdrop-blur z-[1001] h-[30vh] lg:h-full overflow-hidden shrink-0">
+        <div className="p-4 border-b border-border bg-muted/30">
+          <h2 className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
+            <ShieldAlert className="h-4 w-4 text-blue-400" />
+            Fuentes Oficiales
+          </h2>
+          <p className="text-xs text-muted-foreground mt-1">
+            Enlaces directos a autoridades en caso de emergencia.
+          </p>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4 space-y-5">
+          
+          {/* Protección Civil Jalisco */}
+          <div className="group relative flex flex-col rounded-xl border border-border/70 bg-card/40 shadow-sm overflow-hidden ring-1 ring-white/5">
+            <div className="flex items-start gap-3 p-4 pb-3">
+              <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500 ring-1 ring-blue-500/20">
+                <AlertTriangle className="h-5 w-5" />
+              </div>
+              <div className="flex-1 mt-0.5">
+                <h3 className="font-semibold text-sm text-foreground flex items-center gap-1.5">
+                  Protección Civil Jal
+                </h3>
+              </div>
             </div>
+            <div className="px-3 pb-3">
+              <PremiumTwitterCard 
+                handle="PCJalisco" 
+                title="Comunicaciones Oficiales" 
+                description="Últimos avisos y protocolos de emergencia en el estado."
+                link="https://twitter.com/PCJalisco"
+              />
+            </div>
+          </div>
+
+          {/* CONAGUA Clima */}
+          <div className="group relative flex flex-col rounded-xl border border-border/70 bg-card/40 shadow-sm overflow-hidden ring-1 ring-white/5">
+            <div className="flex items-start gap-3 p-4 pb-3">
+              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20">
+                <CloudLightning className="h-5 w-5" />
+              </div>
+              <div className="flex-1 mt-0.5">
+                <h3 className="font-semibold text-sm text-foreground flex items-center gap-1.5">
+                  CONAGUA Clima
+                </h3>
+              </div>
+            </div>
+            <div className="px-3 pb-3">
+              <PremiumTwitterCard 
+                handle="conagua_clima" 
+                title="Servicio Meteorológico" 
+                description="Alertas hidrometeorológicas y seguimiento de ciclones."
+                link="https://twitter.com/conagua_clima"
+              />
+            </div>
+          </div>
+
+          {/* Radar Doppler UdeG */}
+          <div className="group relative flex flex-col gap-3 p-4 rounded-xl border border-border/70 bg-card/40 transition-colors shadow-sm ring-1 ring-white/5 hover:bg-card/60">
+            <div className="flex items-start gap-3">
+              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500 ring-1 ring-purple-500/20">
+                <RadioTower className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-sm text-foreground flex items-center gap-1.5">
+                  Radar Doppler IAM
+                  <ExternalLink className="h-3 w-3 text-muted-foreground group-hover:text-foreground transition-colors" />
+                </h3>
+                <p className="text-xs text-muted-foreground mt-0.5">Instituto de Astronomía y Met. UdeG</p>
+              </div>
+            </div>
+            <a 
+              href="http://iam.cucei.udg.mx/radar/iam" 
+              target="_blank" 
+              rel="noreferrer"
+              className="text-xs font-medium text-purple-400 hover:text-purple-300 w-full text-center py-2.5 bg-purple-500/10 rounded-lg transition-colors border border-purple-500/20 hover:bg-purple-500/20"
+            >
+              Abrir Radar en Vivo
+            </a>
+          </div>
+
+        </div>
+      </aside>
+
+      {/* 2. CENTRO: MAPA Y SLIDER */}
+      <section className="relative flex-1 flex flex-col min-w-0">
+        <div className="flex-1 relative">
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-[1000] flex flex-col gap-2 p-3">
+            <div className="flex items-center justify-between">
+              <div className="pointer-events-auto flex items-center gap-2 rounded-lg border border-border bg-card/80 px-3 py-2 backdrop-blur shadow-sm">
+                <Calendar className="h-4 w-4 text-primary" />
+                <span className="font-mono text-xs tabular-nums text-foreground capitalize">
+                  {formatDate(currentData.hora_local)}
+                </span>
+              </div>
             
-            <div className="flex gap-2">
-              {lastFetchTime && (
-                <div className="pointer-events-auto flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 backdrop-blur">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  <span className="font-mono text-[10px] tabular-nums text-muted-foreground">
-                    Actualizado: {new Date(lastFetchTime).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+              <div className="flex gap-2">
+                {lastFetchTime && (
+                  <div className="pointer-events-auto flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 backdrop-blur shadow-sm hidden sm:flex">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span className="font-mono text-[10px] tabular-nums text-muted-foreground">
+                      Actualizado: {new Date(lastFetchTime).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                    </span>
+                  </div>
+                )}
+                <div className="pointer-events-auto flex items-center gap-2 rounded-lg border bg-card/80 px-3 py-2 backdrop-blur shadow-sm" style={{ borderColor: `color-mix(in oklch, ${globalMeta.token} 50%, transparent)` }}>
+                  <Layers className="h-4 w-4" style={{ color: globalMeta.token }} />
+                  <span className="font-mono text-xs font-semibold uppercase" style={{ color: globalMeta.token }}>
+                    Alerta Máxima: {globalMeta.label}
                   </span>
                 </div>
-              )}
-              <div className="pointer-events-auto flex items-center gap-2 rounded-lg border bg-card/80 px-3 py-2 backdrop-blur" style={{ borderColor: `color-mix(in oklch, ${meta.token} 50%, transparent)` }}>
-                <Layers className="h-4 w-4" style={{ color: meta.token }} />
-                <span className="font-mono text-xs font-semibold uppercase" style={{ color: meta.token }}>
-                  Alerta {meta.label}
-                </span>
               </div>
             </div>
           </div>
@@ -261,10 +431,68 @@ export default function SwiDashboard() {
             {memoizedMap}
           </div>
         </div>
-        <div className="p-6 bg-card border-t z-[1001] shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <div className="p-6 bg-card border-t z-[1001] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] shrink-0">
           <TimeSlider data={data} initialIndex={timeIndex} onChange={setTimeIndex} onGoLive={handleGoLive} />
         </div>
       </section>
+
+      {/* 3. PANEL DERECHO: ALERTAS AUTOMÁTICO */}
+      <aside className="w-full lg:w-80 flex flex-col bg-card/95 border-l border-border backdrop-blur z-[1001] h-[40vh] lg:h-full overflow-hidden shrink-0">
+        <div className="p-4 border-b border-border bg-muted/30">
+          <h2 className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
+            <AlertTriangle className="h-4 w-4 text-primary" />
+            Zonas de Riesgo
+          </h2>
+          <p className="text-xs text-muted-foreground mt-1">
+            Clasificando las {mapData.length} zonas de monitoreo por nivel de inestabilidad.
+          </p>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {mapData.map((d) => {
+            const meta = RISK_META[d.result.level as keyof typeof RISK_META];
+            const isAlert = d.result.level === "critical" || d.result.level === "high";
+            
+            return (
+              <div 
+                key={d.city} 
+                className={`relative flex flex-col gap-2 p-3 rounded-lg border transition-all ${isAlert ? 'shadow-lg scale-[1.02] bg-card' : 'bg-card/50'}`}
+                style={{ 
+                  borderColor: isAlert ? meta.token : 'transparent',
+                  boxShadow: isAlert ? `0 0 20px -5px color-mix(in oklch, ${meta.token} 40%, transparent)` : 'none'
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="font-medium text-sm text-foreground truncate max-w-[140px]" title={d.city}>{d.city}</h3>
+                  <div className="flex items-center gap-1.5 px-2 py-1 rounded-md shrink-0" style={{ backgroundColor: `color-mix(in oklch, ${meta.token} 15%, transparent)` }}>
+                    {isAlert && <span className="flex h-1.5 w-1.5 rounded-full animate-ping" style={{ backgroundColor: meta.token }}></span>}
+                    <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: meta.token }}>
+                      {meta.label}
+                    </span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 mt-1 border-t border-border/50 pt-2 text-[10px]">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span>Temp Aire</span>
+                    <span className="font-mono text-foreground font-medium">{d.inputs.t850.toFixed(1)}°</span>
+                  </div>
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span>Temp Agua</span>
+                    <span className="font-mono text-foreground font-medium">{d.inputs.sst.toFixed(1)}°</span>
+                  </div>
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span>Viento</span>
+                    <span className="font-mono text-foreground font-medium">{d.inputs.wind.toFixed(1)} km/h</span>
+                  </div>
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span>SWI</span>
+                    <span className="font-mono font-bold" style={{ color: isAlert ? meta.token : 'currentColor' }}>{d.result.score}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </aside>
     </main>
   )
 }

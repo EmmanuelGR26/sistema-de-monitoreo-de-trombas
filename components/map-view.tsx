@@ -7,7 +7,15 @@ import "leaflet/dist/leaflet.css"
 import type { RiskResult, RiskLevel } from "@/lib/swi"
 import { RISK_META } from "@/lib/swi"
 
-const CHAPALA: [number, number] = [20.25, -103.2]
+export type CityMapData = {
+  city: string;
+  coords: [number, number];
+  result: RiskResult;
+  inputs: { sst: number, t850: number, wind: number };
+  isSelected: boolean;
+};
+
+const LAKE_CENTER: [number, number] = [20.25, -103.2];
 
 /** Corrige el tamaño del mapa cuando el contenedor flex termina de dimensionarse. */
 function ResizeFix() {
@@ -15,9 +23,8 @@ function ResizeFix() {
   useEffect(() => {
     const fix = () => {
       map.invalidateSize()
-      map.setView(CHAPALA, 11, { animate: false })
+      map.setView(LAKE_CENTER, 11, { animate: false })
     }
-    // Varios reintentos para cubrir el montaje del layout flex.
     const timers = [0, 200, 500, 900].map((d) => setTimeout(fix, d))
     window.addEventListener("resize", fix)
 
@@ -36,6 +43,9 @@ function buildIcon(level: RiskLevel, color: string) {
   if (level === "moderate") {
     duration = "1.2s"
     size = 28
+  } else if (level === "high") {
+    duration = "0.8s"
+    size = 32
   } else if (level === "critical") {
     duration = "0.5s"
     size = 38
@@ -67,20 +77,20 @@ function buildIcon(level: RiskLevel, color: string) {
   })
 }
 
-function SimulatedWindLayer({ score, level }: { score: number, level: RiskLevel }) {
+function SimulatedWindLayer({ score, level, coords }: { score: number, level: RiskLevel, coords: [number, number] }) {
   const points = useMemo(() => {
     const pts = []
     for (let i = 0; i < 45; i++) {
       const angle = (i * 137.5) * (Math.PI / 180) 
       const r = 0.01 + (i % 6) * 0.012 
       pts.push({
-        lat: CHAPALA[0] + r * Math.cos(angle),
-        lng: CHAPALA[1] + r * Math.sin(angle),
+        lat: coords[0] + r * Math.cos(angle),
+        lng: coords[1] + r * Math.sin(angle),
         baseOpacity: 0.05 + (i % 3) * 0.05
       })
     }
     return pts
-  }, [])
+  }, [coords])
 
   const intensity = Math.max(0.2, score / 100)
   const color = RISK_META[level].token
@@ -96,6 +106,7 @@ function SimulatedWindLayer({ score, level }: { score: number, level: RiskLevel 
             color: "transparent",
             fillColor: color,
             fillOpacity: p.baseOpacity * intensity * 1.5,
+            interactive: false
           }}
         />
       ))}
@@ -104,26 +115,16 @@ function SimulatedWindLayer({ score, level }: { score: number, level: RiskLevel 
 }
 
 export default function MapView({
-  result,
-  timeLabel,
+  cities,
 }: {
-  result: RiskResult
-  timeLabel?: string
+  cities: CityMapData[]
 }) {
-  const color = RISK_META[result.level].token
-  // radio de la zona de convergencia crece con el riesgo
-  const radius = 1500 + result.score * 35
-  
-  // Memoizar el icono es CRÍTICO para que Leaflet no destruya y recree
-  // el elemento DOM del marcador 60 veces por segundo al mover el slider.
-  const memoizedIcon = useMemo(() => buildIcon(result.level, color), [result.level, color])
-
   return (
     <MapContainer
-      center={CHAPALA}
+      center={LAKE_CENTER}
       zoom={11}
       scrollWheelZoom
-      style={{ height: "100%", width: "100%" }}
+      style={{ height: "100%", width: "100%", background: "#0a0f1a" }}
       zoomControl
     >
       <ResizeFix />
@@ -132,36 +133,52 @@ export default function MapView({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
 
-      <Circle
-        center={CHAPALA}
-        radius={radius}
-        pathOptions={{
-          color,
-          fillColor: color,
-          fillOpacity: 0.12,
-          weight: 1.5,
-          dashArray: "6 6",
-        }}
-      />
-      
-      {/* Capa de Convergencia Simulada (estilo Heatmap) */}
-      <SimulatedWindLayer score={result.score} level={result.level} />
+      {cities.map((cityData) => {
+        const color = RISK_META[cityData.result.level].token;
+        const radius = 1500 + cityData.result.score * 35;
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const memoizedIcon = useMemo(() => buildIcon(cityData.result.level, color), [cityData.result.level, color]);
+        
+        return (
+          <div key={cityData.city}>
+            <Circle
+              center={cityData.coords}
+              radius={radius}
+              pathOptions={{
+                color,
+                fillColor: color,
+                fillOpacity: 0.08,
+                weight: 1.5,
+                dashArray: "6 6",
+              }}
+            />
+            
+            <SimulatedWindLayer score={cityData.result.score} level={cityData.result.level} coords={cityData.coords} />
 
-      <Marker position={CHAPALA} icon={memoizedIcon}>
-        <Popup>
-          <strong style={{ letterSpacing: "0.05em" }}>ZONA DE CONVERGENCIA</strong>
-          <br />
-          Lat 20.25 · Lon -103.20
-          <br />
-          Índice SWI: {result.score}/100
-          {timeLabel ? (
-            <>
-              <br />
-              {timeLabel}
-            </>
-          ) : null}
-        </Popup>
-      </Marker>
+            <Marker position={cityData.coords} icon={memoizedIcon}>
+              <Popup className="custom-popup">
+                <div className="text-center font-sans min-w-[140px] bg-white text-zinc-900 rounded-md p-1">
+                  <strong style={{ letterSpacing: "0.05em", fontSize: "11px", opacity: 0.7, color: "#52525b" }}>ZONA DE CONVERGENCIA</strong>
+                  <br />
+                  <span className="font-bold text-sm text-zinc-900">{cityData.city}</span>
+                  <div className="my-1.5 border-t border-zinc-200"></div>
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-left text-[11px] text-zinc-600">
+                    <span>Temp. Aire:</span> <strong className="text-zinc-900">{cityData.inputs.t850.toFixed(1)}°C</strong>
+                    <span>Temp. Agua:</span> <strong className="text-zinc-900">{cityData.inputs.sst.toFixed(1)}°C</strong>
+                    <span>Viento:</span> <strong className="text-zinc-900">{cityData.inputs.wind.toFixed(1)} km/h</strong>
+                  </div>
+                  <div className="mt-1.5 border-t border-zinc-200 pt-1.5">
+                    Índice SWI: <strong className="text-zinc-900 text-xs">{cityData.result.score}/100</strong>
+                  </div>
+                  <div className="mt-1.5 px-2 py-1 rounded text-[10px] font-bold uppercase shadow-sm" style={{ backgroundColor: color, color: '#000' }}>
+                    {RISK_META[cityData.result.level].label}
+                  </div>
+                </div>
+              </Popup>
+            </Marker>
+          </div>
+        );
+      })}
     </MapContainer>
   )
 }
