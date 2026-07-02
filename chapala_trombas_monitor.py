@@ -319,7 +319,11 @@ def enviar_telegram(mensaje):
         "parse_mode": "Markdown"
     }
     try:
-        requests.post(url, json=payload, timeout=10)
+        response = requests.post(url, json=payload, timeout=10)
+        if response.status_code != 200:
+            print(f"Error de Telegram: {response.status_code} - {response.text}")
+        else:
+            print("Mensaje enviado a Telegram correctamente.")
     except Exception as e:
         print(f"Error enviando notificación a Telegram: {e}")
 
