@@ -81,8 +81,8 @@ ZONA_HORARIA = "America/Mexico_City"
 
 # --- Configuración de Telegram ---
 
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+TELEGRAM_CHAT_ID = os.environ.get("CHAT_ID")
 
 # Niveles de presión a descargar (hPa). 300 hPa (~9 km) es suficiente
 # para trombas de buen tiempo / asociadas a tormenta moderada. Si te
