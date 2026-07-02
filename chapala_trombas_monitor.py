@@ -124,12 +124,12 @@ def descargar_datos(lat, lon):
         "longitude": lon,
         "minutely_15": "temperature_2m,dew_point_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
-        "forecast_days": 7, # Actualizado a 7 días
+        "forecast_days": 3, # Reducido a 3 días para evitar bloqueos por sobrecarga de datos
     }
     max_reintentos = 3
     for intento in range(max_reintentos):
         try:
-            r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=30, verify=False)
+            r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=60, verify=False)
             r.raise_for_status()
             forecast = r.json()
             break
@@ -147,13 +147,16 @@ def descargar_datos(lat, lon):
             "longitude": lon,
             "hourly": "sea_surface_temperature",
             "timezone": ZONA_HORARIA,
-            "forecast_days": 7, # Actualizado a 7 días
+            "forecast_days": 3,
         }
-        rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, timeout=20, verify=False)
+        rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, timeout=60, verify=False)
         if rm.ok:
             sst_marina = rm.json()
     except requests.RequestException:
         pass  # la Marine API puede no tener cobertura en un lago interior
+
+    # Ser amables con la API gratuita para no saturar nuestro IP compartido en GitHub Actions
+    time.sleep(2)
 
     return forecast, sst_marina
 
@@ -389,7 +392,7 @@ def procesar_hora(forecast, sst_marina, idx):
     }
 
 def generar_pronostico():
-    """Genera el reporte actual y busca ventanas de riesgo en los próximos 7 días."""
+    """Genera el reporte actual y busca ventanas de riesgo en los próximos 3 días."""
     resultados_completo = {}
     alertas_globales = {}
     climas_actuales = {}
@@ -440,7 +443,7 @@ if __name__ == "__main__":
             f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {actual['swi']}) | ΔT: {actual['choque_termico_c']}°C\n"
         )
     
-    print("\n--- PRONÓSTICO 7 DÍAS (VENTANAS DE RIESGO) ---")
+    print("\n--- PRONÓSTICO 3 DÍAS (VENTANAS DE RIESGO) ---")
     total_alertas = sum(len(alertas) for alertas in alertas_globales.values())
     if total_alertas == 0:
         print("No se detectan condiciones favorables para trombas en la red.")
