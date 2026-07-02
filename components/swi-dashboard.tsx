@@ -64,7 +64,7 @@ function TimeSlider({ data, initialIndex, onChange, onGoLive }: { data: Pronosti
     return marks;
   }, [data]);
 
-  const maxVal = data.length > 0 ? data.length - 1 : 167;
+  const maxVal = data.length > 0 ? data.length - 1 : 71;
   const percentage = maxVal > 0 ? (local / maxVal) * 100 : 0;
 
   return (

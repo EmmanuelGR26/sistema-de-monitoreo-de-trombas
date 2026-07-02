@@ -427,13 +427,13 @@ def generar_pronostico():
         
         nuevo_estado[ciudad] = {"presion": pres_now, "viento": wind_now, "time": current.get("time")}
         
+        tormenta_activa = wcode_now in [95, 96, 99]
         estado_ciudad_previo = estado_previo.get(ciudad)
         if estado_ciudad_previo:
             pres_prev = estado_ciudad_previo.get("presion", pres_now)
             caida_presion = pres_now - pres_prev
             
             # Condición de pico violento físico O tormenta convectiva severa (WMO code 95, 96, 99)
-            tormenta_activa = wcode_now in [95, 96, 99]
             if wind_now >= 35 or caida_presion <= -3 or tormenta_activa:
                 motivo = []
                 if wind_now >= 35: motivo.append(f"Ráfaga {wind_now} km/h")
