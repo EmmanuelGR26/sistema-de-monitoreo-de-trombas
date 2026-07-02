@@ -42,4 +42,5 @@ jobs:
           git config --local user.name "Robot Chapala"
           git add public/pronostico.json
           git diff --quiet && git diff --staged --quiet || git commit -m "Actualización automática: nuevos datos SWI"
+          git pull --rebase origin main
           git push
