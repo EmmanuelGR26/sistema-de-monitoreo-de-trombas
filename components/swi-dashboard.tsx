@@ -362,18 +362,8 @@ export default function SwiDashboard() {
           </div>
         </div>
 
-        <div className="p-4 border-b border-border bg-muted/30">
-          <h2 className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
-            <ShieldAlert className="h-4 w-4 text-blue-400" />
-            Fuentes Oficiales
-          </h2>
-          <p className="text-xs text-muted-foreground mt-1">
-            Enlaces directos a autoridades en caso de emergencia.
-          </p>
-        </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-5">
-          
-          {/* BOTON REPORTE CIUDADANO */}
+        {/* BOTON REPORTE CIUDADANO (DESTACADO) */}
+        <div className="p-4 border-b border-border bg-card/50">
           <button 
             onClick={() => setShowReportModal(true)}
             className="w-full relative group overflow-hidden rounded-xl bg-red-500/10 border border-red-500/30 p-4 transition-all hover:bg-red-500/20 shadow-sm"
@@ -389,6 +379,19 @@ export default function SwiDashboard() {
               </div>
             </div>
           </button>
+        </div>
+
+        <div className="p-4 border-b border-border bg-muted/30">
+          <h2 className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
+            <ShieldAlert className="h-4 w-4 text-blue-400" />
+            Fuentes Oficiales
+          </h2>
+          <p className="text-xs text-muted-foreground mt-1">
+            Enlaces directos a autoridades en caso de emergencia.
+          </p>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4 space-y-5">
+          
 
           {/* Protección Civil Jalisco */}
           <div className="group relative flex flex-col rounded-xl border border-border/70 bg-card/40 shadow-sm overflow-hidden ring-1 ring-white/5">
