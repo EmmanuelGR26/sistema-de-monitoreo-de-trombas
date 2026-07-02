@@ -340,10 +340,10 @@ export default function SwiDashboard() {
 
   return (
     <>
-    <main className="flex h-dvh flex-col overflow-hidden lg:flex-row">
+    <main className="flex min-h-dvh flex-col lg:h-dvh lg:overflow-hidden lg:flex-row">
       
       {/* 1. PANEL IZQUIERDO: FUENTES OFICIALES */}
-      <aside className="w-full lg:w-80 flex flex-col bg-card/95 border-r border-border backdrop-blur z-[1001] h-[30vh] lg:h-full overflow-hidden shrink-0">
+      <aside className="w-full lg:w-80 flex flex-col bg-card/95 border-r border-border backdrop-blur z-[1001] lg:h-full shrink-0">
         
         {/* ENCABEZADO RADAR CHAPALA */}
         <div className="p-5 border-b border-border bg-zinc-900/30 flex items-center gap-4 shrink-0">
@@ -465,7 +465,7 @@ export default function SwiDashboard() {
       </aside>
 
       {/* 2. CENTRO: MAPA Y SLIDER */}
-      <section className="relative flex-1 flex flex-col min-w-0">
+      <section className="relative flex flex-col min-w-0 min-h-[600px] lg:min-h-0 lg:h-full lg:flex-1">
         <div className="flex-1 relative">
           <div className="pointer-events-none absolute inset-x-0 top-0 z-[1000] flex flex-col gap-2 p-3">
             <div className="flex items-center justify-between">
@@ -507,7 +507,7 @@ export default function SwiDashboard() {
       </section>
 
       {/* 3. PANEL DERECHO: ALERTAS AUTOMÁTICO */}
-      <aside className="w-full lg:w-80 flex flex-col bg-card/95 border-l border-border backdrop-blur z-[1001] h-[40vh] lg:h-full overflow-hidden shrink-0">
+      <aside className="w-full lg:w-80 flex flex-col bg-card/95 border-l border-border backdrop-blur z-[1001] lg:h-full shrink-0">
         <div className="p-4 border-b border-border bg-muted/30">
           <h2 className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
             <AlertTriangle className="h-4 w-4 text-primary" />
