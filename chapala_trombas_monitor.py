@@ -47,6 +47,7 @@ import json
 import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
+import time
 
 import requests
 
@@ -125,9 +126,19 @@ def descargar_datos(lat, lon):
         "timezone": ZONA_HORARIA,
         "forecast_days": 7, # Actualizado a 7 días
     }
-    r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=20, verify=False)
-    r.raise_for_status()
-    forecast = r.json()
+    max_reintentos = 3
+    for intento in range(max_reintentos):
+        try:
+            r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=30, verify=False)
+            r.raise_for_status()
+            forecast = r.json()
+            break
+        except requests.exceptions.RequestException as e:
+            if intento < max_reintentos - 1:
+                print(f"Error descargando datos para lat={lat}, lon={lon}: {e}. Reintentando ({intento+1}/{max_reintentos})...")
+                time.sleep(5)
+            else:
+                raise e
 
     sst_marina = None
     try:
