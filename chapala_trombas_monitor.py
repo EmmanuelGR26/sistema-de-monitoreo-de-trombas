@@ -122,7 +122,7 @@ def descargar_datos(lat, lon):
     params_forecast = {
         "latitude": lat,
         "longitude": lon,
-        "current": "wind_speed_10m,surface_pressure",
+        "current": "wind_speed_10m,surface_pressure,weather_code",
         "minutely_15": "temperature_2m,dew_point_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
         "forecast_days": 3, # Reducido a 3 días para evitar bloqueos por sobrecarga de datos
@@ -423,6 +423,8 @@ def generar_pronostico():
         current = forecast.get("current", {})
         wind_now = current.get("wind_speed_10m", 0)
         pres_now = current.get("surface_pressure", 1013)
+        wcode_now = current.get("weather_code", 0)
+        
         nuevo_estado[ciudad] = {"presion": pres_now, "viento": wind_now, "time": current.get("time")}
         
         estado_ciudad_previo = estado_previo.get(ciudad)
@@ -430,13 +432,17 @@ def generar_pronostico():
             pres_prev = estado_ciudad_previo.get("presion", pres_now)
             caida_presion = pres_now - pres_prev
             
-            # Condición de pico violento
-            if wind_now >= 35 or caida_presion <= -3:
+            # Condición de pico violento físico O tormenta convectiva severa (WMO code 95, 96, 99)
+            tormenta_activa = wcode_now in [95, 96, 99]
+            if wind_now >= 35 or caida_presion <= -3 or tormenta_activa:
+                motivo = []
+                if wind_now >= 35: motivo.append(f"Ráfaga {wind_now} km/h")
+                if caida_presion <= -3: motivo.append(f"Caída {round(caida_presion, 2)} hPa")
+                if tormenta_activa: motivo.append("Célula de Tormenta Activa Detectada")
+                
                 alertas_nowcasting.append({
                     "ciudad": ciudad,
-                    "viento": wind_now,
-                    "caida_presion": round(caida_presion, 2),
-                    "presion_actual": pres_now
+                    "motivo": " | ".join(motivo)
                 })
 
         h = forecast["minutely_15"]
@@ -460,9 +466,9 @@ def generar_pronostico():
     
     # Enviar alertas inmediatas de Nowcasting si existen
     if alertas_nowcasting:
-        msg_nowcasting = "🚨 *[NOWCASTING - TIEMPO REAL]* 🚨\n\n¡Condiciones violentas detectadas por sensores físicos!\n\n"
+        msg_nowcasting = "🚨 *[NOWCASTING - TIEMPO REAL]* 🚨\n\n¡Condiciones violentas detectadas en la red de monitoreo!\n\n"
         for al in alertas_nowcasting:
-            msg_nowcasting += f"⚠️ *{al['ciudad']}*: Ráfaga {al['viento']} km/h | Caída Presión: {al['caida_presion']} hPa\n"
+            msg_nowcasting += f"⚠️ *{al['ciudad']}*: {al['motivo']}\n"
         enviar_alerta_telegram(msg_nowcasting)
             
     return climas_actuales, alertas_globales, resultados_completo
