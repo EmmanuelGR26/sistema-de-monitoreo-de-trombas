@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState, useEffect, useTransition } from "react"
+import { useMemo, useState, useEffect, useRef } from "react"
 import dynamic from "next/dynamic"
 import { Loader2, Layers, Calendar, Clock } from "lucide-react"
 import { ControlPanel } from "@/components/control-panel"
@@ -20,8 +20,6 @@ const MapView = dynamic(() => import("@/components/map-view"), {
 function formatDate(isoString?: string) {
   if (!isoString) return 'Cargando...';
   try {
-    // Al reemplazar la 'T' por un espacio, obligamos a CUALQUIER navegador
-    // a interpretar el string en la zona horaria local del usuario, sin desfases.
     const d = new Date(isoString.replace('T', ' '));
     if (isNaN(d.getTime())) return isoString;
 
@@ -49,7 +47,6 @@ function TimeSlider({ data, initialIndex, onChange, onGoLive }: { data: Pronosti
   const safeLocal = Math.max(0, Math.min(local, data.length - 1));
   const localCurrentData = data.length > 0 ? data[safeLocal] : null;
 
-  // Extraer las marcas de los días (cambios de día en los datos)
   const dayMarks = useMemo(() => {
     const marks: { index: number, label: string }[] = [];
     let lastDay = "";
@@ -74,7 +71,6 @@ function TimeSlider({ data, initialIndex, onChange, onGoLive }: { data: Pronosti
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-6 pt-4">
       <div className="relative w-full">
-        {/* Línea de tiempo visual con los días */}
         {dayMarks.map((mark) => (
           <div
             key={mark.index}
@@ -116,33 +112,77 @@ export default function SwiDashboard() {
   const [data, setData] = useState<PronosticoHora[]>([])
   const [timeIndex, setTimeIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [lastFetchTime, setLastFetchTime] = useState<number | null>(null);
+  
+  const selectedHourRef = useRef<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    if (data.length > 0 && timeIndex >= 0 && timeIndex < data.length) {
+      selectedHourRef.current = data[timeIndex].hora_local;
+    }
+  }, [timeIndex, data]);
+
+  useEffect(() => {
+    let isMounted = true;
+    
+    const fetchData = async (isInitial = false) => {
       try {
-        const response = await fetch('/pronostico.json');
+        const response = await fetch(`/pronostico.json?t=${Date.now()}`);
         if (!response.ok) throw new Error('No se encontró pronostico.json');
         const jsonData = await response.json();
-        setData(jsonData);
+        
+        if (!isMounted) return;
 
-        const now = Date.now();
-        let currentIdx = 0;
-        for (let i = 0; i < jsonData.length; i++) {
-          const dateObj = new Date(jsonData[i].hora_local.replace('T', ' '));
-          if (dateObj.getTime() <= now) {
-            currentIdx = i;
+        setData(jsonData);
+        setLastFetchTime(Date.now());
+
+        if (isInitial) {
+          const now = Date.now();
+          let currentIdx = 0;
+          for (let i = 0; i < jsonData.length; i++) {
+            const dateObj = new Date(jsonData[i].hora_local.replace('T', ' '));
+            if (dateObj.getTime() <= now) {
+              currentIdx = i;
+            } else {
+              break;
+            }
+          }
+          setTimeIndex(currentIdx);
+        } else if (selectedHourRef.current) {
+          const foundIdx = jsonData.findIndex((d: any) => d.hora_local === selectedHourRef.current);
+          if (foundIdx !== -1) {
+            setTimeIndex(foundIdx);
           } else {
-            break;
+            const now = Date.now();
+            let currentIdx = 0;
+            for (let i = 0; i < jsonData.length; i++) {
+              const dateObj = new Date(jsonData[i].hora_local.replace('T', ' '));
+              if (dateObj.getTime() <= now) {
+                currentIdx = i;
+              } else {
+                break;
+              }
+            }
+            setTimeIndex(currentIdx);
           }
         }
-        setTimeIndex(currentIdx);
       } catch (error) {
         console.error("Error cargando JSON:", error);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     };
-    fetchData();
+
+    fetchData(true);
+
+    const interval = setInterval(() => {
+      fetchData(false);
+    }, 30000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   const handleGoLive = () => {
@@ -165,16 +205,12 @@ export default function SwiDashboard() {
     : 0;
   const currentData = data.length > 0 ? data[safeTimeIndex] : null;
 
-  const inputs: SwiInputs = useMemo(() => {
-    if (!currentData) return { sst: 28, t850: 12, wind: 35 }
-    return {
-      sst: currentData.sst_lago_c ?? 28,
-      t850: currentData.t850_c ?? 12,
-      wind: currentData.wind_speed_10m ?? 35,
-    }
-  }, [currentData])
+  const sst = currentData?.sst_lago_c ?? 28;
+  const t850 = currentData?.t850_c ?? 12;
+  const wind = currentData?.wind_speed_10m ?? 35;
 
-  const result = useMemo(() => computeRisk(inputs), [inputs])
+  const inputs: SwiInputs = useMemo(() => ({ sst, t850, wind }), [sst, t850, wind]);
+  const result = useMemo(() => computeRisk(inputs), [inputs]);
   const meta = RISK_META[result.level as keyof typeof RISK_META] || RISK_META.low;
 
   const memoizedMap = useMemo(() => <MapView result={result} />, [result]);
@@ -200,11 +236,25 @@ export default function SwiDashboard() {
                 {formatDate(currentData.hora_local)}
               </span>
             </div>
-            <div className="pointer-events-auto flex items-center gap-2 rounded-lg border bg-card/80 px-3 py-2 backdrop-blur" style={{ borderColor: `color-mix(in oklch, ${meta.token} 50%, transparent)` }}>
-              <Layers className="h-4 w-4" style={{ color: meta.token }} />
-              <span className="font-mono text-xs font-semibold uppercase" style={{ color: meta.token }}>
-                Alerta {meta.label}
-              </span>
+            
+            <div className="flex gap-2">
+              {lastFetchTime && (
+                <div className="pointer-events-auto flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 backdrop-blur">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span className="font-mono text-[10px] tabular-nums text-muted-foreground">
+                    Actualizado: {new Date(lastFetchTime).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                  </span>
+                </div>
+              )}
+              <div className="pointer-events-auto flex items-center gap-2 rounded-lg border bg-card/80 px-3 py-2 backdrop-blur" style={{ borderColor: `color-mix(in oklch, ${meta.token} 50%, transparent)` }}>
+                <Layers className="h-4 w-4" style={{ color: meta.token }} />
+                <span className="font-mono text-xs font-semibold uppercase" style={{ color: meta.token }}>
+                  Alerta {meta.label}
+                </span>
+              </div>
             </div>
           </div>
           <div className="h-full w-full">

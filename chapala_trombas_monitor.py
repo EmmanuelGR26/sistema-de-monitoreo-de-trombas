@@ -40,6 +40,8 @@ Autor: generado con Claude (Anthropic) a partir de literatura de Szilagyi
 (2009), Renko et al. (2018) y Lo et al. (Advances in Meteorology).
 """
 
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 import math
 import json
 import os
@@ -92,14 +94,6 @@ EPS = 0.622        # Rd/Rv
 # 2. DESCARGA DE DATOS (Open-Meteo)
 # ----------------------------------------------------------------------
 
-def construir_variables_horarias():
-    base = ["temperature_2m", "dew_point_2m", "surface_pressure", "soil_temperature_0cm", "wind_speed_10m"]
-    for p in NIVELES_HPA:
-        base.append(f"temperature_{p}hPa")
-        base.append(f"geopotential_height_{p}hPa")
-    return ",".join(base)
-
-
 def descargar_datos():
     """Descarga el pronóstico horario (perfil vertical + superficie) y,
     como referencia cruzada, la SST de la Marine API."""
@@ -107,11 +101,11 @@ def descargar_datos():
     params_forecast = {
         "latitude": LATITUD,
         "longitude": LONGITUD,
-        "hourly": construir_variables_horarias(),
+        "minutely_15": "temperature_2m,dew_point_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
         "forecast_days": 7, # Actualizado a 7 días
     }
-    r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=20)
+    r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=20, verify=False)
     r.raise_for_status()
     forecast = r.json()
 
@@ -124,7 +118,7 @@ def descargar_datos():
             "timezone": ZONA_HORARIA,
             "forecast_days": 7, # Actualizado a 7 días
         }
-        rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, timeout=20)
+        rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, timeout=20, verify=False)
         if rm.ok:
             sst_marina = rm.json()
     except requests.RequestException:
@@ -174,7 +168,7 @@ def altura_lcl_m(t2m_c, td2m_c):
 def construir_perfil(forecast, idx):
     """Devuelve listas paralelas (altura_m_msnm, presion_hpa, temp_c) ordenadas
     de menor a mayor altura, a partir de los niveles de presión descargados."""
-    h = forecast["hourly"]
+    h = forecast["minutely_15"]
     alturas, presiones, temps = [], [], []
     for p in NIVELES_HPA:
         z = h.get(f"geopotential_height_{p}hPa", [None] * (idx + 1))[idx]
@@ -272,7 +266,7 @@ def cizalladura_850_aux(forecast, idx):
     Ambientes con cizalladura baja son tradicionalmente más favorables
     para trombas de buen tiempo (la rotación se desorganiza con mucha
     cizalladura)."""
-    h = forecast["hourly"]
+    h = forecast["minutely_15"]
     claves_necesarias = ["wind_speed_10m", "wind_direction_10m",
                           "wind_speed_850hPa", "wind_direction_850hPa"]
     if not all(k in h for k in claves_necesarias):
@@ -311,7 +305,7 @@ def enviar_telegram(mensaje):
 
 def procesar_hora(forecast, sst_marina, idx):
     """Calcula el SWI y variables para una hora específica del arreglo."""
-    h = forecast["hourly"]
+    h = forecast["minutely_15"]
 
     t2m = h["temperature_2m"][idx]
     td2m = h["dew_point_2m"][idx]
@@ -322,7 +316,7 @@ def procesar_hora(forecast, sst_marina, idx):
     sst_marina_valor = None
     if sst_marina and "hourly" in sst_marina and "sea_surface_temperature" in sst_marina["hourly"]:
         try:
-            sst_marina_valor = sst_marina["hourly"]["sea_surface_temperature"][idx]
+            sst_marina_valor = sst_marina["hourly"]["sea_surface_temperature"][idx // 4]
         except Exception:
             pass
 
@@ -362,7 +356,7 @@ def procesar_hora(forecast, sst_marina, idx):
 def generar_pronostico():
     """Genera el reporte actual y busca ventanas de riesgo en los próximos 7 días."""
     forecast, sst_marina = descargar_datos()
-    h = forecast["hourly"]
+    h = forecast["minutely_15"]
     idx_actual = indice_hora_actual(h["time"])
     
     # 1. Evaluar el clima en este exacto momento
