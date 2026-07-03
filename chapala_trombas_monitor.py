@@ -473,7 +473,7 @@ def generar_pronostico():
         msg_nowcasting = "🚨 *[NOWCASTING - TIEMPO REAL]* 🚨\n\n¡Condiciones violentas detectadas en la red de monitoreo!\n\n"
         for al in alertas_nowcasting:
             msg_nowcasting += f"⚠️ *{al['ciudad']}*: {al['motivo']}\n"
-        enviar_alerta_telegram(msg_nowcasting)
+        enviar_telegram(msg_nowcasting)
             
     return climas_actuales, alertas_globales, resultados_completo
 
