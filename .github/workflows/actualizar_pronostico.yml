@@ -5,42 +5,27 @@ on:
     - cron: '*/15 * * * *'
   workflow_dispatch:
 
-# ESTO ES LO NUEVO: Le damos permiso al robot de guardar archivos
 permissions:
-  contents: write
+  contents: write # ESTO ES VITAL PARA PODER GUARDAR EL JSON
 
 jobs:
   actualizar-datos:
     runs-on: ubuntu-latest
+    env:
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
     steps:
-      - name: 1. Clonar el repositorio
-        uses: actions/checkout@v4
-
-      - name: 2. Configurar Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: 3. Instalar dependencias
+      - run: pip install requests
+      - run: python chapala_trombas_monitor.py
+      
+      - name: Guardar y subir a GitHub (Para actualizar Vercel)
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: 4. Ejecutar el Monitor de Trombas
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-        run: python chapala_trombas_monitor.py
-
-      - name: 5. Guardar y subir el nuevo pronostico.json
-        run: |
-          if [ ! -f public/pronostico.json ]; then
-            echo "El archivo public/pronostico.json no existe. Saltando paso de subida."
-            exit 0
-          fi
-          git config --local user.email "action@github.com"
-          git config --local user.name "Robot Chapala"
-          git add public/pronostico.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Actualización automática: nuevos datos SWI"
-          git pull --rebase origin main
+          git config --global user.name "Robot Chapala"
+          git config --global user.email "robot@chapala.local"
+          git add public/pronostico.json public/estado_previo.json
+          git commit -m "Actualización automática de pronóstico" || echo "No hay cambios para subir"
           git push
