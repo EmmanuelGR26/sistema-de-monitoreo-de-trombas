@@ -402,7 +402,11 @@ def cargar_estado_previo():
     return {}
 
 def guardar_en_historial(coordenada, swi, clima_actual):
-    if swi <= 75:
+    # FIX: el umbral era 75, nunca alcanzable porque nomograma_a_swi() devuelve [-10,+10].
+    # El único valor que lo superaba era el 75.1 forzado por tormenta_activa,
+    # así que el historial solo registraba tormentas y nunca picos reales de SWI.
+    # Ahora se registran todos los eventos de riesgo alto (SWI >= 0).
+    if swi < 0:
         return
         
     archivo = "public/historial.json"
@@ -476,25 +480,35 @@ def generar_pronostico():
 
         h = forecast["minutely_15"]
         idx_actual = indice_hora_actual(h["time"])
-        
-        climas_actuales[ciudad] = procesar_hora(forecast, sst_marina, idx_actual)
-        # --- Impacto de Tormenta en el Nivel de Riesgo (Nowcasting) ---
-        if tormenta_activa:
-            climas_actuales[ciudad]["riesgo"] = "critical"
-            climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 75.1) # Forzar SWI crítico
-            
-        # Registrar en el historial (bitácora)
-        guardar_en_historial(ciudad, climas_actuales[ciudad]["swi"], climas_actuales[ciudad])
-        
+
+        # FIX (Bug 2 y Bug 3): construir pronostico_ciudad PRIMERO, antes de cualquier
+        # anulación por tormenta, para que ambas estructuras compartan la misma base.
         alertas_futuras = []
         pronostico_ciudad = []
-        
+
         for i in range(len(h["time"])):
             datos_hora = procesar_hora(forecast, sst_marina, i)
             pronostico_ciudad.append(datos_hora)
             if i > idx_actual and datos_hora["swi"] >= 0:
                 alertas_futuras.append(datos_hora)
-                
+
+        # climas_actuales apunta a la MISMA referencia de dict que pronostico_ciudad[idx_actual].
+        # Así cualquier mutación posterior (tormenta) se refleja en ambas estructuras a la vez.
+        climas_actuales[ciudad] = pronostico_ciudad[idx_actual]
+
+        # --- Impacto de Tormenta en el Nivel de Riesgo (Nowcasting) ---
+        # FIX (Bug 2): al mutar climas_actuales[ciudad] aquí, también se muta
+        # pronostico_ciudad[idx_actual] porque es el mismo objeto en memoria.
+        if tormenta_activa:
+            climas_actuales[ciudad]["riesgo"] = "critical"
+            # Mantener el SWI real del nomograma en "swi_nomograma" para la web,
+            # y usar "swi" como valor operativo que sí refleja la tormenta activa.
+            climas_actuales[ciudad]["swi_nomograma"] = climas_actuales[ciudad]["swi"]
+            climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 10.0)
+
+        # Registrar en el historial (bitácora) — ahora usa el SWI ya corregido
+        guardar_en_historial(ciudad, climas_actuales[ciudad]["swi"], climas_actuales[ciudad])
+
         resultados_completo[ciudad] = pronostico_ciudad
         alertas_globales[ciudad] = alertas_futuras
         
@@ -515,10 +529,22 @@ if __name__ == "__main__":
     # --- GUARDAR DATOS PARA LA WEB ---
     try:
         os.makedirs("public", exist_ok=True)
+
+        # pronostico.json: array completo de 3 días (para gráficas de tendencia en la web)
         filepath = os.path.join("public", "pronostico.json")
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(pronostico_completo, f, ensure_ascii=False, indent=2)
         print("[INFO] Archivo public/pronostico.json generado con éxito.")
+
+        # FIX (Bug 3): estado_actual.json — nowcast del momento presente con SWI corregido.
+        # La web debe leer ESTE archivo para mostrar el riesgo actual, NO el pronostico.json.
+        # pronostico.json tiene ~288 entradas por ciudad; la web no puede saber cuál es "ahora"
+        # sin parsear timestamps. estado_actual.json siempre tiene UN solo registro por ciudad.
+        filepath_actual = os.path.join("public", "estado_actual.json")
+        with open(filepath_actual, "w", encoding="utf-8") as f:
+            json.dump(climas_actuales, f, ensure_ascii=False, indent=2)
+        print("[INFO] Archivo public/estado_actual.json generado con éxito.")
+
     except Exception as e:
         print(f"[ERROR] No se pudo guardar el JSON: {e}")
 
@@ -530,8 +556,11 @@ if __name__ == "__main__":
     
     for ciudad in CIUDADES:
         actual = climas_actuales[ciudad]
+        # FIX (Bug 1): se eliminó el int(swi * 100). La escala del SWI es [-10, +10];
+        # multiplicar por 100 mostraba "80" cuando el índice real era 0.8, generando
+        # confusión entre el valor de Telegram y el valor guardado en JSON.
         mensaje_tg += (
-            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {int(actual['swi'] * 100)}) | ΔT: {actual['choque_termico_c']}°C\n"
+            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {actual['swi']:.1f}) | ΔT: {actual['choque_termico_c']}°C\n"
         )
     
     print("\n--- PRONÓSTICO 3 DÍAS (VENTANAS DE RIESGO) ---")
