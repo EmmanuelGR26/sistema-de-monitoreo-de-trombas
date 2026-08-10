@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 import { Loader2, Layers, Calendar, Clock, AlertTriangle, ShieldAlert, CloudLightning, RadioTower, ExternalLink } from "lucide-react"
 import { computeRisk, RISK_META } from "@/lib/swi"
 import { type PronosticoHora } from "@/lib/mock-data"
+import { HistoricalChart } from "./historical-chart"
 
 const MapView = dynamic(() => import("@/components/map-view"), {
   ssr: false,
@@ -464,8 +465,8 @@ export default function SwiDashboard() {
         </div>
       </aside>
 
-      {/* 2. CENTRO: MAPA Y SLIDER */}
-      <section className="relative flex flex-col min-w-0 h-[500px] lg:h-full lg:flex-1">
+      {/* 2. CENTRO: MAPA Y SLIDER Y GRÁFICA */}
+      <section className="relative flex flex-col min-w-0 h-[800px] lg:h-full lg:flex-1">
         <div className="flex-1 relative">
           <div className="pointer-events-none absolute inset-x-0 top-0 z-[1000] flex flex-col gap-2 p-3">
             <div className="flex items-center justify-between">
@@ -503,6 +504,9 @@ export default function SwiDashboard() {
         </div>
         <div className="p-6 bg-card border-t z-[1001] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] shrink-0">
           <TimeSlider data={data} initialIndex={timeIndex} onChange={setTimeIndex} onGoLive={handleGoLive} />
+        </div>
+        <div className="p-4 bg-zinc-950 border-t border-border/50 z-[1000] shrink-0 h-64 overflow-hidden">
+          <HistoricalChart />
         </div>
       </section>
 
