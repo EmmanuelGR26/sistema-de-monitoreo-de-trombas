@@ -422,5 +422,13 @@
     "longitud": -102.95,
     "swi": 10.0,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Costa Palo Alto - Zapata",
+    "latitud": 20.18,
+    "longitud": -102.95,
+    "swi": 10.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
