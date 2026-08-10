@@ -26,6 +26,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/pronostico.json public/estado_previo.json
+          git add public/pronostico.json public/estado_previo.json public/historial.json
           git commit -m "Actualización automática de pronóstico" || echo "No hay cambios para subir"
           git push

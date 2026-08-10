@@ -401,6 +401,35 @@ def cargar_estado_previo():
             return {}
     return {}
 
+def guardar_en_historial(coordenada, swi, clima_actual):
+    if swi <= 75:
+        return
+        
+    archivo = "public/historial.json"
+    historial = []
+    
+    if os.path.exists(archivo):
+        try:
+            with open(archivo, "r", encoding="utf-8") as f:
+                historial = json.load(f)
+        except:
+            pass
+            
+    evento = {
+        "fecha": clima_actual.get("time"),
+        "ciudad": coordenada,
+        "latitud": CIUDADES[coordenada]["lat"] if coordenada in CIUDADES else None,
+        "longitud": CIUDADES[coordenada]["lon"] if coordenada in CIUDADES else None,
+        "swi": swi,
+        "clima_descripcion": clima_actual.get("wmo_desc", "Desconocido")
+    }
+    
+    historial.append(evento)
+    
+    os.makedirs("public", exist_ok=True)
+    with open(archivo, "w", encoding="utf-8") as f:
+        json.dump(historial, f, ensure_ascii=False, indent=2)
+
 def guardar_estado_actual(estado):
     os.makedirs("public", exist_ok=True)
     with open("public/estado_previo.json", "w", encoding="utf-8") as f:
@@ -452,7 +481,10 @@ def generar_pronostico():
         # --- Impacto de Tormenta en el Nivel de Riesgo (Nowcasting) ---
         if tormenta_activa:
             climas_actuales[ciudad]["riesgo"] = "critical"
-            climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 75.0) # Forzar SWI crítico
+            climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 75.1) # Forzar SWI crítico
+            
+        # Registrar en el historial (bitácora)
+        guardar_en_historial(ciudad, climas_actuales[ciudad]["swi"], climas_actuales[ciudad])
         
         alertas_futuras = []
         pronostico_ciudad = []
