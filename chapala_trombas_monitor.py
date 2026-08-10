@@ -556,11 +556,10 @@ if __name__ == "__main__":
     
     for ciudad in CIUDADES:
         actual = climas_actuales[ciudad]
-        # FIX (Bug 1): se eliminó el int(swi * 100). La escala del SWI es [-10, +10];
-        # multiplicar por 100 mostraba "80" cuando el índice real era 0.8, generando
-        # confusión entre el valor de Telegram y el valor guardado en JSON.
+        swi_100 = int((actual['swi'] + 10) * 5)
+        swi_100 = max(0, min(100, swi_100)) # Asegurar que se mantenga entre 0 y 100
         mensaje_tg += (
-            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {actual['swi']:.1f}) | ΔT: {actual['choque_termico_c']}°C\n"
+            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {swi_100}) | ΔT: {actual['choque_termico_c']}°C\n"
         )
     
     print("\n--- PRONÓSTICO 3 DÍAS (VENTANAS DE RIESGO) ---")
