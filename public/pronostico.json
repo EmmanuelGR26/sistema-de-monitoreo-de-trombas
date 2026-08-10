@@ -72092,10 +72092,11 @@
       "lcl_msnm_m": 1924.0,
       "el_msnm_m": null,
       "profundidad_convectiva_ft": 0.0,
-      "swi": -5.8,
-      "riesgo": "BAJO",
+      "swi": 10.0,
+      "riesgo": "critical",
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.6
+      "wind_speed_10m": 1.6,
+      "swi_nomograma": -5.8
     },
     {
       "hora_local": "2026-08-10T17:45",
