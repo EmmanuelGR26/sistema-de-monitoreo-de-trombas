@@ -154,7 +154,7 @@ const CIUDADES_COORDS: Record<string, [number, number]> = {
     "San Luis Soyatlán": [20.2167, -103.2958],
     "Tizapán": [20.190, -103.050],
     "Cojumatlán": [20.150, -102.830],
-    "Lago Profundo": [20.180, -102.950]
+    "Costa Palo Alto - Zapata": [20.180, -102.950]
 };
 
 export default function SwiDashboard() {
