@@ -75,7 +75,7 @@ CIUDADES = {
     "San Luis Soyatlán": {"lat": 20.2167, "lon": -103.2958},
     "Tizapán": {"lat": 20.190, "lon": -103.050},
     "Cojumatlán": {"lat": 20.150, "lon": -102.830},
-    "Lago Profundo": {"lat": 20.180, "lon": -102.950}
+    "Costa Palo Alto - Zapata": {"lat": 20.180, "lon": -102.950}
 }
 ELEVACION_M = 1524        # Elevación del espejo de agua sobre el nivel del mar (m)
 ZONA_HORARIA = "America/Mexico_City"
