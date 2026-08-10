@@ -322,7 +322,7 @@ def cizalladura_850_aux(forecast, idx):
 # 5. ORQUESTACIÓN Y ALERTAS (PRONÓSTICO 7 DÍAS)
 # ----------------------------------------------------------------------
 
-def enviar_telegram(mensaje):
+def enviar_alerta_telegram(mensaje):
     """Envía un mensaje a través del bot de Telegram."""
     if TELEGRAM_TOKEN == "TU_TOKEN_AQUI" or not TELEGRAM_TOKEN:
         return # No intentar enviar si no se ha configurado
@@ -473,7 +473,7 @@ def generar_pronostico():
         msg_nowcasting = "🚨 *[NOWCASTING - TIEMPO REAL]* 🚨\n\n¡Condiciones violentas detectadas en la red de monitoreo!\n\n"
         for al in alertas_nowcasting:
             msg_nowcasting += f"⚠️ *{al['ciudad']}*: {al['motivo']}\n"
-        enviar_telegram(msg_nowcasting)
+        enviar_alerta_telegram(msg_nowcasting)
             
     return climas_actuales, alertas_globales, resultados_completo
 
@@ -516,7 +516,7 @@ if __name__ == "__main__":
             
     # --- ENVÍO DE ALERTA (SOLO SI HAY PELIGRO O ES REPORTE ÚTIL) ---
     if total_alertas > 0:
-        enviar_telegram(mensaje_tg)
+        enviar_alerta_telegram(mensaje_tg)
         print("\n[INFO] Ejecución terminada. Resumen enviado por alertas detectadas.")
     else:
         print("\n[INFO] Ejecución terminada. Todo tranquilo, sin alertas que enviar (Silencio Activo).")
