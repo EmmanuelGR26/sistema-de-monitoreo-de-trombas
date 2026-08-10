@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts"
 import { AlertCircle, History } from "lucide-react"
 
@@ -13,7 +13,7 @@ interface HistorialEvent {
   clima_descripcion: string
 }
 
-export function HistoricalChart() {
+export const HistoricalChart = React.memo(function HistoricalChart() {
   const [data, setData] = useState<HistorialEvent[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -118,4 +118,4 @@ export function HistoricalChart() {
       </div>
     </div>
   )
-}
+})

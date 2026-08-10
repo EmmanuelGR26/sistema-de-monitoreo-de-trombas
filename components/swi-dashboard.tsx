@@ -41,16 +41,8 @@ function TimeSlider({ data, initialIndex, onChange, onGoLive }: { data: Pronosti
     const newVal = parseInt(e.target.value, 10);
     if (isNaN(newVal)) return;
     setLocal(newVal);
+    onChange(newVal);
   };
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (local !== initialIndex) {
-        onChange(local);
-      }
-    }, 100);
-    return () => clearTimeout(timeoutId);
-  }, [local, initialIndex, onChange]);
 
   const safeLocal = Math.max(0, Math.min(local, data.length - 1));
   const localCurrentData = data.length > 0 ? data[safeLocal] : null;
