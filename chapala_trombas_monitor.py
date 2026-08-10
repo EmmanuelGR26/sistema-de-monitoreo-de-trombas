@@ -531,7 +531,7 @@ if __name__ == "__main__":
     for ciudad in CIUDADES:
         actual = climas_actuales[ciudad]
         mensaje_tg += (
-            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {actual['swi']}) | ΔT: {actual['choque_termico_c']}°C\n"
+            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {int(actual['swi'] * 100)}) | ΔT: {actual['choque_termico_c']}°C\n"
         )
     
     print("\n--- PRONÓSTICO 3 DÍAS (VENTANAS DE RIESGO) ---")
