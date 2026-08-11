@@ -639,8 +639,16 @@ def generar_pronostico():
         if tormenta_activa:
             climas_actuales[ciudad]["riesgo"] = "critical"
             climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 10.0)
-            pronostico_ciudad[idx_actual]["riesgo"] = "critical"
-            pronostico_ciudad[idx_actual]["swi"] = max(pronostico_ciudad[idx_actual]["swi"], 10.0)
+            
+            # Sincronización forzada (JSON Array): Sobrescribir una ventana de +-2 intervalos 
+            # (1 hora) alrededor del índice actual. Esto garantiza que la observación 
+            # en tiempo real aplaste la predicción y el frontend jamás la pase por alto 
+            # debido a diferencias en el redondeo de la hora local (floor vs round).
+            for offset in [-2, -1, 0, 1, 2]:
+                idx_sync = idx_actual + offset
+                if 0 <= idx_sync < len(pronostico_ciudad):
+                    pronostico_ciudad[idx_sync]["riesgo"] = "critical"
+                    pronostico_ciudad[idx_sync]["swi"] = max(pronostico_ciudad[idx_sync]["swi"], 10.0)
 
         # Registrar en el historial (bitácora) — usa el SWI definitivo
         guardar_en_historial(ciudad, climas_actuales[ciudad]["swi"], climas_actuales[ciudad])
