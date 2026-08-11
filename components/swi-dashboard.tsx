@@ -277,10 +277,24 @@ export default function SwiDashboard() {
         wind: cData?.wind_speed_10m ?? 35,
       };
       
+      const rawSwi = cData?.swi ?? -10;
+      // Convertimos la escala cruda [-10, +10] del bot a porcentaje [0, 100]
+      const mappedScore = Math.max(0, Math.min(100, Math.round((rawSwi + 10) * 5)));
+      
+      let mappedLevel = "low";
+      if (mappedScore >= 70 || cData?.riesgo === "critical") mappedLevel = "critical";
+      else if (mappedScore >= 40 || cData?.riesgo === "ALTO") mappedLevel = "moderate";
+      
+      const computedResult = {
+        score: mappedScore,
+        level: mappedLevel as any,
+        instability: cData?.choque_termico_c ?? 0
+      };
+
       return {
         city,
         coords: CIUDADES_COORDS[city],
-        result: computeRisk(cityInputs),
+        result: computedResult,
         inputs: cityInputs,
         isSelected: false
       };

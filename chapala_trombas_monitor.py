@@ -497,14 +497,16 @@ def generar_pronostico():
         climas_actuales[ciudad] = pronostico_ciudad[idx_actual]
 
         # --- Impacto de Tormenta en el Nivel de Riesgo (Nowcasting) ---
-        # FIX (Bug 2): al mutar climas_actuales[ciudad] aquí, también se muta
-        # pronostico_ciudad[idx_actual] porque es el mismo objeto en memoria.
         if tormenta_activa:
             climas_actuales[ciudad]["riesgo"] = "critical"
             # Mantener el SWI real del nomograma en "swi_nomograma" para la web,
             # y usar "swi" como valor operativo que sí refleja la tormenta activa.
             climas_actuales[ciudad]["swi_nomograma"] = climas_actuales[ciudad]["swi"]
             climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 10.0)
+            
+            # Asegurar explícitamente que el pronóstico general también se actualice (para la web)
+            pronostico_ciudad[idx_actual]["riesgo"] = "critical"
+            pronostico_ciudad[idx_actual]["swi"] = max(pronostico_ciudad[idx_actual]["swi"], 10.0)
 
         # Registrar en el historial (bitácora) — ahora usa el SWI ya corregido
         guardar_en_historial(ciudad, climas_actuales[ciudad]["swi"], climas_actuales[ciudad])
