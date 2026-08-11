@@ -103,6 +103,30 @@ RANGO_PROFUNDIDAD_FT = 8000.0   # profundidad que satura el componente (5000 -> 
 PESO_TERMICO = 0.5
 PESO_PROFUNDIDAD = 0.5
 
+# --- Filtros de calibración anti-falsos-positivos (Reglas 1–4) ----------
+# Ajusta estos umbrales con tus observaciones de Chapala para calibrar
+# la sensibilidad del sistema. Cada constante está documentada en la
+# función que la usa.
+
+# Regla 1 — Filtro de Humedad
+UMBRAL_HUMEDAD_PCT       = 70.0  # HR mínima (%) para un embudo activo
+SWI_CAP_HUMEDAD_BAJA     = 3.0  # Techo SWI cuando HR < umbral (escala -10/+10 ≈ display 65/100)
+
+# Regla 2 — Exigencia del Choque Térmico
+# El ΔT actúa como factor multiplicativo: SWI_max = (ΔT / UMBRAL) × 10
+# A ΔT=4°C el techo baja a 5; a ΔT=8°C el techo es 10 (sin restricción).
+UMBRAL_TERMICO_CRITICO_C = 8.0  # ΔT mínimo para alcanzar SWI=10 crítico (°C)
+
+# Regla 3 — Viento Triturador
+UMBRAL_VIENTO_TRITURADOR = 40.0  # Velocidad (km/h) que destruye la organización del vórtice
+# El SWI se divide entre 2 si el viento supera este umbral.
+
+# Regla 4 — Persistencia Temporal
+# SWI_CAP_SIN_PERSISTENCIA se expresa en la escala -10/+10;
+# en display 0-100 equivale a: int((8 + 10) * 5) = 90 ("Muy Alto" pero no "Crítico")
+UMBRAL_SWI_PREVIO        = 2.0  # SWI previo mínimo (≈ display 60) para desbloquear alerta máxima
+SWI_CAP_SIN_PERSISTENCIA = 8.0  # Techo SWI si no hay confirmación en lectura anterior
+
 # Constantes físicas
 G = 9.80665        # gravedad, m/s^2
 RD = 287.05        # constante de gas para aire seco, J/(kg·K)
@@ -123,7 +147,8 @@ def descargar_datos(lat, lon):
         "latitude": lat,
         "longitude": lon,
         "current": "wind_speed_10m,surface_pressure,weather_code",
-        "minutely_15": "temperature_2m,dew_point_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
+        # Regla 1: se añade relative_humidity_2m para el filtro de humedad.
+        "minutely_15": "temperature_2m,dew_point_2m,relative_humidity_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
         "forecast_days": 3, # Reducido a 3 días para evitar bloqueos por sobrecarga de datos
     }
@@ -279,11 +304,24 @@ def calcular_lcl_el(t2m_c, td2m_c, p_superficie_hpa, perfil_alturas, perfil_pres
 def nomograma_a_swi(choque_termico_c, profundidad_ft):
     """
     Mapea (choque térmico, profundidad convectiva) a un valor SWI en
-    [-10, +10], siguiendo la forma conocida del nomograma de Szilagyi:
-    el índice crece con el choque térmico y con la profundidad de la
-    nube, saturando en los extremos. Ver advertencia al inicio del
-    archivo: esto es una aproximación calibrada, no la curva propietaria
-    original.
+    [-10, +10], siguiendo la forma conocida del nomograma de Szilagyi.
+    Ver advertencia al inicio del archivo: esto es una aproximación
+    calibrada, no la curva propietaria original.
+
+    REGLA 2 — Gate multiplicativo del Choque Térmico:
+      El ΔT no solo contribuye aditivamente (comp_termico) sino que
+      actúa como techo del SWI final:
+
+          cap_ΔT = clamp(ΔT / UMBRAL_TERMICO_CRITICO_C × 10,  0, 10)
+
+      Efecto en práctica:
+        ΔT = 2°C  →  cap = 2.5  (nunca supera nivel moderado-bajo)
+        ΔT = 4°C  →  cap = 5.0  (techo a mitad de escala)
+        ΔT = 6°C  →  cap = 7.5  (alto pero no crítico)
+        ΔT ≥ 8°C  →  cap = 10   (sin restricción adicional)
+
+      Esto impide que una nube profunda (profundidad_ft alta) con ΔT
+      bajo dispare una alerta crítica falsa.
     """
     comp_termico = (choque_termico_c - UMBRAL_TERMICO_C) / RANGO_TERMICO_C * 10
     comp_termico = max(-10.0, min(10.0, comp_termico))
@@ -292,6 +330,12 @@ def nomograma_a_swi(choque_termico_c, profundidad_ft):
     comp_profundidad = max(-10.0, min(10.0, comp_profundidad))
 
     swi = PESO_TERMICO * comp_termico + PESO_PROFUNDIDAD * comp_profundidad
+
+    # Regla 2: el ΔT es un gate multiplicativo — impone el techo del SWI.
+    cap_delta_t = (choque_termico_c / UMBRAL_TERMICO_CRITICO_C) * 10.0
+    cap_delta_t = max(0.0, min(10.0, cap_delta_t))
+    swi = min(swi, cap_delta_t)
+
     return round(max(-10.0, min(10.0, swi)), 1)
 
 
@@ -343,13 +387,28 @@ def enviar_alerta_telegram(mensaje):
         print(f"Error enviando notificación a Telegram: {e}")
 
 def procesar_hora(forecast, sst_marina, idx):
-    """Calcula el SWI y variables para una hora específica del arreglo."""
+    """
+    Calcula el SWI y variables para una hora específica del arreglo.
+
+    Pipeline de filtros aplicados en este orden:
+      1. nomograma_a_swi() → SWI base + gate ΔT  (Regla 2, ya dentro del nomograma)
+      2. Filtro de Humedad                         (Regla 1)
+      3. Penalización Viento Triturador             (Regla 3)
+    La Regla 4 (Persistencia) se aplica en generar_pronostico()
+    porque necesita el estado guardado de la ejecución anterior.
+    """
     h = forecast["minutely_15"]
 
-    t2m = h["temperature_2m"][idx]
+    t2m  = h["temperature_2m"][idx]
     td2m = h["dew_point_2m"][idx]
     p_sup = h["surface_pressure"][idx]
-    t850 = h.get("temperature_850hPa", [None] * (idx + 1))[idx]
+    t850  = h.get("temperature_850hPa", [None] * (idx + 1))[idx]
+
+    # Regla 1: humedad relativa a 2 m (nueva variable)
+    humedad_2m = h.get("relative_humidity_2m", [None] * (idx + 1))[idx]
+
+    # Regla 3: viento de superficie (ya existía; ahora también altera el SWI)
+    viento_10m = h.get("wind_speed_10m", [None] * (idx + 1))[idx]
 
     sst_lago = h.get("soil_temperature_0cm", [None] * (idx + 1))[idx]
     sst_marina_valor = None
@@ -360,36 +419,76 @@ def procesar_hora(forecast, sst_marina, idx):
             pass
 
     if sst_lago is None and sst_marina_valor is None:
-        return {"hora_local": h["time"][idx], "swi": -10, "riesgo": "DESCONOCIDO"}
-        
+        return {"hora_local": h["time"][idx], "swi": -10, "riesgo": "DESCONOCIDO",
+                "filtros_swi": ["sin_sst"]}
+
     sst = sst_lago if sst_lago is not None else sst_marina_valor
 
     perfil_alturas, perfil_presiones, perfil_temps = construir_perfil(forecast, idx)
-    lcl_msnm, el_msnm = calcular_lcl_el(t2m, td2m, p_sup, perfil_alturas, perfil_presiones, perfil_temps)
+    lcl_msnm, el_msnm = calcular_lcl_el(t2m, td2m, p_sup,
+                                          perfil_alturas, perfil_presiones, perfil_temps)
 
     choque_termico = sst - t850 if t850 is not None else 0
     if el_msnm is not None:
-        profundidad_m = el_msnm - lcl_msnm
+        profundidad_m  = el_msnm - lcl_msnm
         profundidad_ft = max(profundidad_m, 0.0) * 3.28084
     else:
-        profundidad_ft = 0.0  
+        profundidad_ft = 0.0
 
+    # SWI base: incluye el gate ΔT de la Regla 2 dentro del nomograma
     swi = nomograma_a_swi(choque_termico, profundidad_ft)
+    swi_nomograma = swi          # guardar antes de filtros para auditoría
+    filtros_aplicados = []
+
+    # ------------------------------------------------------------------
+    # REGLA 1 — Filtro de Humedad
+    # Física: sin vapor de agua suficiente no hay condensación, y sin
+    # condensación no se puede mantener la columna giratoria del embudo.
+    # El umbral de 70 % es conservador para Chapala (ambiente subtropical);
+    # ajústalo hacia arriba si sigues viendo falsos positivos.
+    # Operación: si HR < UMBRAL_HUMEDAD_PCT, el SWI no puede superar
+    # SWI_CAP_HUMEDAD_BAJA (por defecto 3.0, display ≈ 65/100).
+    # ------------------------------------------------------------------
+    if humedad_2m is not None and humedad_2m < UMBRAL_HUMEDAD_PCT:
+        if swi > SWI_CAP_HUMEDAD_BAJA:
+            swi = SWI_CAP_HUMEDAD_BAJA
+            filtros_aplicados.append(
+                f"R1-humedad:{humedad_2m:.0f}%<{UMBRAL_HUMEDAD_PCT:.0f}%→cap{SWI_CAP_HUMEDAD_BAJA}"
+            )
+
+    # ------------------------------------------------------------------
+    # REGLA 3 — Viento Triturador
+    # Física: vientos de superficie > 40 km/h generan turbulencia de
+    # cizalladura que desintegra el vórtice antes de que llegue al agua.
+    # Operación: el SWI resultante se divide entre 2 (penalización 50 %).
+    # No se aplica si el viento ya destruyó la condición de riesgo
+    # (swi <= 0), para no generar valores negativos sin sentido.
+    # ------------------------------------------------------------------
+    if viento_10m is not None and viento_10m > UMBRAL_VIENTO_TRITURADOR and swi > 0:
+        swi = swi / 2.0
+        filtros_aplicados.append(
+            f"R3-viento:{viento_10m:.0f}km/h>{UMBRAL_VIENTO_TRITURADOR:.0f}→÷2"
+        )
+
+    swi = round(max(-10.0, min(10.0, swi)), 1)
     riesgo = "ALTO" if swi >= 0 else "BAJO"
     shear850 = cizalladura_850_aux(forecast, idx)
 
     return {
-        "hora_local": h["time"][idx],
-        "sst_lago_c": round(sst, 1),
-        "t850_c": round(t850, 1) if t850 else None,
-        "choque_termico_c": round(choque_termico, 1),
-        "lcl_msnm_m": round(lcl_msnm, 0),
-        "el_msnm_m": round(el_msnm, 0) if el_msnm else None,
+        "hora_local":              h["time"][idx],
+        "sst_lago_c":              round(sst, 1),
+        "t850_c":                  round(t850, 1) if t850 else None,
+        "choque_termico_c":        round(choque_termico, 1),
+        "lcl_msnm_m":              round(lcl_msnm, 0),
+        "el_msnm_m":               round(el_msnm, 0) if el_msnm else None,
         "profundidad_convectiva_ft": round(profundidad_ft, 0),
-        "swi": swi,
-        "riesgo": riesgo,
-        "cizalladura_850_ms": round(shear850, 1) if shear850 is not None else None,
-        "wind_speed_10m": round(h["wind_speed_10m"][idx], 1) if "wind_speed_10m" in h else None,
+        "humedad_2m_pct":          round(humedad_2m, 0) if humedad_2m is not None else None,
+        "swi_nomograma":           swi_nomograma,   # SWI antes de Reglas 1 y 3 (diagnóstico)
+        "swi":                     swi,
+        "riesgo":                  riesgo,
+        "filtros_swi":             filtros_aplicados,
+        "cizalladura_850_ms":      round(shear850, 1) if shear850 is not None else None,
+        "wind_speed_10m":          round(viento_10m, 1) if viento_10m is not None else None,
     }
 
 def cargar_estado_previo():
@@ -493,22 +592,57 @@ def generar_pronostico():
                 alertas_futuras.append(datos_hora)
 
         # climas_actuales apunta a la MISMA referencia de dict que pronostico_ciudad[idx_actual].
-        # Así cualquier mutación posterior (tormenta) se refleja en ambas estructuras a la vez.
+        # Así cualquier mutación posterior se refleja en ambas estructuras a la vez.
         climas_actuales[ciudad] = pronostico_ciudad[idx_actual]
 
-        # --- Impacto de Tormenta en el Nivel de Riesgo (Nowcasting) ---
+        # ------------------------------------------------------------------
+        # REGLA 4 — Persistencia Temporal
+        # Física: una tromba no aparece de la nada. El ambiente debe haber
+        # venido calentándose en ciclos previos (hora o ejecución anterior).
+        # Un pico único aislado casi siempre es ruido del modelo.
+        #
+        # Operación:
+        #   - Se lee el SWI de la EJECUCIÓN ANTERIOR desde estado_previo.json
+        #     (clave "swi"; la primera vez no existe → asumir -10).
+        #   - Si el SWI actual supera SWI_CAP_SIN_PERSISTENCIA (8.0) PERO
+        #     el SWI previo no superaba UMBRAL_SWI_PREVIO (2.0), el SWI
+        #     actual se techa en SWI_CAP_SIN_PERSISTENCIA.
+        #   - El SWI que se guarda en nuevo_estado es el SWI del nomograma
+        #     (pre-tormenta), para que la persistencia no se contamine con
+        #     las anulaciones de tormenta_activa.
+        #
+        # IMPORTANTE: el override de tormenta_activa se aplica DESPUÉS de
+        # este filtro. Una tormenta confirmada (WMO 95/96/99) es una
+        # observación real, no una predicción del modelo, y sí puede
+        # alcanzar nivel crítico sin persistencia previa.
+        # ------------------------------------------------------------------
+        swi_previo = float(estado_previo.get(ciudad, {}).get("swi", -10.0))
+        swi_actual = climas_actuales[ciudad]["swi"]
+
+        if swi_actual > SWI_CAP_SIN_PERSISTENCIA and swi_previo <= UMBRAL_SWI_PREVIO:
+            climas_actuales[ciudad]["swi"] = SWI_CAP_SIN_PERSISTENCIA
+            climas_actuales[ciudad]["filtros_swi"] = (
+                climas_actuales[ciudad].get("filtros_swi", []) +
+                [f"R4-persistencia:swi_prev={swi_previo:.1f}≤{UMBRAL_SWI_PREVIO}→cap{SWI_CAP_SIN_PERSISTENCIA}"]
+            )
+            # La misma clave en pronostico_ciudad (mismo objeto en memoria, pero
+            # escribir explícitamente por claridad y para la web)
+            pronostico_ciudad[idx_actual]["swi"] = SWI_CAP_SIN_PERSISTENCIA
+
+        # Guardar el SWI del nomograma (no el de tormenta) para el ciclo siguiente.
+        # Así la persistencia se basa en la condición atmosférica real, no en el override.
+        nuevo_estado[ciudad]["swi"] = climas_actuales[ciudad]["swi"]
+
+        # ------------------------------------------------------------------
+        # Override de Tormenta Activa (bypasa persistencia por ser observación real)
+        # ------------------------------------------------------------------
         if tormenta_activa:
             climas_actuales[ciudad]["riesgo"] = "critical"
-            # Mantener el SWI real del nomograma en "swi_nomograma" para la web,
-            # y usar "swi" como valor operativo que sí refleja la tormenta activa.
-            climas_actuales[ciudad]["swi_nomograma"] = climas_actuales[ciudad]["swi"]
             climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 10.0)
-            
-            # Asegurar explícitamente que el pronóstico general también se actualice (para la web)
             pronostico_ciudad[idx_actual]["riesgo"] = "critical"
             pronostico_ciudad[idx_actual]["swi"] = max(pronostico_ciudad[idx_actual]["swi"], 10.0)
 
-        # Registrar en el historial (bitácora) — ahora usa el SWI ya corregido
+        # Registrar en el historial (bitácora) — usa el SWI definitivo
         guardar_en_historial(ciudad, climas_actuales[ciudad]["swi"], climas_actuales[ciudad])
 
         resultados_completo[ciudad] = pronostico_ciudad
