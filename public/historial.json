@@ -478,5 +478,37 @@
     "longitud": -103.05,
     "swi": 10.0,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala",
+    "latitud": 20.245,
+    "longitud": -103.03,
+    "swi": 10.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala Profundo",
+    "latitud": 20.22,
+    "longitud": -103.08,
+    "swi": 10.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tuxcueca",
+    "latitud": 20.2,
+    "longitud": -103.18,
+    "swi": 10.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tizapán",
+    "latitud": 20.19,
+    "longitud": -103.05,
+    "swi": 10.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
