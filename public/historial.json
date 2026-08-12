@@ -1278,5 +1278,37 @@
     "longitud": -102.9,
     "swi": 1.9,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic)",
+    "latitud": 20.27,
+    "longitud": -103.25,
+    "swi": 1.9,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Norte (Chapala)",
+    "latitud": 20.27,
+    "longitud": -103.18,
+    "swi": 1.9,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Pedro Iztacán",
+    "latitud": 20.29,
+    "longitud": -102.955,
+    "swi": 1.9,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 1.9,
+    "clima_descripcion": "Desconocido"
   }
 ]
