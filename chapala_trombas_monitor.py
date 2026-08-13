@@ -393,11 +393,13 @@ def enviar_alerta_telegram(mensaje):
     try:
         response = requests.post(url, json=payload, timeout=10)
         if response.status_code != 200:
-            print(f"Error de Telegram: {response.status_code} - {response.text}")
+            error_texto = response.text.replace(TELEGRAM_TOKEN, "[TOKEN OCULTO]") if TELEGRAM_TOKEN else response.text
+            print(f"Error de Telegram: {response.status_code} - {error_texto}")
         else:
             print("Mensaje enviado a Telegram correctamente.")
     except Exception as e:
-        print(f"Error enviando notificación a Telegram: {e}")
+        error_msg = str(e).replace(TELEGRAM_TOKEN, "[TOKEN OCULTO]") if TELEGRAM_TOKEN else str(e)
+        print(f"Error enviando notificación a Telegram: {error_msg}")
 
 def procesar_hora(forecast, sst_marina, idx):
     """
