@@ -139,52 +139,65 @@ EPS = 0.622        # Rd/Rv
 # 2. DESCARGA DE DATOS (Open-Meteo)
 # ----------------------------------------------------------------------
 
-def descargar_datos(lat, lon):
-    """Descarga el pronóstico horario (perfil vertical + superficie) y,
-    como referencia cruzada, la SST de la Marine API."""
+def descargar_datos_batch(ciudades_dict):
+    """Descarga el pronóstico horario y la SST marina para TODAS las ciudades en lote."""
+    ciudades_lista = list(ciudades_dict.keys())
+    lats = ",".join(str(ciudades_dict[c]["lat"]) for c in ciudades_lista)
+    lons = ",".join(str(ciudades_dict[c]["lon"]) for c in ciudades_lista)
 
     params_forecast = {
-        "latitude": lat,
-        "longitude": lon,
+        "latitude": lats,
+        "longitude": lons,
         "current": "wind_speed_10m,surface_pressure,weather_code",
         # Regla 1: se añade relative_humidity_2m para el filtro de humedad.
         "minutely_15": "temperature_2m,dew_point_2m,relative_humidity_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
-        "forecast_days": 3, # Reducido a 3 días para evitar bloqueos por sobrecarga de datos
+        "forecast_days": 3,
     }
+    
     max_reintentos = 3
+    forecasts = None
     for intento in range(max_reintentos):
         try:
             r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=60, verify=False)
             r.raise_for_status()
-            forecast = r.json()
+            forecasts_raw = r.json()
+            # Open-Meteo retorna una lista si hay múltiples coordenadas, o un dict si es solo una.
+            forecasts = forecasts_raw if isinstance(forecasts_raw, list) else [forecasts_raw]
             break
         except requests.exceptions.RequestException as e:
             if intento < max_reintentos - 1:
-                print(f"Error descargando datos para lat={lat}, lon={lon}: {e}. Reintentando ({intento+1}/{max_reintentos})...")
+                print(f"Error descargando datos en lote (Forecast): {e}. Reintentando ({intento+1}/{max_reintentos})...")
                 time.sleep(5)
             else:
                 raise e
 
-    sst_marina = None
+    # Descarga Marina (Reference)
+    params_marine = {
+        "latitude": lats,
+        "longitude": lons,
+        "hourly": "sea_surface_temperature",
+        "timezone": ZONA_HORARIA,
+        "forecast_days": 3,
+    }
+    
+    marines = [None] * len(ciudades_dict)
     try:
-        params_marine = {
-            "latitude": lat,
-            "longitude": lon,
-            "hourly": "sea_surface_temperature",
-            "timezone": ZONA_HORARIA,
-            "forecast_days": 3,
-        }
         rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, timeout=60, verify=False)
         if rm.ok:
-            sst_marina = rm.json()
+            marines_raw = rm.json()
+            marines = marines_raw if isinstance(marines_raw, list) else [marines_raw]
     except requests.RequestException:
         pass  # la Marine API puede no tener cobertura en un lago interior
 
-    # Ser amables con la API gratuita para no saturar nuestro IP compartido en GitHub Actions
-    time.sleep(2)
-
-    return forecast, sst_marina
+    # Mapear de vuelta a un diccionario por nombre de ciudad
+    forecast_dict = {}
+    marine_dict = {}
+    for i, ciudad in enumerate(ciudades_lista):
+        forecast_dict[ciudad] = forecasts[i] if forecasts and i < len(forecasts) else None
+        marine_dict[ciudad] = marines[i] if marines and i < len(marines) else None
+        
+    return forecast_dict, marine_dict
 
 
 def indice_hora_actual(lista_tiempos_iso):
@@ -548,9 +561,16 @@ def generar_pronostico():
     nuevo_estado = {}
     alertas_nowcasting = []
 
+    print("[INFO] Descargando datos de Open-Meteo en lote...")
+    forecast_batch, marine_batch = descargar_datos_batch(CIUDADES)
+
     for ciudad, coords in CIUDADES.items():
-        forecast, sst_marina = descargar_datos(coords["lat"], coords["lon"])
+        forecast = forecast_batch.get(ciudad)
+        sst_marina = marine_batch.get(ciudad)
         
+        if not forecast:
+            print(f"[ERROR] No se pudo obtener forecast para {ciudad}")
+            continue
         # --- Lógica NOWCASTING ---
         current = forecast.get("current", {})
         wind_now = current.get("wind_speed_10m", 0)
