@@ -1990,5 +1990,13 @@
     "longitud": -102.9,
     "swi": 1.9,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 0.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
