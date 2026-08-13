@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect, useRef } from "react"
 import dynamic from "next/dynamic"
-import { Loader2, Layers, Calendar, Clock, AlertTriangle, ShieldAlert, CloudLightning, RadioTower, ExternalLink } from "lucide-react"
+import { Loader2, Layers, Calendar, Clock, AlertTriangle, ShieldAlert, CloudLightning, RadioTower, ExternalLink, CheckCircle } from "lucide-react"
 import { computeRisk, RISK_META } from "@/lib/swi"
 import { type PronosticoHora } from "@/lib/mock-data"
 import { HistoricalChart } from "./historical-chart"
@@ -166,6 +166,7 @@ export default function SwiDashboard() {
   // Nowcasting Modal State
   const [showReportModal, setShowReportModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | null; text: string }>({ type: null, text: '' });
   
   // Extraemos la lista de datos del primer punto (solo para el control del tiempo)
   const firstCityKey = Object.keys(CIUDADES_COORDS)[0];
@@ -325,6 +326,8 @@ export default function SwiDashboard() {
   const handleReportSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setStatusMessage({ type: null, text: '' });
+    
     const formData = new FormData(e.target as HTMLFormElement);
     const sector = formData.get("sector");
     const dangerLevel = formData.get("dangerLevel");
@@ -336,14 +339,20 @@ export default function SwiDashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sector, dangerLevel, description })
       });
+      
+      const data = await res.json();
+      
       if (res.ok) {
-        alert("¡Reporte enviado exitosamente! Gracias por tu colaboración.");
-        setShowReportModal(false);
+        setStatusMessage({ type: 'success', text: 'Reporte enviado con éxito. En espera de verificación oficial.' });
+        setTimeout(() => {
+          setShowReportModal(false);
+          setStatusMessage({ type: null, text: '' });
+        }, 5000);
       } else {
-        alert("Error al enviar el reporte. Intenta nuevamente.");
+        throw new Error(data.error || 'Error al enviar el reporte');
       }
     } catch (err) {
-      alert("Error de conexión.");
+      setStatusMessage({ type: 'error', text: err instanceof Error ? err.message : 'Error de conexión' });
     } finally {
       setIsSubmitting(false);
     }
@@ -585,40 +594,66 @@ export default function SwiDashboard() {
 
     {showReportModal && (
       <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-        <div className="bg-card w-full max-w-md rounded-2xl border border-red-500/30 shadow-2xl overflow-hidden flex flex-col">
-          <div className="p-4 border-b border-border bg-red-500/10 flex items-center justify-between">
-            <h2 className="text-lg font-bold text-red-500 flex items-center gap-2">
-              ⚠️ Reporte Ciudadano
+        <div className="bg-zinc-900 w-full max-w-md rounded-2xl border border-zinc-800 shadow-2xl overflow-hidden flex flex-col relative">
+          <button onClick={() => setShowReportModal(false)} className="absolute top-4 right-4 text-zinc-400 hover:text-white">✕</button>
+          
+          <div className="p-6 pb-2">
+            <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-2">
+              <AlertTriangle className="w-5 h-5 text-red-500" />
+              Reportar Tromba Marina
             </h2>
-            <button onClick={() => setShowReportModal(false)} className="text-muted-foreground hover:text-foreground w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted">✕</button>
+            <p className="text-zinc-400 text-sm">
+              Si observas actividad de trombas marinas (waterspouts) en el lago, por favor compártenos la ubicación. Esto ayuda a la comunidad.
+            </p>
           </div>
-          <form onSubmit={handleReportSubmit} className="p-5 flex flex-col gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1.5 text-foreground">Sector del Avistamiento</label>
-              <select name="sector" required className="w-full p-2.5 rounded-lg bg-background border border-border text-sm text-foreground focus:ring-2 focus:ring-red-500/50 outline-none transition-all">
-                <option value="">Selecciona una zona...</option>
-                {Object.keys(CIUDADES_COORDS).map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1.5 text-foreground">Nivel de Peligro</label>
-              <select name="dangerLevel" required className="w-full p-2.5 rounded-lg bg-background border border-border text-sm text-foreground focus:ring-2 focus:ring-red-500/50 outline-none transition-all">
-                <option value="Tromba Observada (Tocando agua)">Tromba Observada (Tocando agua)</option>
-                <option value="Nube Embudo (En el aire)">Nube Embudo (En el aire)</option>
-                <option value="Nubes Oscuras de Rotación">Nubes Oscuras de Rotación</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1.5 text-foreground">Observaciones Breves</label>
-              <input name="description" type="text" placeholder="Ej: Se mueve hacia Mezcala, viento muy fuerte" className="w-full p-2.5 rounded-lg bg-background border border-border text-sm text-foreground focus:ring-2 focus:ring-red-500/50 outline-none transition-all" />
-            </div>
-            <div className="mt-4 flex gap-3">
-              <button type="button" onClick={() => setShowReportModal(false)} className="flex-1 p-2.5 rounded-lg border border-border bg-background hover:bg-muted text-sm font-medium transition-colors">Cancelar</button>
-              <button type="submit" disabled={isSubmitting} className="flex-1 p-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold disabled:opacity-50 flex justify-center items-center shadow-lg shadow-red-500/20 transition-all">
-                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Enviar Alerta Inmediata"}
-              </button>
-            </div>
-          </form>
+
+          <div className="p-6 pt-4">
+            {statusMessage.type === 'success' ? (
+              <div className="bg-green-500/10 border border-green-500/20 text-green-400 p-4 rounded-xl flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                <p className="text-sm font-medium">{statusMessage.text}</p>
+              </div>
+            ) : (
+              <form onSubmit={handleReportSubmit} className="flex flex-col gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1.5 text-zinc-300">Sector del Avistamiento *</label>
+                  <select name="sector" required className="w-full p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:ring-2 focus:ring-red-500/50 outline-none transition-all">
+                    <option value="">Selecciona una zona...</option>
+                    {Object.keys(CIUDADES_COORDS).map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1.5 text-zinc-300">Nivel de Peligro Percibido</label>
+                  <select name="dangerLevel" required className="w-full p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:ring-2 focus:ring-red-500/50 outline-none transition-all">
+                    <option value="bajo">Bajo (Lejos en el agua)</option>
+                    <option value="moderado">Moderado (Se mueve, pero lejos)</option>
+                    <option value="alto">Alto (Cerca de la costa/embarcaciones)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1.5 text-zinc-300">Observaciones (Opcional)</label>
+                  <input name="description" type="text" maxLength={150} placeholder="Ej. Se mueve hacia Mezcala..." className="w-full p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:ring-2 focus:ring-red-500/50 outline-none transition-all" />
+                </div>
+                
+                {statusMessage.type === 'error' && (
+                  <div className="text-red-400 text-sm p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                    {statusMessage.text}
+                  </div>
+                )}
+                
+                <div className="mt-2">
+                  <button type="submit" disabled={isSubmitting} className="w-full p-3 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-bold disabled:opacity-50 flex justify-center items-center transition-all">
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Enviando...
+                      </>
+                    ) : "Enviar Alerta Inmediata"}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       </div>
     )}
