@@ -637,8 +637,8 @@ def generar_pronostico():
         # Override de Tormenta Activa (bypasa persistencia por ser observación real)
         # ------------------------------------------------------------------
         if tormenta_activa:
+            # El riesgo se eleva a 'critical' por la presencia de la tormenta
             climas_actuales[ciudad]["riesgo"] = "critical"
-            climas_actuales[ciudad]["swi"] = max(climas_actuales[ciudad]["swi"], 10.0)
             
             # Sincronización forzada (JSON Array): Sobrescribir una ventana de +-2 intervalos 
             # (1 hora) alrededor del índice actual. Esto garantiza que la observación 
@@ -648,7 +648,16 @@ def generar_pronostico():
                 idx_sync = idx_actual + offset
                 if 0 <= idx_sync < len(pronostico_ciudad):
                     pronostico_ciudad[idx_sync]["riesgo"] = "critical"
-                    pronostico_ciudad[idx_sync]["swi"] = max(pronostico_ciudad[idx_sync]["swi"], 10.0)
+                    
+                    # Regla de 'Piso de Riesgo': 
+                    # El SWI no salta a 10 de golpe, tiene una base de 7.5
+                    if pronostico_ciudad[idx_sync]["swi"] < 7.5:
+                        pronostico_ciudad[idx_sync]["swi"] = 7.5
+                        # Registrar en filtros
+                        if "filtros_swi" not in pronostico_ciudad[idx_sync]:
+                            pronostico_ciudad[idx_sync]["filtros_swi"] = []
+                        if "R4-Tormenta: base 7.5" not in pronostico_ciudad[idx_sync]["filtros_swi"]:
+                            pronostico_ciudad[idx_sync]["filtros_swi"].append("R4-Tormenta: base 7.5")
 
         # Registrar en el historial (bitácora) — usa el SWI definitivo
         guardar_en_historial(ciudad, climas_actuales[ciudad]["swi"], climas_actuales[ciudad])
