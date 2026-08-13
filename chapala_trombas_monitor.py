@@ -153,7 +153,6 @@ def descargar_datos_batch(ciudades_dict):
         "minutely_15": "temperature_2m,dew_point_2m,relative_humidity_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
         "forecast_days": 3,
-        "past_days": 3,
     }
     
     max_reintentos = 3
@@ -180,7 +179,6 @@ def descargar_datos_batch(ciudades_dict):
         "hourly": "sea_surface_temperature",
         "timezone": ZONA_HORARIA,
         "forecast_days": 3,
-        "past_days": 3,
     }
     
     marines = [None] * len(ciudades_dict)
@@ -553,6 +551,55 @@ def guardar_estado_actual(estado):
     with open("public/estado_previo.json", "w", encoding="utf-8") as f:
         json.dump(estado, f, ensure_ascii=False, indent=2)
 
+def actualizar_historial_local(datos_actuales):
+    """
+    Mantiene una base de datos local (caja negra) del estado actual del lago,
+    conservando únicamente los últimos 7 días de registros reales para no perder
+    las anomalías transitorias (ej. celdas de tormenta activas).
+    """
+    if not datos_actuales:
+        return
+
+    archivo = "public/historial_trombas.json"
+    historial = {}
+    
+    if os.path.exists(archivo):
+        try:
+            with open(archivo, "r", encoding="utf-8") as f:
+                historial = json.load(f)
+        except Exception as e:
+            print(f"[WARNING] No se pudo leer historial previo, se creará uno nuevo: {e}")
+            
+    # Obtener el timestamp del momento actual desde la primera ciudad
+    primer_ciudad = list(datos_actuales.values())[0]
+    timestamp = primer_ciudad.get("hora_local")
+    
+    if not timestamp:
+        return
+        
+    historial[timestamp] = datos_actuales
+    
+    # Limpieza de datos antiguos (> 7 días)
+    try:
+        ahora = datetime.now(ZoneInfo(ZONA_HORARIA))
+        claves_a_borrar = []
+        for ts in historial.keys():
+            dt = datetime.fromisoformat(ts).replace(tzinfo=ZoneInfo(ZONA_HORARIA))
+            if (ahora - dt).days > 7:
+                claves_a_borrar.append(ts)
+        
+        for k in claves_a_borrar:
+            del historial[k]
+    except Exception as e:
+        print(f"[WARNING] Error al purgar historial antiguo: {e}")
+
+    os.makedirs("public", exist_ok=True)
+    try:
+        with open(archivo, "w", encoding="utf-8") as f:
+            json.dump(historial, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[ERROR] No se pudo escribir historial local: {e}")
+
 def generar_pronostico():
     """Genera el reporte actual y busca ventanas de riesgo en los próximos 3 días."""
     resultados_completo = {}
@@ -719,6 +766,10 @@ if __name__ == "__main__":
         with open(filepath_actual, "w", encoding="utf-8") as f:
             json.dump(climas_actuales, f, ensure_ascii=False, indent=2)
         print("[INFO] Archivo public/estado_actual.json generado con éxito.")
+        
+        # Caja Negra: Guardar el historial local persistente
+        actualizar_historial_local(climas_actuales)
+        print("[INFO] Caja Negra (historial_trombas.json) actualizada con éxito.")
 
     except Exception as e:
         print(f"[ERROR] No se pudo guardar el JSON: {e}")
