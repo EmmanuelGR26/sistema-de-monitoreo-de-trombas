@@ -159,7 +159,7 @@ def descargar_datos_batch(ciudades_dict):
     forecasts = None
     for intento in range(max_reintentos):
         try:
-            r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=60, verify=False)
+            r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=60)
             r.raise_for_status()
             forecasts_raw = r.json()
             # Open-Meteo retorna una lista si hay múltiples coordenadas, o un dict si es solo una.
@@ -183,7 +183,7 @@ def descargar_datos_batch(ciudades_dict):
     
     marines = [None] * len(ciudades_dict)
     try:
-        rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, timeout=60, verify=False)
+        rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, timeout=60)
         if rm.ok:
             marines_raw = rm.json()
             marines = marines_raw if isinstance(marines_raw, list) else [marines_raw]
