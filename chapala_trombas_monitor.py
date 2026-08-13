@@ -153,6 +153,7 @@ def descargar_datos_batch(ciudades_dict):
         "minutely_15": "temperature_2m,dew_point_2m,relative_humidity_2m,surface_pressure,soil_temperature_0cm,wind_speed_10m,temperature_1000hPa,geopotential_height_1000hPa,temperature_950hPa,geopotential_height_950hPa,temperature_925hPa,geopotential_height_925hPa,temperature_900hPa,geopotential_height_900hPa,temperature_850hPa,geopotential_height_850hPa,temperature_800hPa,geopotential_height_800hPa,temperature_700hPa,geopotential_height_700hPa,temperature_600hPa,geopotential_height_600hPa,temperature_500hPa,geopotential_height_500hPa,temperature_400hPa,geopotential_height_400hPa,temperature_300hPa,geopotential_height_300hPa",
         "timezone": ZONA_HORARIA,
         "forecast_days": 3,
+        "past_days": 3,
     }
     
     max_reintentos = 3
@@ -179,6 +180,7 @@ def descargar_datos_batch(ciudades_dict):
         "hourly": "sea_surface_temperature",
         "timezone": ZONA_HORARIA,
         "forecast_days": 3,
+        "past_days": 3,
     }
     
     marines = [None] * len(ciudades_dict)
