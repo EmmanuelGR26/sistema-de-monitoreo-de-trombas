@@ -3406,5 +3406,45 @@
     "longitud": -102.8,
     "swi": 8.6,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Isla de Mezcala",
+    "latitud": 20.29,
+    "longitud": -103.023,
+    "swi": 0.4,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Pedro Iztacán",
+    "latitud": 20.29,
+    "longitud": -102.955,
+    "swi": 2.3,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay",
+    "latitud": 20.28,
+    "longitud": -102.75,
+    "swi": 0.1,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Ocotlán",
+    "latitud": 20.29,
+    "longitud": -102.73,
+    "swi": 0.1,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay Frente",
+    "latitud": 20.26,
+    "longitud": -102.8,
+    "swi": 0.1,
+    "clima_descripcion": "Desconocido"
   }
 ]
