@@ -6614,5 +6614,45 @@
     "longitud": -102.8,
     "swi": 1.9,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala Profundo",
+    "latitud": 20.22,
+    "longitud": -103.08,
+    "swi": 1.2,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay",
+    "latitud": 20.28,
+    "longitud": -102.75,
+    "swi": 1.7,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Ocotlán",
+    "latitud": 20.29,
+    "longitud": -102.73,
+    "swi": 1.7,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay Frente",
+    "latitud": 20.26,
+    "longitud": -102.8,
+    "swi": 1.7,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tizapán",
+    "latitud": 20.19,
+    "longitud": -103.05,
+    "swi": 1.2,
+    "clima_descripcion": "Desconocido"
   }
 ]
