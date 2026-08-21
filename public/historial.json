@@ -10038,5 +10038,29 @@
     "longitud": -102.83,
     "swi": 7.5,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic)",
+    "latitud": 20.27,
+    "longitud": -103.25,
+    "swi": 0.4,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Norte (Chapala)",
+    "latitud": 20.27,
+    "longitud": -103.18,
+    "swi": 0.4,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Cojumatlán",
+    "latitud": 20.15,
+    "longitud": -102.83,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
