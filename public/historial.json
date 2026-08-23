@@ -13310,5 +13310,21 @@
     "longitud": -102.9,
     "swi": 7.5,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Isla de Mezcala",
+    "latitud": 20.29,
+    "longitud": -103.023,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Pedro Iztacán",
+    "latitud": 20.29,
+    "longitud": -102.955,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
