@@ -14006,5 +14006,21 @@
     "longitud": -102.8,
     "swi": 0.5,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic Profundo)",
+    "latitud": 20.24,
+    "longitud": -103.25,
+    "swi": 0.8,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Luis Soyatlán",
+    "latitud": 20.2167,
+    "longitud": -103.2958,
+    "swi": 0.8,
+    "clima_descripcion": "Desconocido"
   }
 ]
