@@ -14726,5 +14726,13 @@
     "longitud": -102.95,
     "swi": 7.5,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Cojumatlán",
+    "latitud": 20.15,
+    "longitud": -102.83,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
