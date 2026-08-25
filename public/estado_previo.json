@@ -3,13 +3,13 @@
     "presion": 856.4,
     "viento": 6.9,
     "time": "2026-08-24T22:15",
-    "swi": -7.7
+    "swi": -7.5
   },
   "Oeste (S.J. Cosalá)": {
     "presion": 856.4,
     "viento": 6.9,
     "time": "2026-08-24T22:15",
-    "swi": -8.0
+    "swi": -7.9
   },
   "Oeste-Centro (Ajijic)": {
     "presion": 856.0,
@@ -21,13 +21,13 @@
     "presion": 856.4,
     "viento": 6.9,
     "time": "2026-08-24T22:15",
-    "swi": -7.9
+    "swi": -7.6
   },
   "San Cristóbal": {
     "presion": 856.4,
     "viento": 6.9,
     "time": "2026-08-24T22:15",
-    "swi": -7.7
+    "swi": -7.5
   },
   "Norte (Chapala)": {
     "presion": 856.0,
@@ -69,19 +69,19 @@
     "presion": 856.1,
     "viento": 9.3,
     "time": "2026-08-24T22:15",
-    "swi": 1.1
+    "swi": 1.2
   },
   "Ocotlán": {
     "presion": 856.1,
     "viento": 9.3,
     "time": "2026-08-24T22:15",
-    "swi": 1.1
+    "swi": 1.2
   },
   "Jamay Frente": {
     "presion": 856.1,
     "viento": 9.3,
     "time": "2026-08-24T22:15",
-    "swi": 1.1
+    "swi": 1.2
   },
   "Centro-Este": {
     "presion": 855.5,
@@ -99,7 +99,7 @@
     "presion": 856.4,
     "viento": 6.9,
     "time": "2026-08-24T22:15",
-    "swi": -7.9
+    "swi": -7.6
   },
   "Tizapán": {
     "presion": 856.0,
@@ -111,12 +111,12 @@
     "presion": 856.0,
     "viento": 2.7,
     "time": "2026-08-24T22:15",
-    "swi": -6.5
+    "swi": -6.6
   },
   "Costa Palo Alto - Zapata": {
     "presion": 856.0,
     "viento": 2.2,
     "time": "2026-08-24T22:15",
-    "swi": -8.0
+    "swi": -8.1
   }
 }
