@@ -14998,5 +14998,45 @@
     "longitud": -102.95,
     "swi": 7.5,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste (Jocotepec)",
+    "latitud": 20.27,
+    "longitud": -103.35,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste (S.J. Cosalá)",
+    "latitud": 20.26,
+    "longitud": -103.3,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic Profundo)",
+    "latitud": 20.24,
+    "longitud": -103.25,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Cristóbal",
+    "latitud": 20.2368,
+    "longitud": -103.3603,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Luis Soyatlán",
+    "latitud": 20.2167,
+    "longitud": -103.2958,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
