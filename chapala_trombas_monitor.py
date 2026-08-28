@@ -48,6 +48,7 @@ import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import time
+import random
 
 import requests
 
@@ -155,11 +156,12 @@ def descargar_datos_batch(ciudades_dict):
         "forecast_days": 3,
     }
     
-    max_reintentos = 3
+    headers = {"User-Agent": "ChapalaTrombasMonitor/2.0 (GitHub Actions - Libre Open Source)"}
+    max_reintentos = 5
     forecasts = None
     for intento in range(max_reintentos):
         try:
-            r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, timeout=60)
+            r = requests.get("https://api.open-meteo.com/v1/forecast", params=params_forecast, headers=headers, timeout=60)
             r.raise_for_status()
             forecasts_raw = r.json()
             # Open-Meteo retorna una lista si hay múltiples coordenadas, o un dict si es solo una.
@@ -167,8 +169,10 @@ def descargar_datos_batch(ciudades_dict):
             break
         except requests.exceptions.RequestException as e:
             if intento < max_reintentos - 1:
-                print(f"Error descargando datos en lote (Forecast): {e}. Reintentando ({intento+1}/{max_reintentos})...")
-                time.sleep(5)
+                is_429 = hasattr(e, 'response') and e.response is not None and e.response.status_code == 429
+                delay = (10 * (2 ** intento)) + random.randint(1, 15) if is_429 else 5
+                print(f"Error descargando datos en lote (Forecast): {e}. Reintentando ({intento+1}/{max_reintentos}) en {delay}s...")
+                time.sleep(delay)
             else:
                 raise e
 
@@ -182,13 +186,23 @@ def descargar_datos_batch(ciudades_dict):
     }
     
     marines = [None] * len(ciudades_dict)
-    try:
-        rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, timeout=60)
-        if rm.ok:
-            marines_raw = rm.json()
-            marines = marines_raw if isinstance(marines_raw, list) else [marines_raw]
-    except requests.RequestException:
-        pass  # la Marine API puede no tener cobertura en un lago interior
+    for intento in range(3):
+        try:
+            rm = requests.get("https://marine-api.open-meteo.com/v1/marine", params=params_marine, headers=headers, timeout=60)
+            if rm.ok:
+                marines_raw = rm.json()
+                marines = marines_raw if isinstance(marines_raw, list) else [marines_raw]
+                break
+            elif rm.status_code == 429:
+                if intento < 2:
+                    time.sleep(10 + random.randint(1, 10))
+                else:
+                    break
+        except requests.RequestException:
+            if intento < 2:
+                time.sleep(5)
+            else:
+                pass  # la Marine API puede no tener cobertura en un lago interior
 
     # Mapear de vuelta a un diccionario por nombre de ciudad
     forecast_dict = {}
