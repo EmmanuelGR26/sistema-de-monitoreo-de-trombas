@@ -15534,5 +15534,77 @@
     "longitud": -102.83,
     "swi": 0.0,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic)",
+    "latitud": 20.27,
+    "longitud": -103.25,
+    "swi": 3.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Norte (Chapala)",
+    "latitud": 20.27,
+    "longitud": -103.18,
+    "swi": 3.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro (Norte Chapala Profundo)",
+    "latitud": 20.25,
+    "longitud": -103.15,
+    "swi": 2.4,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Isla de Mezcala",
+    "latitud": 20.29,
+    "longitud": -103.023,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Pedro Iztacán",
+    "latitud": 20.29,
+    "longitud": -102.955,
+    "swi": 3.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay",
+    "latitud": 20.28,
+    "longitud": -102.75,
+    "swi": 1.2,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Ocotlán",
+    "latitud": 20.29,
+    "longitud": -102.73,
+    "swi": 1.2,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay Frente",
+    "latitud": 20.26,
+    "longitud": -102.8,
+    "swi": 1.2,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 3.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
