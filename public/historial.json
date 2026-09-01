@@ -15926,5 +15926,37 @@
     "longitud": -102.83,
     "swi": 7.5,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala",
+    "latitud": 20.245,
+    "longitud": -103.03,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala Profundo",
+    "latitud": 20.22,
+    "longitud": -103.08,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tizapán",
+    "latitud": 20.19,
+    "longitud": -103.05,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
