@@ -782,6 +782,12 @@ def generar_pronostico():
 if __name__ == "__main__":
     climas_actuales, alertas_globales, pronostico_completo = generar_pronostico()
     
+    if not climas_actuales:
+        print("[WARNING] No se recuperó ningún dato de la API. Abortando procesamiento de alertas para evitar IndexError.")
+        enviar_alerta_telegram("⚠️ *Servicio Degradado Temporalmente*\n\nFalla en la infraestructura de Open-Meteo. Los datos no pudieron ser descargados. El sistema intentará recuperarse en el próximo ciclo de monitoreo.")
+        import sys
+        sys.exit(0) # Salida limpia para que GitHub Actions termine en verde
+        
     # --- GUARDAR DATOS PARA LA WEB ---
     try:
         os.makedirs("public", exist_ok=True)
