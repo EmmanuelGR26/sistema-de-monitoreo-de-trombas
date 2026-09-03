@@ -1,8 +1,8 @@
 name: Actualizar Pronóstico de Trombas
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'
+  repository_dispatch:
+    types: [activar_radar]
   workflow_dispatch:
 
 permissions:
