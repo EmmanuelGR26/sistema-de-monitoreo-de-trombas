@@ -19462,5 +19462,29 @@
     "longitud": -102.8,
     "swi": 0.4,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay",
+    "latitud": 20.28,
+    "longitud": -102.75,
+    "swi": 0.8,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Ocotlán",
+    "latitud": 20.29,
+    "longitud": -102.73,
+    "swi": 0.8,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay Frente",
+    "latitud": 20.26,
+    "longitud": -102.8,
+    "swi": 0.8,
+    "clima_descripcion": "Desconocido"
   }
 ]
