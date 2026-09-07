@@ -1,6 +1,6 @@
 {
   "Oeste (Jocotepec)": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 18.4,
     "t850_c": 19.9,
     "choque_termico_c": -1.5,
@@ -13,10 +13,10 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 2.9
+    "wind_speed_10m": 1.7
   },
   "Oeste (S.J. Cosalá)": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 18.4,
     "t850_c": 20.0,
     "choque_termico_c": -1.6,
@@ -29,26 +29,26 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 2.9
+    "wind_speed_10m": 1.7
   },
   "Oeste-Centro (Ajijic)": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 17.1,
     "t850_c": 20.0,
     "choque_termico_c": -2.9,
-    "lcl_msnm_m": 1712.0,
+    "lcl_msnm_m": 1686.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
-    "humedad_2m_pct": 91,
+    "humedad_2m_pct": 92,
     "swi_nomograma": -8.1,
     "swi": -8.1,
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 2.2
+    "wind_speed_10m": 2.9
   },
   "Oeste-Centro (Ajijic Profundo)": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 18.4,
     "t850_c": 20.9,
     "choque_termico_c": -2.5,
@@ -61,10 +61,10 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 2.9
+    "wind_speed_10m": 1.7
   },
   "San Cristóbal": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 18.4,
     "t850_c": 19.9,
     "choque_termico_c": -1.5,
@@ -77,58 +77,58 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 2.9
+    "wind_speed_10m": 1.7
   },
   "Norte (Chapala)": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 17.1,
     "t850_c": 20.0,
     "choque_termico_c": -2.9,
-    "lcl_msnm_m": 1712.0,
+    "lcl_msnm_m": 1686.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
-    "humedad_2m_pct": 91,
+    "humedad_2m_pct": 92,
     "swi_nomograma": -8.1,
     "swi": -8.1,
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 2.2
+    "wind_speed_10m": 2.9
   },
   "Centro (Norte Chapala Profundo)": {
-    "hora_local": "2026-09-07T02:45",
-    "sst_lago_c": 17.9,
+    "hora_local": "2026-09-07T03:00",
+    "sst_lago_c": 18.0,
     "t850_c": 20.0,
-    "choque_termico_c": -2.1,
-    "lcl_msnm_m": 1624.0,
+    "choque_termico_c": -2.0,
+    "lcl_msnm_m": 1599.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
-    "humedad_2m_pct": 95,
+    "humedad_2m_pct": 97,
     "swi_nomograma": -8.1,
     "swi": -8.1,
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 9.2
+    "wind_speed_10m": 10.3
   },
   "Isla de Mezcala": {
-    "hora_local": "2026-09-07T02:45",
-    "sst_lago_c": 18.8,
+    "hora_local": "2026-09-07T03:00",
+    "sst_lago_c": 18.9,
     "t850_c": 20.4,
-    "choque_termico_c": -1.6,
+    "choque_termico_c": -1.5,
     "lcl_msnm_m": 1599.0,
-    "el_msnm_m": 9499.0,
-    "profundidad_convectiva_ft": 25919.0,
+    "el_msnm_m": 8799.0,
+    "profundidad_convectiva_ft": 23622.0,
     "humedad_2m_pct": 96,
     "swi_nomograma": 0.0,
     "swi": 0.0,
     "riesgo": "ALTO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 13.6
+    "wind_speed_10m": 16.1
   },
   "Mezcala": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 17.3,
     "t850_c": 20.4,
     "choque_termico_c": -3.1,
@@ -141,104 +141,102 @@
     "riesgo": "ALTO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 8.5
+    "wind_speed_10m": 10.0
   },
   "Mezcala Profundo": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 17.3,
     "t850_c": 20.9,
     "choque_termico_c": -3.6,
     "lcl_msnm_m": 1649.0,
-    "el_msnm_m": 7449.0,
-    "profundidad_convectiva_ft": 19029.0,
+    "el_msnm_m": 7499.0,
+    "profundidad_convectiva_ft": 19193.0,
     "humedad_2m_pct": 94,
     "swi_nomograma": 0.0,
     "swi": 0.0,
     "riesgo": "ALTO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 8.5
+    "wind_speed_10m": 10.0
   },
   "San Pedro Iztacán": {
-    "hora_local": "2026-09-07T02:45",
-    "sst_lago_c": 17.6,
+    "hora_local": "2026-09-07T03:00",
+    "sst_lago_c": 17.3,
     "t850_c": 20.4,
-    "choque_termico_c": -2.8,
-    "lcl_msnm_m": 1574.0,
-    "el_msnm_m": 9324.0,
-    "profundidad_convectiva_ft": 25427.0,
-    "humedad_2m_pct": 97,
+    "choque_termico_c": -3.1,
+    "lcl_msnm_m": 1562.0,
+    "el_msnm_m": 7012.0,
+    "profundidad_convectiva_ft": 17881.0,
+    "humedad_2m_pct": 98,
     "swi_nomograma": 0.0,
-    "swi": 7.5,
-    "riesgo": "critical",
-    "filtros_swi": [
-      "R4-Tormenta: base 7.5"
-    ],
+    "swi": 0.0,
+    "riesgo": "ALTO",
+    "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 13.2
+    "wind_speed_10m": 15.8
   },
   "Jamay": {
-    "hora_local": "2026-09-07T02:45",
-    "sst_lago_c": 26.0,
+    "hora_local": "2026-09-07T03:00",
+    "sst_lago_c": 25.9,
     "t850_c": 19.3,
-    "choque_termico_c": 6.7,
-    "lcl_msnm_m": 1649.0,
+    "choque_termico_c": 6.6,
+    "lcl_msnm_m": 1674.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
-    "humedad_2m_pct": 94,
-    "swi_nomograma": 0.6,
+    "humedad_2m_pct": 93,
+    "swi_nomograma": 0.5,
     "swi": 7.5,
     "riesgo": "critical",
     "filtros_swi": [
       "R4-Tormenta: base 7.5"
     ],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 11.2
+    "wind_speed_10m": 9.7
   },
   "Ocotlán": {
-    "hora_local": "2026-09-07T02:45",
-    "sst_lago_c": 26.0,
+    "hora_local": "2026-09-07T03:00",
+    "sst_lago_c": 25.9,
     "t850_c": 19.3,
-    "choque_termico_c": 6.7,
-    "lcl_msnm_m": 1649.0,
+    "choque_termico_c": 6.6,
+    "lcl_msnm_m": 1674.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
-    "humedad_2m_pct": 94,
-    "swi_nomograma": 0.6,
+    "humedad_2m_pct": 93,
+    "swi_nomograma": 0.5,
     "swi": 7.5,
     "riesgo": "critical",
     "filtros_swi": [
       "R4-Tormenta: base 7.5"
     ],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 11.2
+    "wind_speed_10m": 9.7
   },
   "Jamay Frente": {
-    "hora_local": "2026-09-07T02:45",
-    "sst_lago_c": 26.0,
+    "hora_local": "2026-09-07T03:00",
+    "sst_lago_c": 25.9,
     "t850_c": 19.3,
-    "choque_termico_c": 6.7,
-    "lcl_msnm_m": 1649.0,
+    "choque_termico_c": 6.6,
+    "lcl_msnm_m": 1674.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
-    "humedad_2m_pct": 94,
-    "swi_nomograma": 0.6,
+    "humedad_2m_pct": 93,
+    "swi_nomograma": 0.5,
     "swi": 7.5,
     "riesgo": "critical",
     "filtros_swi": [
       "R4-Tormenta: base 7.5"
     ],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 11.2
+    "wind_speed_10m": 9.7
   },
   "Centro-Este": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 16.7,
     "t850_c": 20.4,
     "choque_termico_c": -3.7,
     "lcl_msnm_m": 1562.0,
-    "el_msnm_m": 7362.0,
-    "profundidad_convectiva_ft": 19029.0,
+    "el_msnm_m": 7012.0,
+    "profundidad_convectiva_ft": 17881.0,
     "humedad_2m_pct": 98,
     "swi_nomograma": 0.0,
     "swi": 7.5,
@@ -247,10 +245,10 @@
       "R4-Tormenta: base 7.5"
     ],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 9.4
+    "wind_speed_10m": 9.7
   },
   "Tuxcueca": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 18.6,
     "t850_c": 20.9,
     "choque_termico_c": -2.3,
@@ -263,10 +261,10 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 5.3
+    "wind_speed_10m": 5.0
   },
   "San Luis Soyatlán": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 18.4,
     "t850_c": 20.9,
     "choque_termico_c": -2.5,
@@ -279,56 +277,56 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 2.9
+    "wind_speed_10m": 1.7
   },
   "Tizapán": {
-    "hora_local": "2026-09-07T02:45",
+    "hora_local": "2026-09-07T03:00",
     "sst_lago_c": 17.3,
     "t850_c": 20.9,
     "choque_termico_c": -3.6,
     "lcl_msnm_m": 1649.0,
-    "el_msnm_m": 7449.0,
-    "profundidad_convectiva_ft": 19029.0,
+    "el_msnm_m": 7499.0,
+    "profundidad_convectiva_ft": 19193.0,
     "humedad_2m_pct": 94,
     "swi_nomograma": 0.0,
     "swi": 0.0,
     "riesgo": "ALTO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 8.5
+    "wind_speed_10m": 10.0
   },
   "Cojumatlán": {
-    "hora_local": "2026-09-07T02:45",
-    "sst_lago_c": 20.1,
+    "hora_local": "2026-09-07T03:00",
+    "sst_lago_c": 20.0,
     "t850_c": 20.4,
-    "choque_termico_c": -0.3,
-    "lcl_msnm_m": 1524.0,
+    "choque_termico_c": -0.4,
+    "lcl_msnm_m": 1549.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
-    "humedad_2m_pct": 100,
-    "swi_nomograma": -6.4,
+    "humedad_2m_pct": 99,
+    "swi_nomograma": -6.5,
     "swi": 7.5,
     "riesgo": "critical",
     "filtros_swi": [
       "R4-Tormenta: base 7.5"
     ],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 8.7
+    "wind_speed_10m": 9.3
   },
   "Costa Palo Alto - Zapata": {
-    "hora_local": "2026-09-07T02:45",
-    "sst_lago_c": 18.2,
+    "hora_local": "2026-09-07T03:00",
+    "sst_lago_c": 18.1,
     "t850_c": 20.9,
-    "choque_termico_c": -2.7,
-    "lcl_msnm_m": 1561.0,
-    "el_msnm_m": null,
-    "profundidad_convectiva_ft": 0.0,
-    "humedad_2m_pct": 98,
-    "swi_nomograma": -8.1,
-    "swi": -8.1,
-    "riesgo": "BAJO",
+    "choque_termico_c": -2.8,
+    "lcl_msnm_m": 1536.0,
+    "el_msnm_m": 9686.0,
+    "profundidad_convectiva_ft": 26739.0,
+    "humedad_2m_pct": 99,
+    "swi_nomograma": 0.0,
+    "swi": 0.0,
+    "riesgo": "ALTO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 13.4
+    "wind_speed_10m": 16.2
   }
 }
