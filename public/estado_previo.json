@@ -1,122 +1,122 @@
 {
   "Oeste (Jocotepec)": {
-    "presion": 854.9,
-    "viento": 9.7,
-    "time": "2026-09-07T10:15",
-    "swi": -3.0
+    "presion": 855.0,
+    "viento": 10.1,
+    "time": "2026-09-07T10:30",
+    "swi": -2.7
   },
   "Oeste (S.J. Cosalá)": {
-    "presion": 854.9,
-    "viento": 9.7,
-    "time": "2026-09-07T10:15",
-    "swi": -3.1
+    "presion": 855.0,
+    "viento": 10.1,
+    "time": "2026-09-07T10:30",
+    "swi": -3.0
   },
   "Oeste-Centro (Ajijic)": {
-    "presion": 855.7,
+    "presion": 855.8,
     "viento": 7.2,
-    "time": "2026-09-07T10:15",
+    "time": "2026-09-07T10:30",
     "swi": 1.9
   },
   "Oeste-Centro (Ajijic Profundo)": {
-    "presion": 854.9,
-    "viento": 9.7,
-    "time": "2026-09-07T10:15",
-    "swi": -2.9
+    "presion": 855.0,
+    "viento": 10.1,
+    "time": "2026-09-07T10:30",
+    "swi": -2.5
   },
   "San Cristóbal": {
-    "presion": 854.9,
-    "viento": 9.7,
-    "time": "2026-09-07T10:15",
-    "swi": -3.0
+    "presion": 855.0,
+    "viento": 10.1,
+    "time": "2026-09-07T10:30",
+    "swi": -2.7
   },
   "Norte (Chapala)": {
-    "presion": 855.7,
+    "presion": 855.8,
     "viento": 7.2,
-    "time": "2026-09-07T10:15",
+    "time": "2026-09-07T10:30",
     "swi": 1.9
   },
   "Centro (Norte Chapala Profundo)": {
     "presion": 855.2,
-    "viento": 6.2,
-    "time": "2026-09-07T10:15",
-    "swi": -0.0
+    "viento": 6.6,
+    "time": "2026-09-07T10:30",
+    "swi": 0.3
   },
   "Isla de Mezcala": {
-    "presion": 852.1,
-    "viento": 7.1,
-    "time": "2026-09-07T10:15",
-    "swi": -3.1
+    "presion": 852.0,
+    "viento": 7.5,
+    "time": "2026-09-07T10:30",
+    "swi": -3.0
   },
   "Mezcala": {
-    "presion": 855.3,
-    "viento": 6.9,
-    "time": "2026-09-07T10:15",
-    "swi": -2.1
+    "presion": 855.4,
+    "viento": 7.5,
+    "time": "2026-09-07T10:30",
+    "swi": -1.9
   },
   "Mezcala Profundo": {
-    "presion": 855.3,
-    "viento": 6.9,
-    "time": "2026-09-07T10:15",
-    "swi": -2.1
+    "presion": 855.4,
+    "viento": 7.5,
+    "time": "2026-09-07T10:30",
+    "swi": -1.7
   },
   "San Pedro Iztacán": {
-    "presion": 855.5,
-    "viento": 7.4,
-    "time": "2026-09-07T10:15",
+    "presion": 855.6,
+    "viento": 7.7,
+    "time": "2026-09-07T10:30",
     "swi": 1.9
   },
   "Jamay": {
-    "presion": 854.7,
+    "presion": 854.6,
     "viento": 3.1,
-    "time": "2026-09-07T10:15",
-    "swi": -1.6
+    "time": "2026-09-07T10:30",
+    "swi": -1.8
   },
   "Ocotlán": {
-    "presion": 854.7,
+    "presion": 854.6,
     "viento": 3.1,
-    "time": "2026-09-07T10:15",
-    "swi": -1.6
+    "time": "2026-09-07T10:30",
+    "swi": -1.8
   },
   "Jamay Frente": {
-    "presion": 854.7,
+    "presion": 854.6,
     "viento": 3.1,
-    "time": "2026-09-07T10:15",
-    "swi": -1.6
+    "time": "2026-09-07T10:30",
+    "swi": -1.8
   },
   "Centro-Este": {
     "presion": 855.5,
-    "viento": 5.6,
-    "time": "2026-09-07T10:15",
+    "viento": 5.7,
+    "time": "2026-09-07T10:30",
     "swi": 1.9
   },
   "Tuxcueca": {
-    "presion": 855.2,
-    "viento": 6.6,
-    "time": "2026-09-07T10:15",
-    "swi": -3.0
+    "presion": 855.3,
+    "viento": 6.8,
+    "time": "2026-09-07T10:30",
+    "swi": -2.5
   },
   "San Luis Soyatlán": {
-    "presion": 854.9,
-    "viento": 9.7,
-    "time": "2026-09-07T10:15",
-    "swi": -2.9
+    "presion": 855.0,
+    "viento": 10.1,
+    "time": "2026-09-07T10:30",
+    "swi": -2.5
   },
   "Tizapán": {
-    "presion": 855.3,
-    "viento": 6.9,
-    "time": "2026-09-07T10:15",
-    "swi": -2.1
+    "presion": 855.4,
+    "viento": 7.5,
+    "time": "2026-09-07T10:30",
+    "swi": -1.7
   },
   "Cojumatlán": {
-    "presion": 855.2,
-    "viento": 6.3,
-    "time": "2026-09-07T10:15",
-    "swi": -1.9
+    "presion": 855.3,
+    "viento": 6.6,
+    "time": "2026-09-07T10:30",
+    "swi": -1.8
   },
   "Costa Palo Alto - Zapata": {
     "presion": 855.5,
-    "viento": 7.2,
-    "time": "2026-09-07T10:15",
-    "swi": -1.9
+    "viento": 7.9,
+    "time": "2026-09-07T10:30",
+    "swi": -1.8
   }
 }
