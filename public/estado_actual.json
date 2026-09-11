@@ -1,6 +1,6 @@
 {
   "Oeste (Jocotepec)": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 18.8,
     "t850_c": 19.8,
     "choque_termico_c": -1.0,
@@ -13,32 +13,32 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 0.4
+    "wind_speed_10m": 0.3
   },
   "Oeste (S.J. Cosalá)": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 18.8,
-    "t850_c": 18.5,
-    "choque_termico_c": 0.3,
+    "t850_c": 18.3,
+    "choque_termico_c": 0.5,
     "lcl_msnm_m": 1649.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
     "humedad_2m_pct": 94,
-    "swi_nomograma": -5.8,
-    "swi": -5.8,
+    "swi_nomograma": -5.6,
+    "swi": -5.6,
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 0.4
+    "wind_speed_10m": 0.3
   },
   "Oeste-Centro (Ajijic)": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 16.8,
-    "t850_c": 18.5,
-    "choque_termico_c": -1.7,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 16.9,
+    "t850_c": 18.3,
+    "choque_termico_c": -1.4,
     "lcl_msnm_m": 1599.0,
-    "el_msnm_m": 9549.0,
-    "profundidad_convectiva_ft": 26083.0,
+    "el_msnm_m": 9699.0,
+    "profundidad_convectiva_ft": 26575.0,
     "humedad_2m_pct": 96,
     "swi_nomograma": 0.0,
     "swi": 0.0,
@@ -48,7 +48,7 @@
     "wind_speed_10m": 3.3
   },
   "Oeste-Centro (Ajijic Profundo)": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 18.8,
     "t850_c": 20.2,
     "choque_termico_c": -1.4,
@@ -61,10 +61,10 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 0.4
+    "wind_speed_10m": 0.3
   },
   "San Cristóbal": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 18.8,
     "t850_c": 19.8,
     "choque_termico_c": -1.0,
@@ -77,16 +77,16 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 0.4
+    "wind_speed_10m": 0.3
   },
   "Norte (Chapala)": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 16.8,
-    "t850_c": 18.5,
-    "choque_termico_c": -1.7,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 16.9,
+    "t850_c": 18.3,
+    "choque_termico_c": -1.4,
     "lcl_msnm_m": 1599.0,
-    "el_msnm_m": 9549.0,
-    "profundidad_convectiva_ft": 26083.0,
+    "el_msnm_m": 9699.0,
+    "profundidad_convectiva_ft": 26575.0,
     "humedad_2m_pct": 96,
     "swi_nomograma": 0.0,
     "swi": 0.0,
@@ -96,10 +96,10 @@
     "wind_speed_10m": 3.3
   },
   "Centro (Norte Chapala Profundo)": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 17.6,
-    "t850_c": 18.5,
-    "choque_termico_c": -0.9,
+    "t850_c": 18.3,
+    "choque_termico_c": -0.7,
     "lcl_msnm_m": 1562.0,
     "el_msnm_m": 9112.0,
     "profundidad_convectiva_ft": 24770.0,
@@ -112,13 +112,13 @@
     "wind_speed_10m": 5.7
   },
   "Isla de Mezcala": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 18.5,
     "t850_c": 19.1,
     "choque_termico_c": -0.6,
-    "lcl_msnm_m": 1536.0,
-    "el_msnm_m": 9386.0,
-    "profundidad_convectiva_ft": 25755.0,
+    "lcl_msnm_m": 1524.0,
+    "el_msnm_m": 9274.0,
+    "profundidad_convectiva_ft": 25427.0,
     "humedad_2m_pct": 100,
     "swi_nomograma": 0.0,
     "swi": 0.0,
@@ -128,10 +128,10 @@
     "wind_speed_10m": 5.5
   },
   "Mezcala": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 16.7,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 16.8,
     "t850_c": 19.1,
-    "choque_termico_c": -2.4,
+    "choque_termico_c": -2.3,
     "lcl_msnm_m": 1574.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
@@ -144,10 +144,10 @@
     "wind_speed_10m": 1.7
   },
   "Mezcala Profundo": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 16.7,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 16.8,
     "t850_c": 20.2,
-    "choque_termico_c": -3.5,
+    "choque_termico_c": -3.4,
     "lcl_msnm_m": 1574.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
@@ -160,13 +160,13 @@
     "wind_speed_10m": 1.7
   },
   "San Pedro Iztacán": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 17.2,
     "t850_c": 19.1,
     "choque_termico_c": -1.9,
     "lcl_msnm_m": 1574.0,
-    "el_msnm_m": 8324.0,
-    "profundidad_convectiva_ft": 22146.0,
+    "el_msnm_m": 8274.0,
+    "profundidad_convectiva_ft": 21982.0,
     "humedad_2m_pct": 97,
     "swi_nomograma": 0.0,
     "swi": 0.0,
@@ -176,9 +176,9 @@
     "wind_speed_10m": 5.9
   },
   "Jamay": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 25.4,
-    "t850_c": 16.8,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 25.3,
+    "t850_c": 16.7,
     "choque_termico_c": 8.6,
     "lcl_msnm_m": 1524.0,
     "el_msnm_m": 1674.0,
@@ -192,9 +192,9 @@
     "wind_speed_10m": 6.7
   },
   "Ocotlán": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 25.4,
-    "t850_c": 16.8,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 25.3,
+    "t850_c": 16.7,
     "choque_termico_c": 8.6,
     "lcl_msnm_m": 1524.0,
     "el_msnm_m": 1674.0,
@@ -208,9 +208,9 @@
     "wind_speed_10m": 6.7
   },
   "Jamay Frente": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 25.4,
-    "t850_c": 16.8,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 25.3,
+    "t850_c": 16.7,
     "choque_termico_c": 8.6,
     "lcl_msnm_m": 1524.0,
     "el_msnm_m": 1674.0,
@@ -224,13 +224,13 @@
     "wind_speed_10m": 6.7
   },
   "Centro-Este": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 16.3,
     "t850_c": 19.2,
     "choque_termico_c": -2.9,
-    "lcl_msnm_m": 1586.0,
-    "el_msnm_m": 6586.0,
-    "profundidad_convectiva_ft": 16404.0,
+    "lcl_msnm_m": 1574.0,
+    "el_msnm_m": 6374.0,
+    "profundidad_convectiva_ft": 15748.0,
     "humedad_2m_pct": 97,
     "swi_nomograma": 0.0,
     "swi": 0.0,
@@ -240,7 +240,7 @@
     "wind_speed_10m": 5.5
   },
   "Tuxcueca": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 17.7,
     "t850_c": 20.2,
     "choque_termico_c": -2.5,
@@ -256,7 +256,7 @@
     "wind_speed_10m": 2.5
   },
   "San Luis Soyatlán": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 18.8,
     "t850_c": 20.2,
     "choque_termico_c": -1.4,
@@ -269,13 +269,13 @@
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 0.4
+    "wind_speed_10m": 0.3
   },
   "Tizapán": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 16.7,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 16.8,
     "t850_c": 20.2,
-    "choque_termico_c": -3.5,
+    "choque_termico_c": -3.4,
     "lcl_msnm_m": 1574.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
@@ -288,26 +288,26 @@
     "wind_speed_10m": 1.7
   },
   "Cojumatlán": {
-    "hora_local": "2026-09-11T05:45",
+    "hora_local": "2026-09-11T06:00",
     "sst_lago_c": 20.0,
-    "t850_c": 19.3,
-    "choque_termico_c": 0.7,
+    "t850_c": 19.2,
+    "choque_termico_c": 0.8,
     "lcl_msnm_m": 1524.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
     "humedad_2m_pct": 100,
-    "swi_nomograma": -5.4,
-    "swi": -5.4,
+    "swi_nomograma": -5.3,
+    "swi": -5.3,
     "riesgo": "BAJO",
     "filtros_swi": [],
     "cizalladura_850_ms": null,
-    "wind_speed_10m": 2.2
+    "wind_speed_10m": 2.6
   },
   "Costa Palo Alto - Zapata": {
-    "hora_local": "2026-09-11T05:45",
-    "sst_lago_c": 17.6,
+    "hora_local": "2026-09-11T06:00",
+    "sst_lago_c": 17.7,
     "t850_c": 20.2,
-    "choque_termico_c": -2.6,
+    "choque_termico_c": -2.5,
     "lcl_msnm_m": 1524.0,
     "el_msnm_m": null,
     "profundidad_convectiva_ft": 0.0,
