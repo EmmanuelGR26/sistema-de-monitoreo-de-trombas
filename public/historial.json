@@ -33054,5 +33054,29 @@
     "longitud": -103.18,
     "swi": 1.9,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic)",
+    "latitud": 20.27,
+    "longitud": -103.25,
+    "swi": 1.9,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Norte (Chapala)",
+    "latitud": 20.27,
+    "longitud": -103.18,
+    "swi": 1.9,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Isla de Mezcala",
+    "latitud": 20.29,
+    "longitud": -103.023,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
