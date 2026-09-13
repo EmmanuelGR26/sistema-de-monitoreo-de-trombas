@@ -782,12 +782,12 @@ def generar_pronostico():
 if __name__ == "__main__":
     climas_actuales, alertas_globales, pronostico_completo = generar_pronostico()
     
-    if not climas_actuales:
-        print("[WARNING] No se recuperó ningún dato de la API. Abortando procesamiento de alertas para evitar IndexError.")
-        enviar_alerta_telegram("⚠️ *Servicio Degradado Temporalmente*\n\nFalla en la infraestructura de Open-Meteo. Los datos no pudieron ser descargados. El sistema intentará recuperarse en el próximo ciclo de monitoreo.")
+    if len(climas_actuales) < len(CIUDADES):
+        faltantes = len(CIUDADES) - len(climas_actuales)
+        print(f"[WARNING] Datos incompletos (faltan {faltantes} zonas). Abortando para evitar KeyError y corrupción del JSON en frontend.")
+        enviar_alerta_telegram("⚠️ *Servicio Degradado Temporalmente*\n\nFalla en la infraestructura de Open-Meteo o saturación de la API. Los datos llegaron fragmentados o incompletos. El sistema mantendrá la última lectura sana y se recuperará en el próximo ciclo.")
         import sys
         sys.exit(0) # Salida limpia para que GitHub Actions termine en verde
-        
     # --- GUARDAR DATOS PARA LA WEB ---
     try:
         os.makedirs("public", exist_ok=True)
