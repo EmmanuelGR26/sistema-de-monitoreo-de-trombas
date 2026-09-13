@@ -5,6 +5,7 @@ export interface PronosticoHora {
   cizalladura_850_ms: number | null;
   wind_speed_10m?: number | null;
   swi?: number | null;
+  swi_final?: number;
 }
 
 export async function fetchPronosticoData(): Promise<PronosticoHora[]> {

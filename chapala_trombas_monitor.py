@@ -788,6 +788,12 @@ if __name__ == "__main__":
         enviar_alerta_telegram("⚠️ *Servicio Degradado Temporalmente*\n\nFalla en la infraestructura de Open-Meteo o saturación de la API. Los datos llegaron fragmentados o incompletos. El sistema mantendrá la última lectura sana y se recuperará en el próximo ciclo.")
         import sys
         sys.exit(0) # Salida limpia para que GitHub Actions termine en verde
+    # Calculamos swi_final (0-100) y lo inyectamos al diccionario antes de guardarlo
+    for ciudad in CIUDADES:
+        swi_raw = climas_actuales[ciudad]["swi"]
+        swi_final = max(0, min(100, round((swi_raw + 10) * 5)))
+        climas_actuales[ciudad]["swi_final"] = swi_final
+        
     # --- GUARDAR DATOS PARA LA WEB ---
     try:
         os.makedirs("public", exist_ok=True)
@@ -799,9 +805,6 @@ if __name__ == "__main__":
         print("[INFO] Archivo public/pronostico.json generado con éxito.")
 
         # FIX (Bug 3): estado_actual.json — nowcast del momento presente con SWI corregido.
-        # La web debe leer ESTE archivo para mostrar el riesgo actual, NO el pronostico.json.
-        # pronostico.json tiene ~288 entradas por ciudad; la web no puede saber cuál es "ahora"
-        # sin parsear timestamps. estado_actual.json siempre tiene UN solo registro por ciudad.
         filepath_actual = os.path.join("public", "estado_actual.json")
         with open(filepath_actual, "w", encoding="utf-8") as f:
             json.dump(climas_actuales, f, ensure_ascii=False, indent=2)
@@ -822,10 +825,9 @@ if __name__ == "__main__":
     
     for ciudad in CIUDADES:
         actual = climas_actuales[ciudad]
-        swi_100 = int((actual['swi'] + 10) * 5)
-        swi_100 = max(0, min(100, swi_100)) # Asegurar que se mantenga entre 0 y 100
+        swi_final = actual["swi_final"]
         mensaje_tg += (
-            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {swi_100}) | ΔT: {actual['choque_termico_c']}°C\n"
+            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {swi_final}) | ΔT: {actual['choque_termico_c']}°C\n"
         )
     
     print("\n--- PRONÓSTICO 3 DÍAS (VENTANAS DE RIESGO) ---")

@@ -278,9 +278,13 @@ export default function SwiDashboard() {
         wind: cData?.wind_speed_10m ?? 35,
       };
       
-      const rawSwi = cData?.swi ?? -10;
-      // Convertimos la escala cruda [-10, +10] del bot a porcentaje [0, 100]
-      const mappedScore = Math.max(0, Math.min(100, Math.round((rawSwi + 10) * 5)));
+      // Leemos el score precalculado por el backend para evitar discrepancias de redondeo entre Python y JS
+      let mappedScore = cData?.swi_final;
+      if (mappedScore === undefined) {
+        // Fallback por si lee un JSON viejo
+        const rawSwi = cData?.swi ?? -10;
+        mappedScore = Math.max(0, Math.min(100, Math.round((rawSwi + 10) * 5)));
+      }
       
       let mappedLevel = "low";
       if (mappedScore >= 70 || cData?.riesgo === "critical") mappedLevel = "critical";
