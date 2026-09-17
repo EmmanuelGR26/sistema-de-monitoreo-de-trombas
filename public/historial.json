@@ -42078,5 +42078,13 @@
     "longitud": -103.2958,
     "swi": 2.0,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Isla de Mezcala",
+    "latitud": 20.29,
+    "longitud": -103.023,
+    "swi": 1.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
