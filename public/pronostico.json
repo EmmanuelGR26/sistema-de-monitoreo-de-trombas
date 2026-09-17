@@ -1246,8 +1246,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3,
-      "swi_final": 10
+      "wind_speed_10m": 1.3
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -1263,7 +1262,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3
+      "wind_speed_10m": 1.3,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -5857,8 +5857,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3,
-      "swi_final": 10
+      "wind_speed_10m": 1.3
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -5874,7 +5873,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3
+      "wind_speed_10m": 1.3,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -10468,8 +10468,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 3.8,
-      "swi_final": 10
+      "wind_speed_10m": 3.8
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -10485,7 +10484,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 2.5
+      "wind_speed_10m": 2.5,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -15105,8 +15105,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3,
-      "swi_final": 10
+      "wind_speed_10m": 1.3
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -15122,7 +15121,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3
+      "wind_speed_10m": 1.3,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -19716,8 +19716,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3,
-      "swi_final": 10
+      "wind_speed_10m": 1.3
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -19733,7 +19732,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3
+      "wind_speed_10m": 1.3,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -24327,8 +24327,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 3.8,
-      "swi_final": 10
+      "wind_speed_10m": 3.8
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -24344,7 +24343,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 2.5
+      "wind_speed_10m": 2.5,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -28964,8 +28964,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 3.2,
-      "swi_final": 10
+      "wind_speed_10m": 3.2
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -28981,7 +28980,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 2.7
+      "wind_speed_10m": 2.7,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -33583,8 +33583,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 2.8,
-      "swi_final": 10
+      "wind_speed_10m": 2.8
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -33600,7 +33599,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 3.0
+      "wind_speed_10m": 3.0,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -38194,8 +38194,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 0.6,
-      "swi_final": 10
+      "wind_speed_10m": 0.6
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -38211,7 +38210,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.4
+      "wind_speed_10m": 1.4,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -42805,8 +42805,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 0.6,
-      "swi_final": 10
+      "wind_speed_10m": 0.6
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -42822,7 +42821,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.4
+      "wind_speed_10m": 1.4,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -47416,8 +47416,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 3.2,
-      "swi_final": 10
+      "wind_speed_10m": 3.2
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -47433,7 +47432,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 3.9
+      "wind_speed_10m": 3.9,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -52031,8 +52031,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 6.8,
-      "swi_final": 20
+      "wind_speed_10m": 6.8
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -52048,7 +52047,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 7.0
+      "wind_speed_10m": 7.0,
+      "swi_final": 22
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -56650,8 +56650,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 6.8,
-      "swi_final": 20
+      "wind_speed_10m": 6.8
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -56667,7 +56666,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 7.0
+      "wind_speed_10m": 7.0,
+      "swi_final": 22
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -61269,8 +61269,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 6.8,
-      "swi_final": 20
+      "wind_speed_10m": 6.8
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -61286,7 +61285,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 7.0
+      "wind_speed_10m": 7.0,
+      "swi_final": 22
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -65888,8 +65888,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 3.8,
-      "swi_final": 10
+      "wind_speed_10m": 3.8
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -65905,7 +65904,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 4.5
+      "wind_speed_10m": 4.5,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -70501,8 +70501,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.8,
-      "swi_final": 10
+      "wind_speed_10m": 1.8
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -70518,7 +70517,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 2.5
+      "wind_speed_10m": 2.5,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -75112,8 +75112,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3,
-      "swi_final": 10
+      "wind_speed_10m": 1.3
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -75129,7 +75128,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.3
+      "wind_speed_10m": 1.3,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -79723,8 +79723,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 0.6,
-      "swi_final": 10
+      "wind_speed_10m": 0.6
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -79740,7 +79739,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.4
+      "wind_speed_10m": 1.4,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -84334,8 +84334,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 4.4,
-      "swi_final": 10
+      "wind_speed_10m": 4.4
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -84351,7 +84350,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 4.2
+      "wind_speed_10m": 4.2,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
@@ -88945,8 +88945,7 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.9,
-      "swi_final": 10
+      "wind_speed_10m": 1.9
     },
     {
       "hora_local": "2026-09-16T19:30",
@@ -88962,7 +88961,8 @@
       "riesgo": "BAJO",
       "filtros_swi": [],
       "cizalladura_850_ms": null,
-      "wind_speed_10m": 1.7
+      "wind_speed_10m": 1.7,
+      "swi_final": 10
     },
     {
       "hora_local": "2026-09-16T19:45",
