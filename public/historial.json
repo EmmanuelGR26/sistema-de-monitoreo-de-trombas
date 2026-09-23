@@ -57166,5 +57166,45 @@
     "longitud": -102.95,
     "swi": 0.0,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tuxcueca",
+    "latitud": 20.2,
+    "longitud": -103.18,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Luis Soyatlán",
+    "latitud": 20.2167,
+    "longitud": -103.2958,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tizapán",
+    "latitud": 20.19,
+    "longitud": -103.05,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Cojumatlán",
+    "latitud": 20.15,
+    "longitud": -102.83,
+    "swi": 0.3,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Costa Palo Alto - Zapata",
+    "latitud": 20.18,
+    "longitud": -102.95,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
