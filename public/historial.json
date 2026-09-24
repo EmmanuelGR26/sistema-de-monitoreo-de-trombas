@@ -60846,5 +60846,141 @@
     "longitud": -102.95,
     "swi": 0.0,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste (Jocotepec)",
+    "latitud": 20.27,
+    "longitud": -103.35,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste (S.J. Cosalá)",
+    "latitud": 20.26,
+    "longitud": -103.3,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic)",
+    "latitud": 20.27,
+    "longitud": -103.25,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic Profundo)",
+    "latitud": 20.24,
+    "longitud": -103.25,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Cristóbal",
+    "latitud": 20.2368,
+    "longitud": -103.3603,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Norte (Chapala)",
+    "latitud": 20.27,
+    "longitud": -103.18,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro (Norte Chapala Profundo)",
+    "latitud": 20.25,
+    "longitud": -103.15,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala",
+    "latitud": 20.245,
+    "longitud": -103.03,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala Profundo",
+    "latitud": 20.22,
+    "longitud": -103.08,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay",
+    "latitud": 20.28,
+    "longitud": -102.75,
+    "swi": 6.7,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Ocotlán",
+    "latitud": 20.29,
+    "longitud": -102.73,
+    "swi": 6.7,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Jamay Frente",
+    "latitud": 20.26,
+    "longitud": -102.8,
+    "swi": 6.7,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tuxcueca",
+    "latitud": 20.2,
+    "longitud": -103.18,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Luis Soyatlán",
+    "latitud": 20.2167,
+    "longitud": -103.2958,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tizapán",
+    "latitud": 20.19,
+    "longitud": -103.05,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Cojumatlán",
+    "latitud": 20.15,
+    "longitud": -102.83,
+    "swi": 0.1,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Costa Palo Alto - Zapata",
+    "latitud": 20.18,
+    "longitud": -102.95,
+    "swi": 0.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
