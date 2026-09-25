@@ -66190,5 +66190,45 @@
     "longitud": -102.83,
     "swi": 1.8,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste (Jocotepec)",
+    "latitud": 20.27,
+    "longitud": -103.35,
+    "swi": 0.5,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Cristóbal",
+    "latitud": 20.2368,
+    "longitud": -103.3603,
+    "swi": 0.5,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Pedro Iztacán",
+    "latitud": 20.29,
+    "longitud": -102.955,
+    "swi": 0.6,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 2.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Cojumatlán",
+    "latitud": 20.15,
+    "longitud": -102.83,
+    "swi": 2.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
