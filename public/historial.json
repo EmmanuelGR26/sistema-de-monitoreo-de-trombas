@@ -66230,5 +66230,53 @@
     "longitud": -102.83,
     "swi": 2.0,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste (Jocotepec)",
+    "latitud": 20.27,
+    "longitud": -103.35,
+    "swi": 0.7,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic)",
+    "latitud": 20.27,
+    "longitud": -103.25,
+    "swi": 3.9,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Cristóbal",
+    "latitud": 20.2368,
+    "longitud": -103.3603,
+    "swi": 0.7,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Norte (Chapala)",
+    "latitud": 20.27,
+    "longitud": -103.18,
+    "swi": 3.9,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 2.9,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Cojumatlán",
+    "latitud": 20.15,
+    "longitud": -102.83,
+    "swi": 2.1,
+    "clima_descripcion": "Desconocido"
   }
 ]
