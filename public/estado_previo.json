@@ -1,122 +1,122 @@
 {
   "Oeste (Jocotepec)": {
-    "presion": 853.4,
-    "viento": 6.3,
-    "time": "2026-09-25T05:45",
-    "swi": -7.0
+    "presion": 853.5,
+    "viento": 7.6,
+    "time": "2026-09-25T06:00",
+    "swi": 0.0
   },
   "Oeste (S.J. Cosalá)": {
-    "presion": 853.4,
-    "viento": 6.3,
-    "time": "2026-09-25T05:45",
-    "swi": -7.0
+    "presion": 853.5,
+    "viento": 7.6,
+    "time": "2026-09-25T06:00",
+    "swi": 0.0
   },
   "Oeste-Centro (Ajijic)": {
-    "presion": 853.1,
-    "viento": 4.9,
-    "time": "2026-09-25T05:45",
+    "presion": 853.2,
+    "viento": 5.3,
+    "time": "2026-09-25T06:00",
     "swi": 0.0
   },
   "Oeste-Centro (Ajijic Profundo)": {
-    "presion": 853.4,
-    "viento": 6.3,
-    "time": "2026-09-25T05:45",
-    "swi": -7.6
+    "presion": 853.5,
+    "viento": 7.6,
+    "time": "2026-09-25T06:00",
+    "swi": -7.5
   },
   "San Cristóbal": {
-    "presion": 853.4,
-    "viento": 6.3,
-    "time": "2026-09-25T05:45",
-    "swi": -7.0
+    "presion": 853.5,
+    "viento": 7.6,
+    "time": "2026-09-25T06:00",
+    "swi": 0.0
   },
   "Norte (Chapala)": {
-    "presion": 853.1,
-    "viento": 4.9,
-    "time": "2026-09-25T05:45",
+    "presion": 853.2,
+    "viento": 5.3,
+    "time": "2026-09-25T06:00",
     "swi": 0.0
   },
   "Centro (Norte Chapala Profundo)": {
-    "presion": 852.8,
-    "viento": 5.0,
-    "time": "2026-09-25T05:45",
-    "swi": -7.4
+    "presion": 853.0,
+    "viento": 5.1,
+    "time": "2026-09-25T06:00",
+    "swi": -7.3
   },
   "Isla de Mezcala": {
-    "presion": 850.0,
-    "viento": 7.4,
-    "time": "2026-09-25T05:45",
+    "presion": 850.2,
+    "viento": 7.2,
+    "time": "2026-09-25T06:00",
     "swi": -6.6
   },
   "Mezcala": {
-    "presion": 852.9,
-    "viento": 4.2,
-    "time": "2026-09-25T05:45",
+    "presion": 853.0,
+    "viento": 4.7,
+    "time": "2026-09-25T06:00",
     "swi": 0.0
   },
   "Mezcala Profundo": {
-    "presion": 852.9,
-    "viento": 4.2,
-    "time": "2026-09-25T05:45",
+    "presion": 853.0,
+    "viento": 4.7,
+    "time": "2026-09-25T06:00",
     "swi": 0.0
   },
   "San Pedro Iztacán": {
-    "presion": 852.8,
-    "viento": 6.2,
-    "time": "2026-09-25T05:45",
+    "presion": 853.0,
+    "viento": 5.8,
+    "time": "2026-09-25T06:00",
     "swi": 0.0
   },
   "Jamay": {
-    "presion": 853.1,
-    "viento": 7.3,
-    "time": "2026-09-25T05:45",
-    "swi": 8.0
+    "presion": 853.2,
+    "viento": 7.0,
+    "time": "2026-09-25T06:00",
+    "swi": 8.2
   },
   "Ocotlán": {
-    "presion": 853.1,
-    "viento": 7.3,
-    "time": "2026-09-25T05:45",
-    "swi": 8.0
+    "presion": 853.2,
+    "viento": 7.0,
+    "time": "2026-09-25T06:00",
+    "swi": 8.2
   },
   "Jamay Frente": {
-    "presion": 853.1,
-    "viento": 7.3,
-    "time": "2026-09-25T05:45",
-    "swi": 8.0
+    "presion": 853.2,
+    "viento": 7.0,
+    "time": "2026-09-25T06:00",
+    "swi": 8.2
   },
   "Centro-Este": {
     "presion": 852.8,
-    "viento": 4.8,
-    "time": "2026-09-25T05:45",
+    "viento": 4.4,
+    "time": "2026-09-25T06:00",
     "swi": -0.0
   },
   "Tuxcueca": {
-    "presion": 852.9,
-    "viento": 3.5,
-    "time": "2026-09-25T05:45",
+    "presion": 853.0,
+    "viento": 3.7,
+    "time": "2026-09-25T06:00",
     "swi": 0.0
   },
   "San Luis Soyatlán": {
-    "presion": 853.4,
-    "viento": 6.3,
-    "time": "2026-09-25T05:45",
-    "swi": -7.6
+    "presion": 853.5,
+    "viento": 7.6,
+    "time": "2026-09-25T06:00",
+    "swi": -7.5
   },
   "Tizapán": {
-    "presion": 852.9,
-    "viento": 4.2,
-    "time": "2026-09-25T05:45",
+    "presion": 853.0,
+    "viento": 4.7,
+    "time": "2026-09-25T06:00",
     "swi": 0.0
   },
   "Cojumatlán": {
-    "presion": 852.9,
-    "viento": 4.7,
-    "time": "2026-09-25T05:45",
-    "swi": 0.6
+    "presion": 853.0,
+    "viento": 4.1,
+    "time": "2026-09-25T06:00",
+    "swi": 0.8
   },
   "Costa Palo Alto - Zapata": {
-    "presion": 853.1,
-    "viento": 7.2,
-    "time": "2026-09-25T05:45",
-    "swi": -7.3
+    "presion": 853.2,
+    "viento": 7.7,
+    "time": "2026-09-25T06:00",
+    "swi": -7.2
   }
 }
