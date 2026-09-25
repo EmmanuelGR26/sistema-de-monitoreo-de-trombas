@@ -66278,5 +66278,53 @@
     "longitud": -102.83,
     "swi": 2.1,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic)",
+    "latitud": 20.27,
+    "longitud": -103.25,
+    "swi": 4.3,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Norte (Chapala)",
+    "latitud": 20.27,
+    "longitud": -103.18,
+    "swi": 4.3,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala",
+    "latitud": 20.245,
+    "longitud": -103.03,
+    "swi": 1.5,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Mezcala Profundo",
+    "latitud": 20.22,
+    "longitud": -103.08,
+    "swi": 2.0,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 3.2,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Tizapán",
+    "latitud": 20.19,
+    "longitud": -103.05,
+    "swi": 2.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
