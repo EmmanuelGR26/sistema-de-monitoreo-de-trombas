@@ -1,122 +1,122 @@
 {
   "Oeste (Jocotepec)": {
-    "presion": 850.8,
-    "viento": 7.0,
-    "time": "2026-09-30T03:45",
+    "presion": 850.7,
+    "viento": 7.1,
+    "time": "2026-09-30T04:00",
     "swi": -2.8
   },
   "Oeste (S.J. Cosalá)": {
-    "presion": 850.8,
-    "viento": 7.0,
-    "time": "2026-09-30T03:45",
+    "presion": 850.7,
+    "viento": 7.1,
+    "time": "2026-09-30T04:00",
     "swi": -3.5
   },
   "Oeste-Centro (Ajijic)": {
-    "presion": 850.4,
-    "viento": 11.4,
-    "time": "2026-09-30T03:45",
+    "presion": 850.3,
+    "viento": 11.6,
+    "time": "2026-09-30T04:00",
     "swi": -3.7
   },
   "Oeste-Centro (Ajijic Profundo)": {
-    "presion": 850.8,
-    "viento": 7.0,
-    "time": "2026-09-30T03:45",
-    "swi": -2.9
+    "presion": 850.7,
+    "viento": 7.1,
+    "time": "2026-09-30T04:00",
+    "swi": -2.7
   },
   "San Cristóbal": {
-    "presion": 850.8,
-    "viento": 7.0,
-    "time": "2026-09-30T03:45",
+    "presion": 850.7,
+    "viento": 7.1,
+    "time": "2026-09-30T04:00",
     "swi": -2.8
   },
   "Norte (Chapala)": {
-    "presion": 850.4,
-    "viento": 11.4,
-    "time": "2026-09-30T03:45",
+    "presion": 850.3,
+    "viento": 11.6,
+    "time": "2026-09-30T04:00",
     "swi": -3.7
   },
   "Centro (Norte Chapala Profundo)": {
-    "presion": 850.4,
-    "viento": 9.3,
-    "time": "2026-09-30T03:45",
-    "swi": -3.6
+    "presion": 850.3,
+    "viento": 9.2,
+    "time": "2026-09-30T04:00",
+    "swi": -3.5
   },
   "Isla de Mezcala": {
-    "presion": 847.8,
-    "viento": 10.1,
-    "time": "2026-09-30T03:45",
-    "swi": -3.0
+    "presion": 847.7,
+    "viento": 10.0,
+    "time": "2026-09-30T04:00",
+    "swi": -2.9
   },
   "Mezcala": {
     "presion": 851.0,
-    "viento": 1.5,
-    "time": "2026-09-30T03:45",
-    "swi": -2.7
+    "viento": 0.9,
+    "time": "2026-09-30T04:00",
+    "swi": -2.6
   },
   "Mezcala Profundo": {
     "presion": 851.0,
-    "viento": 1.5,
-    "time": "2026-09-30T03:45",
-    "swi": -2.7
+    "viento": 0.9,
+    "time": "2026-09-30T04:00",
+    "swi": -2.5
   },
   "San Pedro Iztacán": {
     "presion": 850.9,
-    "viento": 12.0,
-    "time": "2026-09-30T03:45",
+    "viento": 12.1,
+    "time": "2026-09-30T04:00",
     "swi": -3.7
   },
   "Jamay": {
-    "presion": 851.0,
-    "viento": 12.2,
-    "time": "2026-09-30T03:45",
-    "swi": 3.2
+    "presion": 850.9,
+    "viento": 12.4,
+    "time": "2026-09-30T04:00",
+    "swi": 3.4
   },
   "Ocotlán": {
-    "presion": 851.0,
-    "viento": 12.2,
-    "time": "2026-09-30T03:45",
-    "swi": 3.2
+    "presion": 850.9,
+    "viento": 12.4,
+    "time": "2026-09-30T04:00",
+    "swi": 3.4
   },
   "Jamay Frente": {
-    "presion": 851.0,
-    "viento": 12.2,
-    "time": "2026-09-30T03:45",
-    "swi": 3.2
+    "presion": 850.9,
+    "viento": 12.4,
+    "time": "2026-09-30T04:00",
+    "swi": 3.4
   },
   "Centro-Este": {
-    "presion": 850.7,
-    "viento": 10.8,
-    "time": "2026-09-30T03:45",
-    "swi": -4.0
+    "presion": 850.6,
+    "viento": 11.3,
+    "time": "2026-09-30T04:00",
+    "swi": -3.9
   },
   "Tuxcueca": {
     "presion": 851.1,
-    "viento": 1.4,
-    "time": "2026-09-30T03:45",
-    "swi": -2.0
+    "viento": 1.2,
+    "time": "2026-09-30T04:00",
+    "swi": -1.7
   },
   "San Luis Soyatlán": {
-    "presion": 850.8,
-    "viento": 7.0,
-    "time": "2026-09-30T03:45",
-    "swi": -2.9
+    "presion": 850.7,
+    "viento": 7.1,
+    "time": "2026-09-30T04:00",
+    "swi": -2.7
   },
   "Tizapán": {
     "presion": 851.0,
-    "viento": 1.5,
-    "time": "2026-09-30T03:45",
-    "swi": -2.7
+    "viento": 0.9,
+    "time": "2026-09-30T04:00",
+    "swi": -2.5
   },
   "Cojumatlán": {
-    "presion": 851.1,
+    "presion": 851.0,
     "viento": 15.4,
-    "time": "2026-09-30T03:45",
-    "swi": -2.0
+    "time": "2026-09-30T04:00",
+    "swi": -1.8
   },
   "Costa Palo Alto - Zapata": {
-    "presion": 850.9,
-    "viento": 6.5,
-    "time": "2026-09-30T03:45",
-    "swi": -2.3
+    "presion": 850.8,
+    "viento": 6.0,
+    "time": "2026-09-30T04:00",
+    "swi": -2.2
   }
 }
