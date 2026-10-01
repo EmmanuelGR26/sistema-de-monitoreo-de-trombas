@@ -78198,5 +78198,21 @@
     "longitud": -102.9,
     "swi": 1.6,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 0.8,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Costa Palo Alto - Zapata",
+    "latitud": 20.18,
+    "longitud": -102.95,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
