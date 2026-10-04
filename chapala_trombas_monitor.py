@@ -475,7 +475,9 @@ def procesar_hora(forecast, sst_marina, idx):
     lcl_msnm, el_msnm = calcular_lcl_el(t2m, td2m, p_sup,
                                           perfil_alturas, perfil_presiones, perfil_temps)
 
-    choque_termico = sst - t850 if t850 is not None else 0
+    # Usamos t2m (Aire en superficie) en lugar de t850 para que el choque térmico refleje
+    # la verdadera estabilidad si el aire es más caliente que el agua (resultado negativo).
+    choque_termico = sst - t2m if t2m is not None else 0
     if el_msnm is not None:
         profundidad_m  = el_msnm - lcl_msnm
         profundidad_ft = max(profundidad_m, 0.0) * 3.28084

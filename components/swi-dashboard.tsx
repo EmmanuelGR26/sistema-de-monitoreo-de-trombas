@@ -287,8 +287,8 @@ export default function SwiDashboard() {
       }
       
       let mappedLevel = "low";
-      if (mappedScore >= 70 || cData?.riesgo === "critical") mappedLevel = "critical";
-      else if (mappedScore >= 40 || cData?.riesgo === "ALTO") mappedLevel = "moderate";
+      if (mappedScore >= 85 || cData?.riesgo === "critical") mappedLevel = "critical";
+      else if (mappedScore >= 50 || cData?.riesgo === "ALTO") mappedLevel = "moderate";
       
       const computedResult = {
         score: mappedScore,
