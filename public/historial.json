@@ -89654,5 +89654,13 @@
     "longitud": -102.8,
     "swi": 5.5,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro (Norte Chapala Profundo)",
+    "latitud": 20.25,
+    "longitud": -103.15,
+    "swi": 7.5,
+    "clima_descripcion": "Desconocido"
   }
 ]
