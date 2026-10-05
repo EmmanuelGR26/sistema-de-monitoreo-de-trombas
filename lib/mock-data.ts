@@ -6,6 +6,7 @@ export interface PronosticoHora {
   wind_speed_10m?: number | null;
   swi?: number | null;
   swi_final?: number;
+  tipo_riesgo?: string;
 }
 
 export async function fetchPronosticoData(): Promise<PronosticoHora[]> {

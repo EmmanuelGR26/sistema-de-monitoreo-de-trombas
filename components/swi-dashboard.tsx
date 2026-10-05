@@ -293,7 +293,8 @@ export default function SwiDashboard() {
       const computedResult = {
         score: mappedScore,
         level: mappedLevel as any,
-        instability: cData?.choque_termico_c ?? 0
+        instability: cData?.choque_termico_c ?? 0,
+        tipo_riesgo: cData?.tipo_riesgo || 'Ninguno'
       };
 
       return {
@@ -571,6 +572,11 @@ export default function SwiDashboard() {
                     </span>
                   </div>
                 </div>
+                {d.result.tipo_riesgo && d.result.tipo_riesgo !== 'Ninguno' && (
+                  <div className="text-[11px] font-semibold text-muted-foreground -mt-1 mb-1">
+                    {d.result.tipo_riesgo.includes('Tornádica') ? 'Tromba Tornádica' : 'Tromba Térmica'}
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 mt-1 border-t border-border/50 pt-2 text-[10px]">
                   <div className="flex items-center justify-between text-muted-foreground">
                     <span>Temp Aire</span>

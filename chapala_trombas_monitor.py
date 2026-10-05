@@ -840,14 +840,13 @@ if __name__ == "__main__":
         swi_final = actual["swi_final"]
         tipo = actual["tipo_riesgo"]
         
+        mensaje_tg += f"📍 *{ciudad}*\n"
         if actual['riesgo'] == "critical":
-            alerta_texto = f"🔴 ALERTA: Riesgo de {tipo} en {ciudad}. Aléjese de la costa."
+            mensaje_tg += f"🔴 ALERTA: Riesgo de {tipo}\n"
         elif actual['riesgo'] == "ALTO":
-            alerta_texto = f"🟡 AVISO: Condiciones para {tipo} en {ciudad}. Precaución a la navegación."
+            mensaje_tg += f"🟡 AVISO: Condiciones para {tipo}\n"
         else:
-            alerta_texto = f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {swi_final}) | ΔT: {actual['choque_termico_c']}°C"
-            
-        mensaje_tg += alerta_texto + "\n"
+            mensaje_tg += f"🟢 Riesgo BAJO (SWI: {swi_final})\n"
     
     print("\n--- PRONÓSTICO 3 DÍAS (VENTANAS DE RIESGO) ---")
     total_alertas = sum(len(alertas) for alertas in alertas_globales.values())

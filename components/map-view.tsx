@@ -161,6 +161,11 @@ export default function MapView({
                   <strong style={{ letterSpacing: "0.05em", fontSize: "11px", opacity: 0.7, color: "#52525b" }}>ZONA DE CONVERGENCIA</strong>
                   <br />
                   <span className="font-bold text-sm text-zinc-900">{cityData.city}</span>
+                  {cityData.result.tipo_riesgo && cityData.result.tipo_riesgo !== 'Ninguno' && (
+                    <div className="text-[10px] font-bold text-red-600 mt-0.5">
+                      {cityData.result.tipo_riesgo.includes('Tornádica') ? 'Tromba Tornádica' : 'Tromba Térmica'}
+                    </div>
+                  )}
                   <div className="my-1.5 border-t border-zinc-200"></div>
                   <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-left text-[11px] text-zinc-600">
                     <span>Temp. Aire:</span> <strong className="text-zinc-900">{cityData.inputs.t850.toFixed(1)}°C</strong>

@@ -15,6 +15,7 @@ export interface RiskResult {
   level: RiskLevel
   /** Gradiente térmico vertical (inestabilidad) */
   instability: number
+  tipo_riesgo?: string
 }
 
 const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max)
