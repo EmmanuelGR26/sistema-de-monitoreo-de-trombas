@@ -796,6 +796,16 @@ if __name__ == "__main__":
         swi_final = max(0, min(100, round((swi_raw + 10) * 5)))
         climas_actuales[ciudad]["swi_final"] = swi_final
         
+        # Determinar el tipo de riesgo
+        riesgo_actual = climas_actuales[ciudad].get("riesgo")
+        if riesgo_actual == "critical":
+            tipo = "Tromba Tornádica (Tormenta Severa)"
+        elif riesgo_actual == "ALTO":
+            tipo = "Tromba de Clima Justo (Choque Térmico)"
+        else:
+            tipo = "Ninguno"
+        climas_actuales[ciudad]["tipo_riesgo"] = tipo
+        
     # --- GUARDAR DATOS PARA LA WEB ---
     try:
         os.makedirs("public", exist_ok=True)
@@ -828,9 +838,16 @@ if __name__ == "__main__":
     for ciudad in CIUDADES:
         actual = climas_actuales[ciudad]
         swi_final = actual["swi_final"]
-        mensaje_tg += (
-            f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {swi_final}) | ΔT: {actual['choque_termico_c']}°C\n"
-        )
+        tipo = actual["tipo_riesgo"]
+        
+        if actual['riesgo'] == "critical":
+            alerta_texto = f"🔴 ALERTA: Riesgo de {tipo} en {ciudad}. Aléjese de la costa."
+        elif actual['riesgo'] == "ALTO":
+            alerta_texto = f"🟡 AVISO: Condiciones para {tipo} en {ciudad}. Precaución a la navegación."
+        else:
+            alerta_texto = f"📍 *{ciudad}*: Riesgo {actual['riesgo']} (SWI: {swi_final}) | ΔT: {actual['choque_termico_c']}°C"
+            
+        mensaje_tg += alerta_texto + "\n"
     
     print("\n--- PRONÓSTICO 3 DÍAS (VENTANAS DE RIESGO) ---")
     total_alertas = sum(len(alertas) for alertas in alertas_globales.values())
