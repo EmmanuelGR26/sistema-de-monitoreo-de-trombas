@@ -378,7 +378,7 @@ def nomograma_a_swi(choque_termico_c, profundidad_ft):
 
     # Regla 2: el ΔT es un gate multiplicativo — impone el techo del SWI.
     cap_delta_t = (choque_termico_c / UMBRAL_TERMICO_CRITICO_C) * 10.0
-    cap_delta_t = max(0.0, min(10.0, cap_delta_t))
+    cap_delta_t = max(-10.0, min(10.0, cap_delta_t))
     swi = min(swi, cap_delta_t)
 
     return round(max(-10.0, min(10.0, swi)), 1)
@@ -801,10 +801,23 @@ if __name__ == "__main__":
         if riesgo_actual == "critical":
             tipo = "Tromba Tornádica (Tormenta Severa)"
         elif riesgo_actual == "ALTO":
-            tipo = "Tromba de Clima Justo (Choque Térmico)"
+            tipo = "Tromba de Clima Común (Choque Térmico)"
         else:
             tipo = "Ninguno"
         climas_actuales[ciudad]["tipo_riesgo"] = tipo
+        
+        # Aplicar la misma lógica a todo el array de pronóstico futuro
+        for p in pronostico_completo[ciudad]:
+            p_swi_raw = p.get("swi", -10)
+            p["swi_final"] = max(0, min(100, round((p_swi_raw + 10) * 5)))
+            
+            p_riesgo = p.get("riesgo")
+            if p_riesgo == "critical":
+                p["tipo_riesgo"] = "Tromba Tornádica (Tormenta Severa)"
+            elif p_riesgo == "ALTO":
+                p["tipo_riesgo"] = "Tromba de Clima Común (Choque Térmico)"
+            else:
+                p["tipo_riesgo"] = "Ninguno"
         
     # --- GUARDAR DATOS PARA LA WEB ---
     try:

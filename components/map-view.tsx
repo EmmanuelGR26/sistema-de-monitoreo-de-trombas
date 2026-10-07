@@ -162,8 +162,10 @@ export default function MapView({
                   <br />
                   <span className="font-bold text-sm text-zinc-900">{cityData.city}</span>
                   {cityData.result.tipo_riesgo && cityData.result.tipo_riesgo !== 'Ninguno' && (
-                    <div className="text-[10px] font-bold text-red-600 mt-0.5">
-                      {cityData.result.tipo_riesgo.includes('Tornádica') ? 'Tromba Tornádica' : 'Tromba Térmica'}
+                    <div className="text-[10px] font-bold text-red-600 mt-0.5 leading-tight">
+                      {cityData.result.tipo_riesgo.includes('Tornádica') 
+                        ? 'Posible formación de Tromba Tornádica' 
+                        : 'Posible formación de tromba de clima común'}
                     </div>
                   )}
                   <div className="my-1.5 border-t border-zinc-200"></div>

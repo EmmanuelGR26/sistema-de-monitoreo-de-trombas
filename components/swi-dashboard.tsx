@@ -574,7 +574,9 @@ export default function SwiDashboard() {
                 </div>
                 {d.result.tipo_riesgo && d.result.tipo_riesgo !== 'Ninguno' && (
                   <div className="text-[11px] font-semibold text-muted-foreground -mt-1 mb-1">
-                    {d.result.tipo_riesgo.includes('Tornádica') ? 'Tromba Tornádica' : 'Tromba Térmica'}
+                    {d.result.tipo_riesgo.includes('Tornádica') 
+                      ? 'Posible formación de Tromba Tornádica' 
+                      : 'Posible formación de tromba de clima común'}
                   </div>
                 )}
                 <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 mt-1 border-t border-border/50 pt-2 text-[10px]">
