@@ -185,7 +185,8 @@ export default function SwiDashboard() {
     
     const fetchData = async (isInitial = false) => {
       try {
-        const response = await fetch(`/pronostico.json?t=${Date.now()}`);
+        const url = `https://raw.githubusercontent.com/EmmanuelGR26/sistema-de-monitoreo-de-trombas/main/public/pronostico.json?t=${Date.now()}`;
+        const response = await fetch(url);
         if (!response.ok) throw new Error('No se encontró pronostico.json');
         const jsonData = await response.json();
         

@@ -377,7 +377,13 @@ def nomograma_a_swi(choque_termico_c, profundidad_ft):
     swi = PESO_TERMICO * comp_termico + PESO_PROFUNDIDAD * comp_profundidad
 
     # Regla 2: el ΔT es un gate multiplicativo — impone el techo del SWI.
-    cap_delta_t = (choque_termico_c / UMBRAL_TERMICO_CRITICO_C) * 10.0
+    if choque_termico_c <= 0.0:
+        # Ambiente estable o nulo: forzamos el cap hacia números negativos
+        # para asegurar que swi_final caiga firmemente en la zona Verde (<40).
+        cap_delta_t = choque_termico_c * 2.0 - 4.0
+    else:
+        cap_delta_t = (choque_termico_c / UMBRAL_TERMICO_CRITICO_C) * 10.0
+        
     cap_delta_t = max(-10.0, min(10.0, cap_delta_t))
     swi = min(swi, cap_delta_t)
 
