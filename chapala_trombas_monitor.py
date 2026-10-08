@@ -377,12 +377,16 @@ def nomograma_a_swi(choque_termico_c, profundidad_ft):
     swi = PESO_TERMICO * comp_termico + PESO_PROFUNDIDAD * comp_profundidad
 
     # Regla 2: el ΔT es un gate multiplicativo — impone el techo del SWI.
-    if choque_termico_c <= 0.0:
-        # Ambiente estable o nulo: forzamos el cap hacia números negativos
-        # para asegurar que swi_final caiga firmemente en la zona Verde (<40).
-        cap_delta_t = choque_termico_c * 2.0 - 4.0
+    # Física: Un diferencial térmico menor a 2.0°C es marginal/isotérmico.
+    # Carece de la energía base para sostener una tromba térmica en Chapala,
+    # sin importar cuán profundas sean las nubes.
+    if choque_termico_c <= 2.0:
+        # Forzamos el cap hacia números negativos (riesgo BAJO/Verde < 40)
+        # Ej: 2.0°C -> cap -2.0 (SWI 40). 0.0°C -> cap -6.0 (SWI 20).
+        cap_delta_t = (choque_termico_c - 2.0) * 2.0 - 2.0
     else:
-        cap_delta_t = (choque_termico_c / UMBRAL_TERMICO_CRITICO_C) * 10.0
+        # De 2.0°C a 8.0°C (crítico), escala de -2.0 a 10.0
+        cap_delta_t = ((choque_termico_c - 2.0) / (UMBRAL_TERMICO_CRITICO_C - 2.0)) * 12.0 - 2.0
         
     cap_delta_t = max(-10.0, min(10.0, cap_delta_t))
     swi = min(swi, cap_delta_t)
