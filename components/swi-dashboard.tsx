@@ -274,7 +274,7 @@ export default function SwiDashboard() {
       
       const cityInputs = {
         sst: cData?.sst_lago_c ?? 28,
-        t850: cData?.t850_c ?? 12,
+        t2m: cData?.t2m_c ?? cData?.t850_c ?? 22,
         wind: cData?.wind_speed_10m ?? 35,
       };
       
@@ -582,7 +582,7 @@ export default function SwiDashboard() {
                 <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 mt-1 border-t border-border/50 pt-2 text-[10px]">
                   <div className="flex items-center justify-between text-muted-foreground">
                     <span>Temp Aire</span>
-                    <span className="font-mono text-foreground font-medium">{d.inputs.t850.toFixed(1)}°</span>
+                    <span className="font-mono text-foreground font-medium">{d.inputs.t2m.toFixed(1)}°</span>
                   </div>
                   <div className="flex items-center justify-between text-muted-foreground">
                     <span>Temp Agua</span>

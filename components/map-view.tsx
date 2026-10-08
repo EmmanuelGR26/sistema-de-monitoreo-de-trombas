@@ -11,7 +11,7 @@ export type CityMapData = {
   city: string;
   coords: [number, number];
   result: RiskResult;
-  inputs: { sst: number, t850: number, wind: number };
+  inputs: { sst: number, t2m: number, wind: number };
   isSelected: boolean;
 };
 
@@ -170,7 +170,7 @@ export default function MapView({
                   )}
                   <div className="my-1.5 border-t border-zinc-200"></div>
                   <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-left text-[11px] text-zinc-600">
-                    <span>Temp. Aire:</span> <strong className="text-zinc-900">{cityData.inputs.t850.toFixed(1)}°C</strong>
+                    <span>Temp. Aire:</span> <strong className="text-zinc-900">{cityData.inputs.t2m.toFixed(1)}°C</strong>
                     <span>Temp. Agua:</span> <strong className="text-zinc-900">{cityData.inputs.sst.toFixed(1)}°C</strong>
                     <span>Viento:</span> <strong className="text-zinc-900">{cityData.inputs.wind.toFixed(1)} km/h</strong>
                   </div>

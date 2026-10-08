@@ -527,6 +527,7 @@ def procesar_hora(forecast, sst_marina, idx):
         "hora_local":              h["time"][idx],
         "sst_lago_c":              round(sst, 1),
         "t850_c":                  round(t850, 1) if t850 else None,
+        "t2m_c":                   round(t2m, 1) if t2m is not None else None,
         "choque_termico_c":        round(choque_termico, 1),
         "lcl_msnm_m":              round(lcl_msnm, 0),
         "el_msnm_m":               round(el_msnm, 0) if el_msnm else None,
