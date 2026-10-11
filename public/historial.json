@@ -105998,5 +105998,13 @@
     "longitud": -102.955,
     "swi": 0.4,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Pedro Iztacán",
+    "latitud": 20.29,
+    "longitud": -102.955,
+    "swi": 0.2,
+    "clima_descripcion": "Desconocido"
   }
 ]
