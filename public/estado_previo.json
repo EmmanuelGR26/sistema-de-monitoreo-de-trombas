@@ -1,122 +1,122 @@
 {
   "Oeste (Jocotepec)": {
-    "presion": 854.6,
-    "viento": 18.7,
-    "time": "2026-10-18T07:00",
+    "presion": 854.7,
+    "viento": 18.6,
+    "time": "2026-10-18T07:15",
     "swi": -5.3
   },
   "Oeste (S.J. Cosalá)": {
-    "presion": 854.6,
-    "viento": 18.7,
-    "time": "2026-10-18T07:00",
+    "presion": 854.7,
+    "viento": 18.6,
+    "time": "2026-10-18T07:15",
     "swi": -5.3
   },
   "Oeste-Centro (Ajijic)": {
-    "presion": 854.7,
+    "presion": 854.8,
     "viento": 6.6,
-    "time": "2026-10-18T07:00",
-    "swi": -6.6
+    "time": "2026-10-18T07:15",
+    "swi": -6.4
   },
   "Oeste-Centro (Ajijic Profundo)": {
-    "presion": 854.6,
-    "viento": 18.7,
-    "time": "2026-10-18T07:00",
+    "presion": 854.7,
+    "viento": 18.6,
+    "time": "2026-10-18T07:15",
     "swi": -5.3
   },
   "San Cristóbal": {
-    "presion": 854.6,
-    "viento": 18.7,
-    "time": "2026-10-18T07:00",
+    "presion": 854.7,
+    "viento": 18.6,
+    "time": "2026-10-18T07:15",
     "swi": -5.3
   },
   "Norte (Chapala)": {
-    "presion": 854.7,
+    "presion": 854.8,
     "viento": 6.6,
-    "time": "2026-10-18T07:00",
-    "swi": -6.6
+    "time": "2026-10-18T07:15",
+    "swi": -6.4
   },
   "Centro (Norte Chapala Profundo)": {
-    "presion": 854.7,
-    "viento": 7.0,
-    "time": "2026-10-18T07:00",
-    "swi": -5.9
+    "presion": 854.8,
+    "viento": 6.8,
+    "time": "2026-10-18T07:15",
+    "swi": -5.8
   },
   "Isla de Mezcala": {
-    "presion": 851.7,
-    "viento": 10.6,
-    "time": "2026-10-18T07:00",
+    "presion": 851.8,
+    "viento": 10.1,
+    "time": "2026-10-18T07:15",
     "swi": -4.9
   },
   "Mezcala": {
-    "presion": 854.6,
-    "viento": 10.8,
-    "time": "2026-10-18T07:00",
+    "presion": 854.7,
+    "viento": 11.1,
+    "time": "2026-10-18T07:15",
     "swi": -6.0
   },
   "Mezcala Profundo": {
-    "presion": 854.6,
-    "viento": 10.8,
-    "time": "2026-10-18T07:00",
+    "presion": 854.7,
+    "viento": 11.1,
+    "time": "2026-10-18T07:15",
     "swi": -6.0
   },
   "San Pedro Iztacán": {
-    "presion": 854.5,
-    "viento": 11.1,
-    "time": "2026-10-18T07:00",
-    "swi": -6.0
+    "presion": 854.7,
+    "viento": 10.7,
+    "time": "2026-10-18T07:15",
+    "swi": -5.9
   },
   "Jamay": {
-    "presion": 854.7,
+    "presion": 854.9,
     "viento": 13.9,
-    "time": "2026-10-18T07:00",
-    "swi": 0.4
+    "time": "2026-10-18T07:15",
+    "swi": 0.3
   },
   "Ocotlán": {
-    "presion": 854.7,
+    "presion": 854.9,
     "viento": 13.9,
-    "time": "2026-10-18T07:00",
-    "swi": 0.4
+    "time": "2026-10-18T07:15",
+    "swi": 0.3
   },
   "Jamay Frente": {
-    "presion": 854.7,
+    "presion": 854.9,
     "viento": 13.9,
-    "time": "2026-10-18T07:00",
-    "swi": 0.4
+    "time": "2026-10-18T07:15",
+    "swi": 0.3
   },
   "Centro-Este": {
-    "presion": 854.2,
-    "viento": 8.4,
-    "time": "2026-10-18T07:00",
-    "swi": -7.6
+    "presion": 854.4,
+    "viento": 8.2,
+    "time": "2026-10-18T07:15",
+    "swi": -7.2
   },
   "Tuxcueca": {
-    "presion": 854.9,
-    "viento": 10.8,
-    "time": "2026-10-18T07:00",
+    "presion": 855.0,
+    "viento": 11.1,
+    "time": "2026-10-18T07:15",
     "swi": -5.3
   },
   "San Luis Soyatlán": {
-    "presion": 854.6,
-    "viento": 18.7,
-    "time": "2026-10-18T07:00",
+    "presion": 854.7,
+    "viento": 18.6,
+    "time": "2026-10-18T07:15",
     "swi": -5.3
   },
   "Tizapán": {
-    "presion": 854.6,
-    "viento": 10.8,
-    "time": "2026-10-18T07:00",
+    "presion": 854.7,
+    "viento": 11.1,
+    "time": "2026-10-18T07:15",
     "swi": -6.0
   },
   "Cojumatlán": {
-    "presion": 854.8,
-    "viento": 5.5,
-    "time": "2026-10-18T07:00",
-    "swi": -4.2
+    "presion": 854.9,
+    "viento": 5.9,
+    "time": "2026-10-18T07:15",
+    "swi": -4.0
   },
   "Costa Palo Alto - Zapata": {
-    "presion": 854.8,
-    "viento": 11.4,
-    "time": "2026-10-18T07:00",
-    "swi": -5.5
+    "presion": 854.9,
+    "viento": 11.6,
+    "time": "2026-10-18T07:15",
+    "swi": -5.4
   }
 }
