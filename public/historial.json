@@ -110878,5 +110878,21 @@
     "longitud": -103.15,
     "swi": 1.6,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro (Norte Chapala Profundo)",
+    "latitud": 20.25,
+    "longitud": -103.15,
+    "swi": 1.8,
+    "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "San Pedro Iztacán",
+    "latitud": 20.29,
+    "longitud": -102.955,
+    "swi": 3.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
