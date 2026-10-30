@@ -116230,5 +116230,13 @@
     "longitud": -103.15,
     "swi": 1.2,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Oeste-Centro (Ajijic)",
+    "latitud": 20.27,
+    "longitud": -103.25,
+    "swi": 3.0,
+    "clima_descripcion": "Desconocido"
   }
 ]
