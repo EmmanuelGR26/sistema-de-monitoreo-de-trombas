@@ -118054,5 +118054,13 @@
     "longitud": -102.9,
     "swi": 1.2,
     "clima_descripcion": "Desconocido"
+  },
+  {
+    "fecha": null,
+    "ciudad": "Centro-Este",
+    "latitud": 20.25,
+    "longitud": -102.9,
+    "swi": 0.2,
+    "clima_descripcion": "Desconocido"
   }
 ]
