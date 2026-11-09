@@ -835,9 +835,13 @@ if __name__ == "__main__":
         os.makedirs("public", exist_ok=True)
 
         # pronostico.json: array completo de 3 días (para gráficas de tendencia en la web)
-        filepath = os.path.join("public", "pronostico.json")
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(pronostico_completo, f, ensure_ascii=False, indent=2)
+        for fname in ["pronostico.json", "pronostico_futuro.json"]:
+            with open(os.path.join("public", fname), "w", encoding="utf-8") as f:
+                json.dump(pronostico_completo, f, ensure_ascii=False, indent=2)
+    
+
+
+
         print("[INFO] Archivo public/pronostico.json generado con éxito.")
 
         # FIX (Bug 3): estado_actual.json — nowcast del momento presente con SWI corregido.

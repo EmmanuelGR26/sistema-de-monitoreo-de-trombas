@@ -159,6 +159,7 @@ const CIUDADES_COORDS: Record<string, [number, number]> = {
 
 export default function SwiDashboard() {
   const [fullData, setFullData] = useState<Record<string, PronosticoHora[]>>({})
+  const [estadoActual, setEstadoActual] = useState<Record<string, any>>({})
   const [timeIndex, setTimeIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [lastFetchTime, setLastFetchTime] = useState<number | null>(null);
@@ -185,18 +186,53 @@ export default function SwiDashboard() {
     
     const fetchData = async (isInitial = false) => {
       try {
-        const baseUrl = "https://raw.githubusercontent.com/emmanuelgr26/sistema-de-monitoreo-de-trombas/main/public/";
-        const url = baseUrl + 'pronostico.json?t=' + new Date().getTime();
-        let response = await fetch(url);
-        if (!response.ok) {
-          response = await fetch('/pronostico.json?t=' + new Date().getTime());
+        const timestamp = new Date().getTime();
+        const urlEstadoActual = `https://raw.githubusercontent.com/emmanuelgr26/sistema-de-monitoreo-de-trombas/main/public/estado_actual.json?t=${timestamp}`;
+        const urlPronosticoFuturo = `https://raw.githubusercontent.com/emmanuelgr26/sistema-de-monitoreo-de-trombas/main/public/pronostico_futuro.json?t=${timestamp}`;
+
+        // Consumir telemetría cruda en vivo desde GitHub evitando la caché
+        const [resActual, resFuturo] = await Promise.allSettled([
+          fetch(urlEstadoActual),
+          fetch(urlPronosticoFuturo)
+        ]);
+
+        let jsonData: Record<string, any> = {};
+        if (resFuturo.status === "fulfilled" && resFuturo.value.ok) {
+          jsonData = await resFuturo.value.json();
+        } else {
+          try {
+            const fallbackRes = await fetch(`https://raw.githubusercontent.com/emmanuelgr26/sistema-de-monitoreo-de-trombas/main/public/pronostico.json?t=${timestamp}`);
+            if (fallbackRes.ok) {
+              jsonData = await fallbackRes.json();
+            } else {
+              const localRes = await fetch(`/pronostico.json?t=${timestamp}`);
+              if (localRes.ok) jsonData = await localRes.json();
+            }
+          } catch (e) {
+            console.warn("Fallo al obtener pronostico futuro:", e);
+          }
         }
-        if (!response.ok) throw new Error('No se encontró pronostico.json');
-        const jsonData = await response.json();
-        
+
+        let actualData: Record<string, any> = {};
+        if (resActual.status === "fulfilled" && resActual.value.ok) {
+          actualData = await resActual.value.json();
+        } else {
+          try {
+            const localActual = await fetch(`/estado_actual.json?t=${timestamp}`);
+            if (localActual.ok) actualData = await localActual.json();
+          } catch (e) {
+            console.warn("Fallo al obtener estado actual:", e);
+          }
+        }
+
         if (!isMounted) return;
 
-        setFullData(jsonData);
+        if (Object.keys(jsonData).length > 0) {
+          setFullData(jsonData);
+        }
+        if (Object.keys(actualData).length > 0) {
+          setEstadoActual(actualData);
+        }
         setLastFetchTime(Date.now());
         
         const firstCityData = jsonData[Object.keys(jsonData)[0]] || [];
@@ -277,29 +313,30 @@ export default function SwiDashboard() {
       const cityDataList = fullData[city] || [];
       const cData = cityDataList.length > 0 ? cityDataList[safeTimeIndex] : null;
       
+      const actualData = estadoActual[city];
       const cityInputs = {
-        sst: cData?.sst_lago_c ?? 28,
-        t2m: cData?.t2m_c ?? cData?.t850_c ?? 22,
-        wind: cData?.wind_speed_10m ?? 35,
+        sst: cData?.sst_lago_c ?? actualData?.sst_lago_c ?? 28,
+        t2m: cData?.t2m_c ?? actualData?.t2m_c ?? cData?.t850_c ?? actualData?.t850_c ?? 22,
+        wind: cData?.wind_speed_10m ?? actualData?.wind_speed_10m ?? 35,
       };
       
       // Leemos el score precalculado por el backend para evitar discrepancias de redondeo entre Python y JS
-      let mappedScore = cData?.swi_final;
+      let mappedScore = cData?.swi_final ?? actualData?.swi_final;
       if (mappedScore === undefined) {
         // Fallback por si lee un JSON viejo
-        const rawSwi = cData?.swi ?? -10;
+        const rawSwi = cData?.swi ?? actualData?.swi ?? -10;
         mappedScore = Math.max(0, Math.min(100, Math.round((rawSwi + 10) * 5)));
       }
       
       let mappedLevel = "low";
-      if (mappedScore >= 85 || cData?.riesgo === "critical") mappedLevel = "critical";
-      else if (mappedScore >= 50 || cData?.riesgo === "ALTO") mappedLevel = "moderate";
+      if (mappedScore >= 85 || cData?.riesgo === "critical" || actualData?.riesgo === "CRITICO") mappedLevel = "critical";
+      else if (mappedScore >= 50 || cData?.riesgo === "ALTO" || actualData?.riesgo === "ALTO") mappedLevel = "moderate";
       
       const computedResult = {
         score: mappedScore,
         level: mappedLevel as any,
-        instability: cData?.choque_termico_c ?? 0,
-        tipo_riesgo: cData?.tipo_riesgo || 'Ninguno'
+        instability: cData?.choque_termico_c ?? actualData?.choque_termico_c ?? 0,
+        tipo_riesgo: cData?.tipo_riesgo || actualData?.tipo_riesgo || 'Ninguno'
       };
 
       return {
@@ -320,7 +357,7 @@ export default function SwiDashboard() {
     });
     
     return list;
-  }, [fullData, safeTimeIndex]);
+  }, [fullData, safeTimeIndex, estadoActual]);
 
   const memoizedMap = useMemo(() => <MapView cities={mapData} />, [mapData]);
 
