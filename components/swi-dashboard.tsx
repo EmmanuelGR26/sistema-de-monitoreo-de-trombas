@@ -185,8 +185,12 @@ export default function SwiDashboard() {
     
     const fetchData = async (isInitial = false) => {
       try {
-        const url = `https://raw.githubusercontent.com/EmmanuelGR26/sistema-de-monitoreo-de-trombas/main/public/pronostico.json?t=${Date.now()}`;
-        const response = await fetch(url);
+        const baseUrl = "https://raw.githubusercontent.com/emmanuelgr26/sistema-de-monitoreo-de-trombas/main/public/";
+        const url = baseUrl + 'pronostico.json?t=' + new Date().getTime();
+        let response = await fetch(url);
+        if (!response.ok) {
+          response = await fetch('/pronostico.json?t=' + new Date().getTime());
+        }
         if (!response.ok) throw new Error('No se encontró pronostico.json');
         const jsonData = await response.json();
         
@@ -309,7 +313,7 @@ export default function SwiDashboard() {
     
     // Ordenar: crítico/alto primero
     list.sort((a, b) => {
-       const riskOrder = { 'critical': 4, 'high': 3, 'moderate': 2, 'low': 1 };
+       const riskOrder: Record<string, number> = { 'critical': 3, 'moderate': 2, 'low': 1 };
        const scoreDiff = riskOrder[b.result.level] - riskOrder[a.result.level];
        if (scoreDiff !== 0) return scoreDiff;
        return b.result.score - a.result.score; // Romper empate con el score numérico

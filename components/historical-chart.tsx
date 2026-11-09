@@ -21,7 +21,11 @@ export const HistoricalChart = React.memo(function HistoricalChart() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("/historial.json?t=" + new Date().getTime())
+        const rawUrl = "https://raw.githubusercontent.com/emmanuelgr26/sistema-de-monitoreo-de-trombas/main/public/historial.json?t=" + new Date().getTime()
+        let res = await fetch(rawUrl)
+        if (!res.ok) {
+          res = await fetch("/historial.json?t=" + new Date().getTime())
+        }
         if (!res.ok) {
           if (res.status === 404) {
             setData([])

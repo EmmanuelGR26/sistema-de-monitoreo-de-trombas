@@ -43,7 +43,7 @@ function buildIcon(level: RiskLevel, color: string) {
   if (level === "moderate") {
     duration = "1.2s"
     size = 28
-  } else if (level === "high") {
+  } else if ((level as string) === "high") {
     duration = "0.8s"
     size = 32
   } else if (level === "critical") {

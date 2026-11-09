@@ -7,6 +7,10 @@ export interface PronosticoHora {
   swi?: number | null;
   swi_final?: number;
   tipo_riesgo?: string;
+  t2m_c?: number | null;
+  riesgo?: string;
+  choque_termico_c?: number | null;
+  [key: string]: any;
 }
 
 export async function fetchPronosticoData(): Promise<PronosticoHora[]> {

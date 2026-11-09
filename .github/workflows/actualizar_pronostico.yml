@@ -29,5 +29,5 @@ jobs:
           git add public/*.json
           git commit -m "Actualización automática de pronóstico [skip ci]" || echo "No hay cambios para subir"
           # Descargar cambios remotos y si hay conflicto, conservar nuestra versión (-X ours)
-          git pull origin main --no-rebase -X ours
+          git pull origin main --rebase
           git push
