@@ -1,122 +1,122 @@
 {
   "Oeste (Jocotepec)": {
-    "presion": 851.5,
-    "viento": 2.9,
-    "time": "2026-11-13T05:15",
+    "presion": 851.4,
+    "viento": 3.0,
+    "time": "2026-11-13T05:30",
     "swi": -6.2
   },
   "Oeste (S.J. Cosalá)": {
-    "presion": 851.5,
-    "viento": 2.9,
-    "time": "2026-11-13T05:15",
+    "presion": 851.4,
+    "viento": 3.0,
+    "time": "2026-11-13T05:30",
     "swi": -6.2
   },
   "Oeste-Centro (Ajijic)": {
     "presion": 850.7,
-    "viento": 4.0,
-    "time": "2026-11-13T05:15",
+    "viento": 4.3,
+    "time": "2026-11-13T05:30",
     "swi": -6.6
   },
   "Oeste-Centro (Ajijic Profundo)": {
-    "presion": 851.5,
-    "viento": 2.9,
-    "time": "2026-11-13T05:15",
+    "presion": 851.4,
+    "viento": 3.0,
+    "time": "2026-11-13T05:30",
     "swi": -6.2
   },
   "San Cristóbal": {
-    "presion": 851.5,
-    "viento": 2.9,
-    "time": "2026-11-13T05:15",
+    "presion": 851.4,
+    "viento": 3.0,
+    "time": "2026-11-13T05:30",
     "swi": -6.2
   },
   "Norte (Chapala)": {
     "presion": 850.7,
-    "viento": 4.0,
-    "time": "2026-11-13T05:15",
+    "viento": 4.3,
+    "time": "2026-11-13T05:30",
     "swi": -6.6
   },
   "Centro (Norte Chapala Profundo)": {
     "presion": 850.7,
-    "viento": 5.5,
-    "time": "2026-11-13T05:15",
-    "swi": -4.0
+    "viento": 6.0,
+    "time": "2026-11-13T05:30",
+    "swi": -3.8
   },
   "Isla de Mezcala": {
-    "presion": 848.3,
-    "viento": 5.7,
-    "time": "2026-11-13T05:15",
-    "swi": -3.0
+    "presion": 848.2,
+    "viento": 5.8,
+    "time": "2026-11-13T05:30",
+    "swi": -2.8
   },
   "Mezcala": {
-    "presion": 850.9,
-    "viento": 2.8,
-    "time": "2026-11-13T05:15",
+    "presion": 851.0,
+    "viento": 3.1,
+    "time": "2026-11-13T05:30",
     "swi": -5.4
   },
   "Mezcala Profundo": {
-    "presion": 850.9,
-    "viento": 2.8,
-    "time": "2026-11-13T05:15",
+    "presion": 851.0,
+    "viento": 3.1,
+    "time": "2026-11-13T05:30",
     "swi": -5.4
   },
   "San Pedro Iztacán": {
-    "presion": 850.8,
-    "viento": 3.4,
-    "time": "2026-11-13T05:15",
+    "presion": 850.9,
+    "viento": 3.5,
+    "time": "2026-11-13T05:30",
     "swi": -6.2
   },
   "Jamay": {
     "presion": 851.7,
-    "viento": 5.9,
-    "time": "2026-11-13T05:15",
+    "viento": 5.4,
+    "time": "2026-11-13T05:30",
     "swi": 6.2
   },
   "Ocotlán": {
     "presion": 851.7,
-    "viento": 5.9,
-    "time": "2026-11-13T05:15",
+    "viento": 5.4,
+    "time": "2026-11-13T05:30",
     "swi": 6.2
   },
   "Jamay Frente": {
     "presion": 851.7,
-    "viento": 5.9,
-    "time": "2026-11-13T05:15",
+    "viento": 5.4,
+    "time": "2026-11-13T05:30",
     "swi": 6.2
   },
   "Centro-Este": {
     "presion": 850.5,
-    "viento": 3.9,
-    "time": "2026-11-13T05:15",
+    "viento": 3.8,
+    "time": "2026-11-13T05:30",
     "swi": -7.0
   },
   "Tuxcueca": {
-    "presion": 851.1,
-    "viento": 4.8,
-    "time": "2026-11-13T05:15",
+    "presion": 851.2,
+    "viento": 5.1,
+    "time": "2026-11-13T05:30",
     "swi": -4.2
   },
   "San Luis Soyatlán": {
-    "presion": 851.5,
-    "viento": 2.9,
-    "time": "2026-11-13T05:15",
+    "presion": 851.4,
+    "viento": 3.0,
+    "time": "2026-11-13T05:30",
     "swi": -6.2
   },
   "Tizapán": {
-    "presion": 850.9,
-    "viento": 2.8,
-    "time": "2026-11-13T05:15",
+    "presion": 851.0,
+    "viento": 3.1,
+    "time": "2026-11-13T05:30",
     "swi": -5.4
   },
   "Cojumatlán": {
-    "presion": 851.6,
+    "presion": 851.7,
     "viento": 1.8,
-    "time": "2026-11-13T05:15",
+    "time": "2026-11-13T05:30",
     "swi": -2.4
   },
   "Costa Palo Alto - Zapata": {
-    "presion": 851.2,
-    "viento": 4.6,
-    "time": "2026-11-13T05:15",
+    "presion": 851.3,
+    "viento": 4.7,
+    "time": "2026-11-13T05:30",
     "swi": -4.4
   }
 }
